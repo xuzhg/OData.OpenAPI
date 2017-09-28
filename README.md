@@ -1,2 +1,3 @@
 # OData.OpenAPI
-OData to Open API
+
+A project to convert an Edm (Entity Data Model) to [OpenApi 3.0](https://swagger.io/specification/).
