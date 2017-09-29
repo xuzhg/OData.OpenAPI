@@ -17,7 +17,7 @@ namespace Microsoft.OData.OpenAPI
         protected JsonWriter Writer { get; }
 
         public ODataOpenApiJsonConverter(IEdmModel model, JsonWriter writer, OpenApiWriterSettings settings)
-            : base()
+            : base(settings)
         {
             Model = model;
             Writer = writer;

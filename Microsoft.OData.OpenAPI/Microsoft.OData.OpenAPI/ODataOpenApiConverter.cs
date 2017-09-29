@@ -6,16 +6,12 @@
 
 namespace Microsoft.OData.OpenAPI
 {
-    abstract class ODataOpenApiConverter
+    internal abstract class ODataOpenApiConverter
     {
-        protected ODataOpenApiConverter()
+        protected OpenApiWriterSettings Settings { get; }
+        public ODataOpenApiConverter(OpenApiWriterSettings settings)
         {
-           // Writer = writer;
-        }
-
-        protected ODataOpenApiConverter(OpenApiWriterBase writer)
-        {
-          //  Writer = writer;
+            Settings = settings;
         }
 
         public virtual void Convert()
@@ -31,8 +27,6 @@ namespace Microsoft.OData.OpenAPI
             ConvertExternalDocs();
             ConvertEnd();
         }
-
-        // public abstract WriteStart();
 
         protected virtual void ConvertStart()
         {
