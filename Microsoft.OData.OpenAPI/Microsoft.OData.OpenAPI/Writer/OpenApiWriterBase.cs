@@ -80,6 +80,17 @@ namespace Microsoft.OData.OpenAPI
             WriteValue(value);
         }
 
+        public void WriteOptionalProperty(string name, object value)
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            WritePropertyName(name);
+            WriteValue(value);
+        }
+
         public virtual void WriteValue(string value)
         {
         }

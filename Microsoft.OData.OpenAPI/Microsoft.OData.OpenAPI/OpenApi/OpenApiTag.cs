@@ -4,6 +4,7 @@
 // </copyright>
 //---------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 
 namespace Microsoft.OData.OpenAPI
@@ -13,12 +14,12 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// The name of the tag.
         /// </summary>
-        public string Name { get; set; } = OpenApiConstants.OpenApiDocDefaultName;
+        public string Name { get; }
 
         /// <summary>
         /// A short description for the tag.
         /// </summary>
-        public string Description { get; set; } = OpenApiConstants.OpenApiDocDefaultDescription;
+        public string Description { get; }
 
         /// <summary>
         /// Additional external documentation for this tag.
@@ -31,15 +32,60 @@ namespace Microsoft.OData.OpenAPI
         public IList<OpenApiExtension> Extensions { get; set; }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="OpenApiTag"/> class.
+        /// </summary>
+        /// <param name="name">The tag name.</param>
+        public OpenApiTag(string name)
+            : this(name, null)
+        { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OpenApiTag"/> class.
+        /// </summary>
+        /// <param name="name">The tag name.</param>
+        /// <param name="description">The tag description.</param>
+        public OpenApiTag(string name, string description)
+        {
+            if (String.IsNullOrWhiteSpace(name))
+            {
+                throw Error.ArgumentNullOrEmpty("name");
+            }
+
+            Name = name;
+            Description = description;
+        }
+
+        /// <summary>
+        /// Add an specification extension into tag.
+        /// </summary>
+        /// <param name="extension">The specification extension.</param>
+        public void Add(OpenApiExtension extension)
+        {
+            if (Extensions == null)
+            {
+                Extensions = new List<OpenApiExtension>();
+            }
+
+            Extensions.Add(extension);
+        }
+
+        /// <summary>
         /// Write Open API tag object.
         /// </summary>
         /// <param name="writer">The Open API Writer.</param>
         public virtual void Write(IOpenApiWriter writer)
         {
+            if (writer == null)
+            {
+                throw Error.ArgumentNull("writer");
+            }
+
             writer.WriteStartObject();
 
             writer.WriteProperty(OpenApiConstants.OpenApiDocName, Name);
-            writer.WriteProperty(OpenApiConstants.OpenApiDocDescription, Description);
+            writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocDescription, Description);
+
+            //writer.WriteObject(ExternalDocs);
 
             if (ExternalDocs != null)
             {
@@ -55,32 +101,4 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteEndObject();
         }
     }
-    /*
-    /// <summary>
-    /// Tags section in Open API documentation.
-    /// </summary>
-    internal class OpenApiTags : IOpenApiElement
-    {
-        /// <summary>
-        /// A list of tags used by the specification with additional metadata.
-        /// </summary>
-        public IList<OpenApiTag> Tags { get; set; } = new List<OpenApiTag>();
-
-        /// <summary>
-        /// Write tags.
-        /// </summary>
-        /// <param name="writer">The Open API Writer.</param>
-        public virtual void Write(IOpenApiWriter writer)
-        {
-            writer.WritePropertyName(OpenApiConstants.OpenApiDocTags);
-            writer.WriteStartArray();
-
-            foreach (OpenApiTag tag in Tags)
-            {
-                tag.Write(writer);
-            }
-
-            writer.WriteEndArray();
-        }
-    }*/
 }

@@ -25,6 +25,7 @@ namespace Microsoft.OData.OpenAPI.Tests
             }
 
             action(writer);
+            writer.Flush();
             stream.Position = 0;
             return new StreamReader(stream).ReadToEnd();
         }
