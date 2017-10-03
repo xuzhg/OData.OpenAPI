@@ -8,19 +8,11 @@ using System;
 using System.IO;
 using System.Text;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Microsoft.OData.OpenAPI.Tests
 {
     public class OpenApiInfoTest
-    {/*
-        private readonly ITestOutputHelper output;
-
-        public OpenApiInfoTest(ITestOutputHelper output)
-        {
-            this.output = output;
-        }
-        */
+    {
         [Fact]
         public void WriteToJsonWorks()
         {
