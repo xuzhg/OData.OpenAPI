@@ -1,15 +1,20 @@
 ﻿//---------------------------------------------------------------------
-// <copyright file="EdmModelOpenApiExtensions.cs" company="Microsoft">
+// <copyright file="OpenApiTestBase.cs" company="Microsoft">
 //      Copyright (C) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 // </copyright>
 //---------------------------------------------------------------------
 
-namespace Microsoft.OData.OpenAPI
+using Xunit.Abstractions;
+
+namespace Microsoft.OData.OpenAPI.Tests
 {
-    internal class OpenApiContact : IOpenApiElement
+    public class OpenApiTestBase
     {
-        public virtual void Write(IOpenApiWriter writer)
+        private readonly ITestOutputHelper output;
+
+        public OpenApiTestBase(ITestOutputHelper output)
         {
+            this.output = output;
         }
     }
 }

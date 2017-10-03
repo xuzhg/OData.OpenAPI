@@ -13,7 +13,7 @@ namespace Microsoft.OData.OpenAPI
     /// <summary>
     /// Contains extension methods to <see cref="IServiceCollection"/>.
     /// </summary>
-    public static class RoutingServiceCollectionExtensions
+    public static class ODataOpenApiExtensions
     {
         /// <summary>
         /// Adds services required for routing requests.

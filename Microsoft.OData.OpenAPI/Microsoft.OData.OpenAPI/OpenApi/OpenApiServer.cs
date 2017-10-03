@@ -1,8 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿//---------------------------------------------------------------------
+// <copyright file="OpenApiServer.cs" company="Microsoft">
+//      Copyright (C) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
+// </copyright>
+//---------------------------------------------------------------------
 
-namespace Microsoft.OData.OpenAPI.OpenApi
+using System.Collections.Generic;
+
+namespace Microsoft.OData.OpenAPI
 {
     internal class OpenApiServerVariable
     {
@@ -22,7 +26,7 @@ namespace Microsoft.OData.OpenAPI.OpenApi
         public IList<string> Enums { get; set; }
     }
 
-    internal class OpenApiServer
+    internal class OpenApiServer : IOpenApiElement
     {
         /// <summary>
         /// A URL to the target host. This URL supports Server Variables and MAY be relative,
@@ -40,5 +44,21 @@ namespace Microsoft.OData.OpenAPI.OpenApi
         /// A map between a variable name and its value. 
         /// </summary>
         public IDictionary<string, OpenApiServerVariable> Variables { get; set; }
+
+        public virtual void Write(IOpenApiWriter writer)
+        {
+        }
+    }
+
+    internal class OpenApiServers : IOpenApiElement
+    {
+        /// <summary>
+        /// A map between a variable name and its value. 
+        /// </summary>
+        public IList<OpenApiServer> Servers { get; set; }
+
+        public virtual void Write(IOpenApiWriter writer)
+        {
+        }
     }
 }

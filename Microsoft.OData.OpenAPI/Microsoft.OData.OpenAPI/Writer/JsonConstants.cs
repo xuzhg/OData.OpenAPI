@@ -254,11 +254,16 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// The separator between the name and the value.
         /// </summary>
-        internal const string NameValueSeparator = ":";
+        internal const string NameValueSeparator = ": ";
 
         /// <summary>
         /// The quote character.
         /// </summary>
         internal const char QuoteCharacter = '"';
+
+        /// <summary>
+        /// The white space for empty object & array
+        /// </summary>
+        internal const string WhiteSpaceForEmptyObjectArray = " ";
     }
 }

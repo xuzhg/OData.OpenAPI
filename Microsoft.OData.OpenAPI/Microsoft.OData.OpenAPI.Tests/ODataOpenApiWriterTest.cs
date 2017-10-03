@@ -141,7 +141,7 @@ namespace Microsoft.OData.OpenAPI.Tests
             {
                 //IEnumerable<EdmError> errors;
                 // model.TryWrite(model, writer);
-                model.WriteOpenApi(writer, new OpenApiWriterSettings { Indented = false });
+               // model.WriteOpenApi(writer, new OpenApiWriterSettings { Indented = false });
 
                 edmx = sw.ToString();
             }

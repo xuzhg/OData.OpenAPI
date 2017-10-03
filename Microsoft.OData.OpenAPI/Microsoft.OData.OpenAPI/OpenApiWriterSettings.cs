@@ -17,6 +17,6 @@ namespace Microsoft.OData.OpenAPI
 
         public Func<Uri> BaseUri { get; set; } = () => new Uri("http://localhost");
 
-        public Action<IOpenApiElement> OpenApiMethod { get; set; }
+       // public Action<IOpenApiElement> OpenApiMethod { get; set; }
     }
 }

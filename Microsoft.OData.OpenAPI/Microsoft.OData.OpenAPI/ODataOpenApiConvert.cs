@@ -8,9 +8,9 @@ using Microsoft.OData.Edm;
 
 namespace Microsoft.OData.OpenAPI
 {
-    public static class ODataOpenApiConvert
+    internal static class ODataOpenApiConvert
     {
-        public static IOpenApiDocument ConvertTo(this IEdmModel model)
+        public static OpenApiDocument ConvertTo(this IEdmModel model)
         {
             return new OpenApiDocument();
         }

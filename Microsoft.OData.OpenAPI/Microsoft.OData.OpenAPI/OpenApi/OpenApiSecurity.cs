@@ -1,32 +1,27 @@
 ﻿//---------------------------------------------------------------------
-// <copyright file="OpenApiParameter.cs" company="Microsoft">
+// <copyright file="OpenApiSecurity.cs" company="Microsoft">
 //      Copyright (C) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 // </copyright>
 //---------------------------------------------------------------------
 
 namespace Microsoft.OData.OpenAPI
 {
-    enum OpenApiParameterLocation
+    internal class OpenApiSecurity : IOpenApiElement
     {
-        Query,
-        Header,
-        Path,
-        Cookie
-    }
-
-    internal class OpenApiParameter : IOpenApiElement
-    {
+        /// <summary>
+        /// The name of the tag.
+        /// </summary>
         public string Name { get; set; }
 
-        public OpenApiParameterLocation In { get; set; }
-
+        /// <summary>
+        /// A short description for the tag.
+        /// </summary>
         public string Description { get; set; }
 
-        public bool Required { get; set; }
-
-        public bool Deprecated { get; set; }
-
-        public bool AllowEmptyValue { get; set; }
+        /// <summary>
+        /// Additional external documentation for this tag.
+        /// </summary>
+        public OpenApiExternalDocs ExternalDocs { get; set; }
 
         public virtual void Write(IOpenApiWriter writer)
         {

@@ -215,14 +215,7 @@ namespace Microsoft.OData.OpenAPI
             this.WriteValueSeparator();
 
             // if it is IEEE754Compatible, write numbers with quotes; otherwise, write numbers directly.
-            if (isIeee754Compatible)
-            {
-                JsonValueUtils.WriteValue(this.writer, value.ToString(CultureInfo.InvariantCulture));
-            }
-            else
-            {
-                JsonValueUtils.WriteValue(this.writer, value);
-            }
+            JsonValueUtils.WriteValue(this.writer, value);
         }
 
         /// <summary>
@@ -254,14 +247,7 @@ namespace Microsoft.OData.OpenAPI
             this.WriteValueSeparator();
 
             // if it is not IEEE754Compatible, write numbers directly without quotes;
-            if (isIeee754Compatible)
-            {
-                JsonValueUtils.WriteValue(this.writer, value.ToString(CultureInfo.InvariantCulture));
-            }
-            else
-            {
-                JsonValueUtils.WriteValue(this.writer, value);
-            }
+            JsonValueUtils.WriteValue(this.writer, value);
         }
 
         /// <summary>

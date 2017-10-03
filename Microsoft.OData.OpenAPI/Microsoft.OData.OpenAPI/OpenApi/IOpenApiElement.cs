@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿//---------------------------------------------------------------------
+// <copyright file="IOpenApiElement.cs" company="Microsoft">
+//      Copyright (C) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
+// </copyright>
+//---------------------------------------------------------------------
 
 namespace Microsoft.OData.OpenAPI
 {
-    public interface IOpenApiElement
+    internal interface IOpenApiElement
     {
+        void Write(IOpenApiWriter writer);
     }
 }

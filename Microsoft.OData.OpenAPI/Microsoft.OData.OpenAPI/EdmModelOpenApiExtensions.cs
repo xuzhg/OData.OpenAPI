@@ -4,13 +4,14 @@
 // </copyright>
 //---------------------------------------------------------------------
 
-using Microsoft.OData.Edm;
+using System.IO;
 using Newtonsoft.Json;
+using Microsoft.OData.Edm;
 
 namespace Microsoft.OData.OpenAPI
 {
     /// <summary>
-    /// Extension methods to convert Entity Data Model (EDM) to Open API.
+    /// Extension methods to write Entity Data Model (EDM) to Open API.
     /// </summary>
     public static class EdmModelOpenApiExtensions
     {
@@ -46,6 +47,26 @@ namespace Microsoft.OData.OpenAPI
 
             ODataOpenApiConverter converter = new ODataOpenApiJsonConverter(model, writer, settings);
             converter.Convert();
+            return true;
+        }
+
+        public static bool WriteOpenApi(this IEdmModel model, Stream stream, OpenApiTarget target)
+        {
+            return WriteOpenApi(model, stream, target, new OpenApiWriterSettings());
+        }
+
+        public static bool WriteOpenApi(this IEdmModel model, Stream stream, OpenApiTarget target, OpenApiWriterSettings settings)
+        {
+            if (model == null)
+            {
+                throw Error.ArgumentNull("model");
+            }
+
+            if (stream == null)
+            {
+                throw Error.ArgumentNull("stream");
+            }
+
             return true;
         }
     }
