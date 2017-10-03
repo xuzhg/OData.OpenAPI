@@ -18,7 +18,17 @@ namespace Microsoft.OData.OpenAPI
 
         public const string OpenApiDocServers = "servers";
 
+        public const string OpenApiDocPaths = "paths";
+
+        public const string OpenApiDocComponents = "components";
+
+        public const string OpenApiDocSecurity = "security";
+
         public const string OpenApiDocTags = "tags";
+
+        public const string OpenApiDocExternalDocs = "externalDocs";
+
+        public const string OpenApiDocExtensionFieldNamePrefix = "x-";
 
         public const string OpenApiDocName = "name";
 

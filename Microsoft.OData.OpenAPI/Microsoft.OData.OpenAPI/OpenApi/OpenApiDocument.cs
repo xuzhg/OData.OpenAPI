@@ -5,6 +5,7 @@
 //---------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Microsoft.OData.OpenAPI
@@ -29,7 +30,7 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// An array of Server Objects, which provide connectivity information to a target server.
         /// </summary>
-        public OpenApiServers Servers { get; set; } = new OpenApiServers();
+        public IList<OpenApiServer> Servers { get; set; } = new List<OpenApiServer>();
 
         /// <summary>
         /// REQUIRED. The available paths and operations for the API.
@@ -44,12 +45,12 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// A declaration of which security mechanisms can be used across the API.
         /// </summary>
-        public OpenApiSecurity Security { get; set; }
+        public IList<OpenApiSecurity> Security { get; set; }
 
         /// <summary>
         /// A list of tags used by the specification with additional metadata. 
         /// </summary>
-        public OpenApiTags Tags { get; set; } = new OpenApiTags();
+        public IList<OpenApiTag> Tags { get; set; } = new List<OpenApiTag>();
 
         /// <summary>
         /// Additional external documentation.
@@ -59,7 +60,7 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// This object MAY be extended with Specification Extensions.
         /// </summary>
-        public OpenApiExtensions Extensions { get; set; }
+        public IList<OpenApiExtension> Extensions { get; set; }
 
         /// <summary>
         /// Default Constrcutor
@@ -105,21 +106,37 @@ namespace Microsoft.OData.OpenAPI
                 throw Error.ArgumentNull("writer");
             }
 
-            // { in json, empty for YAML
+            // { for json, empty for YAML
             writer.WriteStartObject();
 
             // openapi:3.0.0
             writer.WriteProperty(OpenApiConstants.OpenApiDocOpenApi, OpenApi.ToString());
 
             // info
-            writer.WritePropertyName(OpenApiConstants.OpenApiDocInfo);
-            Info.Write(writer);
+            writer.WriteObject(OpenApiConstants.OpenApiDocInfo, Info);
 
-            Servers.Write(writer);
+            // servers
+            writer.WriteCollection(OpenApiConstants.OpenApiDocServers, Servers);
 
-            Tags.Write(writer);
+            // paths
+            writer.WriteObject(OpenApiConstants.OpenApiDocPaths, Paths);
 
-            // } in json, empty for YAML
+            // components
+            writer.WriteObject(OpenApiConstants.OpenApiDocComponents, Components);
+
+            // security
+            writer.WriteCollection(OpenApiConstants.OpenApiDocSecurity, Security);
+
+            // tags
+            writer.WriteCollection(OpenApiConstants.OpenApiDocTags, Tags);
+
+            // external docs
+            writer.WriteObject(OpenApiConstants.OpenApiDocExternalDocs, ExternalDoc);
+
+            // specification extensions
+            writer.WriteDictionary(Extensions);
+
+            // } for json, empty for YAML
             writer.WriteEndObject();
         }
 

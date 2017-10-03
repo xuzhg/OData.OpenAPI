@@ -4,10 +4,14 @@
 // </copyright>
 //---------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace Microsoft.OData.OpenAPI
 {
     internal class OpenApiPaths : IOpenApiElement
     {
+        public IList<OpenApiPathItem> PathItems { get; set; }
+
         public virtual void Write(IOpenApiWriter writer)
         {
         }

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.  All rights reserved.
 // Licensed under the MIT License.  See License.txt in the project root for license information.
 
+using Microsoft.OData.OpenAPI.Properties;
 using System;
 using System.Globalization;
 
@@ -65,6 +66,16 @@ namespace Microsoft.OData.OpenAPI
         internal static ArgumentNullException ArgumentNull(string parameterName, string messageFormat, params object[] messageArgs)
         {
             return new ArgumentNullException(parameterName, Format(messageFormat, messageArgs));
+        }
+
+        /// <summary>
+        /// Creates an <see cref="ArgumentException"/> with a default message.
+        /// </summary>
+        /// <param name="parameterName">The name of the parameter that caused the current exception.</param>
+        /// <returns>The logged <see cref="Exception"/>.</returns>
+        internal static ArgumentException ArgumentNullOrEmpty(string parameterName)
+        {
+            return Error.Argument(parameterName, SRResource.ArgumentNullOrEmpty, parameterName);
         }
 
         /// <summary>

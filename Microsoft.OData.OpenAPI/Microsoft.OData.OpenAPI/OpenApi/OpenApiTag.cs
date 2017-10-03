@@ -28,7 +28,7 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// This object MAY be extended with Specification Extensions.
         /// </summary>
-        public OpenApiExtensions Extensions { get; set; }
+        public IList<OpenApiExtension> Extensions { get; set; }
 
         /// <summary>
         /// Write Open API tag object.
@@ -48,13 +48,14 @@ namespace Microsoft.OData.OpenAPI
 
             if (Extensions != null)
             {
-                Extensions.Write(writer);
+                //foreach (OpenApiExtension extension)
+                //Extensions.Write(writer);
             }
 
             writer.WriteEndObject();
         }
     }
-
+    /*
     /// <summary>
     /// Tags section in Open API documentation.
     /// </summary>
@@ -81,5 +82,5 @@ namespace Microsoft.OData.OpenAPI
 
             writer.WriteEndArray();
         }
-    }
+    }*/
 }

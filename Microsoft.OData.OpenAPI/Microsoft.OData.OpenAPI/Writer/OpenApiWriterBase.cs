@@ -4,6 +4,7 @@
 // </copyright>
 //---------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -38,7 +39,7 @@ namespace Microsoft.OData.OpenAPI
         {
             //Writer = new IndentedTextWriter(textWriter);
             Writer = textWriter;
-            Writer.NewLine = "\r\n";
+            Writer.NewLine = "\n";
 
             this.scopes = new Stack<Scope>();
             this.settings = settings;
@@ -98,7 +99,25 @@ namespace Microsoft.OData.OpenAPI
 
         }
 
+        public abstract void WriteNull();
 
+        public virtual void WriteValue(object value)
+        {
+            if (value == null)
+            {
+                WriteNull();
+                return;
+            }
+
+            if (value is String)
+            {
+                WriteValue((String)(value));
+            }
+            else
+            {
+                // TODO:
+            }
+        }
 
         public virtual void WritePropertyName(string name)
         {

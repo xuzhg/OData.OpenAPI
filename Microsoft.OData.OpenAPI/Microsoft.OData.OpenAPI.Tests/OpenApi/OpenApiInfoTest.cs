@@ -6,7 +6,6 @@
 
 using System;
 using System.IO;
-using System.Text;
 using Xunit;
 
 namespace Microsoft.OData.OpenAPI.Tests
@@ -44,25 +43,7 @@ termsOfService: http://any/
                 writer.Flush();
             };
 
-            Assert.Equal(expect, Write(target, action));
-        }
-
-        private static string Write(OpenApiTarget target, Action<IOpenApiWriter> action)
-        {
-            MemoryStream stream = new MemoryStream();
-            IOpenApiWriter writer;
-            if (target == OpenApiTarget.Yaml)
-            {
-                writer = new OpenApiYamlWriter(new StreamWriter(stream));
-            }
-            else
-            {
-                writer = new OpenApiJsonWriter(new StreamWriter(stream));
-            }
-
-            action(writer);
-            stream.Position = 0;
-            return new StreamReader(stream).ReadToEnd();
+            Assert.Equal(expect, OpenApiWriterTestHelper.Write(target, action));
         }
     }
 }

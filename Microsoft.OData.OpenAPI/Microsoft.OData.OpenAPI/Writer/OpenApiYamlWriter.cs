@@ -60,5 +60,14 @@ namespace Microsoft.OData.OpenAPI
             value = value.Replace("\n", "\\n");
             Writer.Write(value);
         }
+
+        public override void WriteNull()
+        {
+            Scope scope = CurrentScope();
+            if (scope.Type == ScopeType.Array)
+            {
+                // TODO:
+            }
+        }
     }
 }

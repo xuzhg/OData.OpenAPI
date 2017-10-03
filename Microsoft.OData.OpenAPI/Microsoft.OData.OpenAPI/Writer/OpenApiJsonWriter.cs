@@ -95,5 +95,10 @@ namespace Microsoft.OData.OpenAPI
             Writer.Write(value);
             Writer.Write(JsonConstants.QuoteCharacter);
         }
+
+        public override void WriteNull()
+        {
+            Writer.WriteLine("null");
+        }
     }
 }

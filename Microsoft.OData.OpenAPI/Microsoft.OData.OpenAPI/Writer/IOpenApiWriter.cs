@@ -65,5 +65,16 @@ namespace Microsoft.OData.OpenAPI
         /// Write the boolean value.
         /// </summary>
         void WriteValue(bool value);
+
+        /// <summary>
+        /// Write the null value.
+        /// </summary>
+        void WriteNull();
+
+        /// <summary>
+        /// Write the object value.
+        /// </summary>
+        /// <param name="value"></param>
+        void WriteValue(object value);
     }
 }

@@ -6,7 +6,10 @@
 
 namespace Microsoft.OData.OpenAPI
 {
-    internal class OpenApiPath : IOpenApiElement
+    /// <summary>
+    /// Path Item Object: to describe the operations available on a single path.
+    /// </summary>
+    internal class OpenApiPathItem : IOpenApiElement
     {
         public virtual void Write(IOpenApiWriter writer)
         {
