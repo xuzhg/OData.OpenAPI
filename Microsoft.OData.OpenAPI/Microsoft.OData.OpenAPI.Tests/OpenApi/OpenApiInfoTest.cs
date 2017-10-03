@@ -13,8 +13,23 @@ namespace Microsoft.OData.OpenAPI.Tests
 {
     public class OpenApiInfoTest
     {
-        [Fact]
-        public void WriteToJsonWorks()
+        private const string InfoJsonExpect =
+@"{
+  ""title"": ""My Title"",
+  ""description"": ""My Description"",
+  ""termsOfService"": ""http://any/""
+}";
+
+        private const string InfoYamlExpect = 
+@"title: My Title,
+description: My Description,
+termsOfService: http://any/
+";
+
+        [Theory]
+        [InlineData(OpenApiTarget.Json, InfoJsonExpect)]
+        [InlineData(OpenApiTarget.Yaml, InfoYamlExpect)]
+        public void WriteInfoToStreamWorks(OpenApiTarget target, string expect)
         {
             Action<IOpenApiWriter> action = writer =>
             {
@@ -22,34 +37,14 @@ namespace Microsoft.OData.OpenAPI.Tests
                 {
                     Title = "My Title",
                     Description = "My Description",
-                    TermsOfService = new Uri("http://any")
+                    TermsOfService = new Uri("http://any/")
                 };
 
                 info.Write(writer);
                 writer.Flush();
             };
 
-            Assert.Equal(@"{
-  ""title"": ""My Title"",
-  ""description"": ""My Description"",
-  ""termsOfService"": ""http://any/""
-}",
-                Write(OpenApiTarget.Json, action));
-        }
-
-        [Fact]
-        public void WriteToYamlWorks()
-        {
-            OpenApiDocument doc = new OpenApiDocument();
-
-            var builder = new StringBuilder();
-            StringWriter sw = new StringWriter(builder);
-            IOpenApiWriter writer = new OpenApiJsonWriter(sw, new OpenApiWriterSettings());
-            doc.Write(writer);
-
-            sw.Flush();
-
-           // output.WriteLine(sw.ToString());
+            Assert.Equal(expect, Write(target, action));
         }
 
         private static string Write(OpenApiTarget target, Action<IOpenApiWriter> action)
