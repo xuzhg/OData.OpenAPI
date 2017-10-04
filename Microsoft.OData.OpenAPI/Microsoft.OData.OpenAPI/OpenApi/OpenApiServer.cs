@@ -4,36 +4,22 @@
 // </copyright>
 //---------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 
 namespace Microsoft.OData.OpenAPI
 {
-    internal class OpenApiServerVariable
-    {
-        /// <summary>
-        /// REQUIRED. The default value to use for substitution, and to send, if an alternate value is not supplied.
-        /// </summary>
-        public string Default { get; set; }
-
-        /// <summary>
-        /// An optional description for the server variable.
-        /// </summary>
-        public string Description { get; set; }
-
-        /// <summary>
-        /// An enumeration of string values to be used if the substitution options are from a limited set.
-        /// </summary>
-        public IList<string> Enums { get; set; }
-    }
-
-    internal class OpenApiServer : IOpenApiElement
+    /// <summary>
+    /// An object representing a Server.
+    /// </summary>
+    internal class OpenApiServer : OpenApiExtendableElement, IOpenApiExtendable
     {
         /// <summary>
         /// A URL to the target host. This URL supports Server Variables and MAY be relative,
         /// to indicate that the host location is relative to the location
         /// where the OpenAPI document is being served
         /// </summary>
-        public string Url { get; set; }
+        public Uri Url { get; }
 
         /// <summary>
         /// An optional string describing the host designated by the URL.
@@ -45,20 +31,54 @@ namespace Microsoft.OData.OpenAPI
         /// </summary>
         public IDictionary<string, OpenApiServerVariable> Variables { get; set; }
 
-        public virtual void Write(IOpenApiWriter writer)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OpenApiServer"/> class.
+        /// </summary>
+        /// <param name="url">A URL to the target host.</param>
+        public OpenApiServer(Uri url)
+            : this(url, null)
         {
         }
-    }
 
-    internal class OpenApiServers : IOpenApiElement
-    {
         /// <summary>
-        /// A map between a variable name and its value. 
+        /// Initializes a new instance of the <see cref="OpenApiServer"/> class.
         /// </summary>
-        public IList<OpenApiServer> Servers { get; set; }
-
-        public virtual void Write(IOpenApiWriter writer)
+        /// <param name="url">A URL to the target host.</param>
+        /// <param name="descriptioin">An optional string describing the host designated by the URL.</param>
+        public OpenApiServer(Uri url, string descriptioin)
         {
+            Url = url;
+            Description = descriptioin;
+        }
+
+        /// <summary>
+        /// Write Open API server object.
+        /// </summary>
+        /// <param name="writer">The Open API Writer.</param>
+        public override void Write(IOpenApiWriter writer)
+        {
+            if (writer == null)
+            {
+                throw Error.ArgumentNull("writer");
+            }
+
+            // { for JSON, empty for YAML
+            writer.WriteStartObject();
+
+            // name
+            writer.WriteProperty(OpenApiConstants.OpenApiDocUrl, Url.OriginalString);
+
+            // description
+            writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocDescription, Description);
+
+            // variables
+            writer.WriteDictionary(OpenApiConstants.OpenApiDocVariables, Variables);
+
+            // specification extensions
+            base.Write(writer);
+
+            // } for JSON, empty for YAML
+            writer.WriteEndObject();
         }
     }
 }

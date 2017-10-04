@@ -11,6 +11,52 @@ namespace Microsoft.OData.OpenAPI.Tests
 {
     internal static class OpenApiWriterTestHelper
     {
+        internal static string WriteToJson(this IOpenApiElement element,
+            Action<IOpenApiWriter, IOpenApiElement> before = null,
+            Action<IOpenApiWriter, IOpenApiElement> after = null)
+        {
+            Action<IOpenApiWriter> action = writer =>
+            {
+                before?.Invoke(writer, element);
+                element?.Write(writer);
+                after?.Invoke(writer, element);
+                writer?.Flush();
+            };
+
+            return Write(OpenApiTarget.Json, action);
+        }
+
+        internal static string WriteToYaml(this IOpenApiElement element,
+            Action<IOpenApiWriter, IOpenApiElement> before = null,
+            Action<IOpenApiWriter, IOpenApiElement> after = null)
+        {
+            Action<IOpenApiWriter> action = writer =>
+            {
+                before?.Invoke(writer, element);
+                element?.Write(writer);
+                after?.Invoke(writer, element);
+                writer?.Flush();
+            };
+
+            return Write(OpenApiTarget.Yaml, action);
+        }
+
+        internal static string Write(this IOpenApiElement element,
+            OpenApiTarget target,
+            Action<IOpenApiWriter, IOpenApiElement> before = null,
+            Action<IOpenApiWriter, IOpenApiElement> after = null)
+        {
+            Action<IOpenApiWriter> action = writer =>
+            {
+                before?.Invoke(writer, element);
+                element?.Write(writer);
+                after?.Invoke(writer, element);
+                writer?.Flush();
+            };
+
+            return Write(target, action);
+        }
+
         internal static string Write(OpenApiTarget target, Action<IOpenApiWriter> action)
         {
             MemoryStream stream = new MemoryStream();

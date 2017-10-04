@@ -31,7 +31,7 @@ namespace Microsoft.OData.OpenAPI
 
             if (String.IsNullOrWhiteSpace(name))
             {
-                throw Error.ArgumentNull("name");
+                throw Error.ArgumentNullOrEmpty("name");
             }
 
             writer.WritePropertyName(name);
@@ -41,6 +41,24 @@ namespace Microsoft.OData.OpenAPI
                 element.Write(writer);
             }
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Write the single of Open API element if the element is not null, otherwise skip it.
+        /// </summary>
+        /// <typeparam name="T"><see cref="IOpenApiElement"/></typeparam>
+        /// <param name="writer">The Open API writer.</param>
+        /// <param name="name">The property name.</param>
+        /// <param name="element">The Open API element.</param>
+        public static void WriteOptionalObject<T>(this IOpenApiWriter writer, string name, T element)
+            where T : IOpenApiElement
+        {
+            if (element == null)
+            {
+                return;
+            }
+
+            writer.WriteObject(name, element);
         }
 
         /// <summary>
@@ -60,7 +78,7 @@ namespace Microsoft.OData.OpenAPI
 
             if (String.IsNullOrWhiteSpace(name))
             {
-                throw Error.ArgumentNull("name");
+                throw Error.ArgumentNullOrEmpty("name");
             }
 
             writer.WritePropertyName(name);
@@ -93,6 +111,42 @@ namespace Microsoft.OData.OpenAPI
             {
                 e.Write(writer);
             }
+        }
+
+        public static void WriteDictionary<T>(this IOpenApiWriter writer, string name,
+            IDictionary<string, T> dics, bool optional = true)
+            where T : IOpenApiElement
+        {
+            if (writer == null)
+            {
+                throw Error.ArgumentNull("writer");
+            }
+
+            if (String.IsNullOrWhiteSpace(name))
+            {
+                throw Error.ArgumentNullOrEmpty("name");
+            }
+
+            if (dics == null && optional)
+            {
+                return;
+            }
+
+            writer.WritePropertyName(name);
+            writer.WriteStartObject();
+
+            if (dics != null)
+            {
+                foreach (KeyValuePair<string,T> e in dics)
+                {
+                    writer.WritePropertyName(e.Key);
+                    writer.WriteStartObject();
+                    e.Value.Write(writer);
+                    writer.WriteEndObject();
+                }
+            }
+
+            writer.WriteEndObject();
         }
     }
 }

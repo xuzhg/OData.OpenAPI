@@ -5,7 +5,6 @@
 //---------------------------------------------------------------------
 
 using System;
-using System.IO;
 using Xunit;
 
 namespace Microsoft.OData.OpenAPI.Tests
