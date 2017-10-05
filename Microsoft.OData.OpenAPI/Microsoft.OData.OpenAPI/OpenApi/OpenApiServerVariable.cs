@@ -11,12 +11,13 @@ using System.Linq;
 namespace Microsoft.OData.OpenAPI
 {
     /// <summary>
-    /// An object representing a Server Variable for server URL template substitution.
+    /// Server Variable Object.
     /// </summary>
     internal class OpenApiServerVariable : IOpenApiElement, IOpenApiExtensible, IOpenApiWritable
     {
         /// <summary>
-        /// REQUIRED. The default value to use for substitution, and to send, if an alternate value is not supplied.
+        /// REQUIRED. The default value to use for substitution, and to send,
+        /// if an alternate value is not supplied.
         /// </summary>
         public string Default { get; }
 
@@ -47,19 +48,6 @@ namespace Microsoft.OData.OpenAPI
             }
 
             Default = @default;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OpenApiServerVariable"/> class.
-        /// </summary>
-        /// <param name="def">The default string.</param>
-        /// <param name="description">An optional description.</param>
-        /// <param name="enums">An enumeration of string values.</param>
-        public OpenApiServerVariable(string def, string description, params string[] enums)
-        {
-            Default = def;
-            Description = description;
-            Enums = enums ?? null;
         }
 
         /// <summary>

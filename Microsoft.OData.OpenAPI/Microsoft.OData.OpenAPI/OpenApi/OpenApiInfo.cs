@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace Microsoft.OData.OpenAPI
 {
     /// <summary>
-    /// Open API Info Object, it provides the metadata abou the API.
+    /// Open API Info Object, it provides the metadata about the Open API.
     /// </summary>
     internal class OpenApiInfo : IOpenApiElement, IOpenApiWritable, IOpenApiExtensible
     {
