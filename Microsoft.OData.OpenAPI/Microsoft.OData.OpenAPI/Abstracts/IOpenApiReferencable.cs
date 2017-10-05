@@ -11,6 +11,9 @@ namespace Microsoft.OData.OpenAPI
     /// </summary>
     internal interface IOpenApiReferencable
     {
+        /// <summary>
+        /// Reference object.
+        /// </summary>
         OpenApiReference Reference { get; }
     }
 }

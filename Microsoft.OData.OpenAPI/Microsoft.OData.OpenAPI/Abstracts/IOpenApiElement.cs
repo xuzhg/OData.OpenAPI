@@ -11,6 +11,5 @@ namespace Microsoft.OData.OpenAPI
     /// </summary>
     internal interface IOpenApiElement
     {
-        // void Write(IOpenApiWriter writer);
     }
 }
