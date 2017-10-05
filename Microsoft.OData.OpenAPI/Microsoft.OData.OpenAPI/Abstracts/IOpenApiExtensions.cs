@@ -1,16 +1,15 @@
 ﻿//---------------------------------------------------------------------
-// <copyright file="OpenApiElement.cs" company="Microsoft">
+// <copyright file="IOpenApiExtensions.cs" company="Microsoft">
 //      Copyright (C) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 // </copyright>
 //---------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace Microsoft.OData.OpenAPI
 {
-    internal abstract class OpenApiElement : IOpenApiElement
+    internal interface IOpenApiExtensions : IOpenApiElement
     {
-        public virtual void Write(IOpenApiWriter writer)
-        {
-            // nothing here
-        }
+        IList<OpenApiExtension> Extensions { get; }
     }
 }

@@ -12,7 +12,7 @@ namespace Microsoft.OData.OpenAPI
     /// <summary>
     /// Tag Object.
     /// </summary>
-    internal class OpenApiTag : OpenApiExtendableElement, IOpenApiExtendable
+    internal class OpenApiTag : IOpenApiElement, IOpenApiExtensible, IOpenApiWritable
     {
         /// <summary>
         /// The name of the tag.
@@ -22,38 +22,23 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// A short description for the tag.
         /// </summary>
-        public string Description { get; }
+        public string Description { get; set; }
 
         /// <summary>
         /// Additional external documentation for this tag.
         /// </summary>
-        public OpenApiExternalDocs ExternalDocs { get; }
+        public OpenApiExternalDocs ExternalDocs { get; set; }
+
+        /// <summary>
+        /// This object MAY be extended with Specification Extensions.
+        /// </summary>
+        public IList<OpenApiExtension> Extensions { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OpenApiTag"/> class.
         /// </summary>
         /// <param name="name">The tag name.</param>
         public OpenApiTag(string name)
-            : this(name, null)
-        { }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OpenApiTag"/> class.
-        /// </summary>
-        /// <param name="name">The tag name.</param>
-        /// <param name="description">The tag description.</param>
-        public OpenApiTag(string name, string description)
-            : this(name, description, null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OpenApiTag"/> class.
-        /// </summary>
-        /// <param name="name">The tag name.</param>
-        /// <param name="description">The tag description.</param>
-        /// <param name="externalDocs">The external documentation.</param>
-        public OpenApiTag(string name, string description, OpenApiExternalDocs externalDocs)
         {
             if (String.IsNullOrWhiteSpace(name))
             {
@@ -61,15 +46,13 @@ namespace Microsoft.OData.OpenAPI
             }
 
             Name = name;
-            Description = description;
-            ExternalDocs = externalDocs;
         }
 
         /// <summary>
         /// Write Open API tag object.
         /// </summary>
         /// <param name="writer">The Open API Writer.</param>
-        public override void Write(IOpenApiWriter writer)
+        public virtual void Write(IOpenApiWriter writer)
         {
             if (writer == null)
             {
@@ -89,7 +72,7 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteOptionalObject(OpenApiConstants.OpenApiDocExternalDocs, ExternalDocs);
 
             // specification extensions
-            base.Write(writer);
+            writer.WriteDictionary(Extensions);
 
             // } for JSON, empty for YAML
             writer.WriteEndObject();

@@ -22,7 +22,7 @@ namespace Microsoft.OData.OpenAPI
         /// <param name="name">The property name.</param>
         /// <param name="element">The Open API element.</param>
         public static void WriteObject<T>(this IOpenApiWriter writer, string name, T element)
-            where T : IOpenApiElement
+            where T : IOpenApiWritable
         {
             if (writer == null)
             {
@@ -51,7 +51,7 @@ namespace Microsoft.OData.OpenAPI
         /// <param name="name">The property name.</param>
         /// <param name="element">The Open API element.</param>
         public static void WriteOptionalObject<T>(this IOpenApiWriter writer, string name, T element)
-            where T : IOpenApiElement
+            where T : IOpenApiWritable
         {
             if (element == null)
             {
@@ -69,7 +69,7 @@ namespace Microsoft.OData.OpenAPI
         /// <param name="name">The property name.</param>
         /// <param name="elements">The collection of Open API element.</param>
         public static void WriteCollection<T>(this IOpenApiWriter writer, string name, IEnumerable<T> elements)
-            where T : IOpenApiElement
+            where T : IOpenApiWritable
         {
             if (writer == null)
             {
@@ -95,7 +95,7 @@ namespace Microsoft.OData.OpenAPI
         }
 
         public static void WriteDictionary<T>(this IOpenApiWriter writer, IEnumerable<T> element)
-            where T : IOpenApiElement
+            where T : IOpenApiWritable
         {
             if (writer == null)
             {
@@ -115,7 +115,7 @@ namespace Microsoft.OData.OpenAPI
 
         public static void WriteDictionary<T>(this IOpenApiWriter writer, string name,
             IDictionary<string, T> dics, bool optional = true)
-            where T : IOpenApiElement
+            where T : IOpenApiWritable
         {
             if (writer == null)
             {

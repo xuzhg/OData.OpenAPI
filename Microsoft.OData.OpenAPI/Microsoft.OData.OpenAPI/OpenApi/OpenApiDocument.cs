@@ -13,10 +13,8 @@ namespace Microsoft.OData.OpenAPI
     /// <summary>
     /// Describes an Open API Document. See: https://swagger.io/specification/
     /// </summary>
-    internal class OpenApiDocument : IOpenApiElement
+    internal class OpenApiDocument : IOpenApiElement, IOpenApiExtensible, IOpenApiWritable
     {
-        private Func<Stream, IOpenApiWriter> _writerFactory;
-
         /// <summary>
         /// REQUIRED.This string MUST be the semantic version number of the OpenAPI Specification version that the OpenAPI document uses.
         /// </summary>
@@ -25,7 +23,7 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// REQUIRED. Provides metadata about the API. The metadata MAY be used by tooling as required.
         /// </summary>
-        public OpenApiInfo Info { get; set; } = new OpenApiInfo();
+        public OpenApiInfo Info { get; set; }
 
         /// <summary>
         /// An array of Server Objects, which provide connectivity information to a target server.
@@ -35,12 +33,12 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// REQUIRED. The available paths and operations for the API.
         /// </summary>
-        public OpenApiPaths Paths { get; set; }
+        public OpenApiPaths Paths { get; set; } = new OpenApiPaths();
 
         /// <summary>
         /// An element to hold various schemas for the specification.
         /// </summary>
-        public OpenApiComponents Components { get; set; }
+        public OpenApiComponents Components { get; } = new OpenApiComponents();
 
         /// <summary>
         /// A declaration of which security mechanisms can be used across the API.
@@ -63,34 +61,32 @@ namespace Microsoft.OData.OpenAPI
         public IList<OpenApiExtension> Extensions { get; set; }
 
         /// <summary>
-        /// Default Constrcutor
+        /// Write Open API document to given stream using default writer.
         /// </summary>
-        public OpenApiDocument()
-            : this(DefaultOpenApiWriter)
-        {}
-
-        /// <summary>
-        /// Constructor with a stream to <see cref="IOpenApiWriter"/> factory.
-        /// </summary>
-        /// <param name="writerFactory">The <see cref="IOpenApiWriter"/> factory.</param>
-        public OpenApiDocument(Func<Stream, IOpenApiWriter> writerFactory)
+        /// <param name="stream">The stream to write.</param>
+        public virtual void Write(Stream stream)
         {
-            _writerFactory = writerFactory ?? throw Error.ArgumentNull("writerFactory");
+            Write(stream, DefaultOpenApiWriter);
         }
 
         /// <summary>
-        /// Write Open API document to given stream.
+        /// Write Open API document to given stream using given writer factory
         /// </summary>
         /// <param name="stream">The stream to write.</param>
-        /// <returns></returns>
-        public virtual void Write(Stream stream)
+        /// <param name="writerFactory">The writer factory.</param>
+        public virtual void Write(Stream stream, Func<Stream, IOpenApiWriter> writerFactory)
         {
             if (stream == null)
             {
                 throw Error.ArgumentNull("stream");
             }
 
-            IOpenApiWriter writer = _writerFactory(stream);
+            if (writerFactory == null)
+            {
+                throw Error.ArgumentNull("writerFactory");
+            }
+
+            IOpenApiWriter writer = writerFactory(stream);
             this.Write(writer);
             writer.Flush();
         }
@@ -138,6 +134,9 @@ namespace Microsoft.OData.OpenAPI
 
             // } for json, empty for YAML
             writer.WriteEndObject();
+
+            // flush
+            writer.Flush();
         }
 
         private static IOpenApiWriter DefaultOpenApiWriter(Stream stream)

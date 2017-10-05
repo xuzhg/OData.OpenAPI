@@ -30,7 +30,11 @@ namespace Microsoft.OData.OpenAPI.Tests
         public void WriteExternalDocumentationObjectWithDescriptionJsonWorks()
         {
             // Arrange
-            OpenApiExternalDocs exd = new OpenApiExternalDocs(new Uri("http://any/"), "abc");
+            OpenApiExternalDocs exd = new OpenApiExternalDocs(new Uri("http://any/"))
+            {
+                Description = "abc"
+            };
+
             Action<IOpenApiWriter> action = writer =>
             {
                 exd.Write(writer);

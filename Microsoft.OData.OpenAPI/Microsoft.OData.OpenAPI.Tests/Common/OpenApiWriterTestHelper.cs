@@ -11,9 +11,9 @@ namespace Microsoft.OData.OpenAPI.Tests
 {
     internal static class OpenApiWriterTestHelper
     {
-        internal static string WriteToJson(this IOpenApiElement element,
-            Action<IOpenApiWriter, IOpenApiElement> before = null,
-            Action<IOpenApiWriter, IOpenApiElement> after = null)
+        internal static string WriteToJson(this IOpenApiWritable element,
+            Action<IOpenApiWriter, IOpenApiWritable> before = null,
+            Action<IOpenApiWriter, IOpenApiWritable> after = null)
         {
             Action<IOpenApiWriter> action = writer =>
             {
@@ -26,9 +26,9 @@ namespace Microsoft.OData.OpenAPI.Tests
             return Write(OpenApiTarget.Json, action);
         }
 
-        internal static string WriteToYaml(this IOpenApiElement element,
-            Action<IOpenApiWriter, IOpenApiElement> before = null,
-            Action<IOpenApiWriter, IOpenApiElement> after = null)
+        internal static string WriteToYaml(this IOpenApiWritable element,
+            Action<IOpenApiWriter, IOpenApiWritable> before = null,
+            Action<IOpenApiWriter, IOpenApiWritable> after = null)
         {
             Action<IOpenApiWriter> action = writer =>
             {
@@ -41,10 +41,10 @@ namespace Microsoft.OData.OpenAPI.Tests
             return Write(OpenApiTarget.Yaml, action);
         }
 
-        internal static string Write(this IOpenApiElement element,
+        internal static string Write(this IOpenApiWritable element,
             OpenApiTarget target,
-            Action<IOpenApiWriter, IOpenApiElement> before = null,
-            Action<IOpenApiWriter, IOpenApiElement> after = null)
+            Action<IOpenApiWriter, IOpenApiWritable> before = null,
+            Action<IOpenApiWriter, IOpenApiWritable> after = null)
         {
             Action<IOpenApiWriter> action = writer =>
             {

@@ -36,11 +36,10 @@ namespace Microsoft.OData.OpenAPI.Tests
         }
 
         [Fact]
-        public void VerifyReferenceTest2()
+        public void EdmToOpenApiTest()
         {
             var model = new EdmModel();
 
-            //
             var enumType = new EdmEnumType("DefaultNs", "Color");
             var blue = enumType.AddMember("Blue", new EdmEnumMemberValue(0));
             enumType.AddMember("White", new EdmEnumMemberValue(1));
@@ -105,7 +104,10 @@ namespace Microsoft.OData.OpenAPI.Tests
             model.Validate(out actualErrors);
             Assert.Empty(actualErrors);
 
-            string json = GetCsdlJson2(model);
+            // string json = GetCsdlJson2(model);
+
+            OpenApiDocument doc = model.ConvertTo();
+            string json = doc.WriteToJson();
 
             output.WriteLine(json);
             //Assert.Equal("", json);

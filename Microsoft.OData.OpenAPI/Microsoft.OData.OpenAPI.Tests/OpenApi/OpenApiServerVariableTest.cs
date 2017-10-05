@@ -18,7 +18,7 @@ namespace Microsoft.OData.OpenAPI.Tests
 {
   ""default"": ""MyDefault""
 }";
-            OpenApiServerVariable sv = new OpenApiServerVariable(def: "MyDefault");
+            OpenApiServerVariable sv = new OpenApiServerVariable("MyDefault");
 
             // Act
             string actual = sv.WriteToJson();

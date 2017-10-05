@@ -1,13 +1,16 @@
 ﻿//---------------------------------------------------------------------
-// <copyright file="IOpenApiElement.cs" company="Microsoft">
+// <copyright file="IOpenApiReferencable.cs" company="Microsoft">
 //      Copyright (C) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 // </copyright>
 //---------------------------------------------------------------------
 
 namespace Microsoft.OData.OpenAPI
 {
-    internal interface IOpenApiElement
+    /// <summary>
+    /// Represents an Open API element is referencable.
+    /// </summary>
+    internal interface IOpenApiReferencable
     {
-        void Write(IOpenApiWriter writer);
+        OpenApiReference Reference { get; }
     }
 }

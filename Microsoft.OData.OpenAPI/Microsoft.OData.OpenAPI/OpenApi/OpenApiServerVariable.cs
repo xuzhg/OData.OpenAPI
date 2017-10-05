@@ -4,6 +4,7 @@
 // </copyright>
 //---------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,7 +13,7 @@ namespace Microsoft.OData.OpenAPI
     /// <summary>
     /// An object representing a Server Variable for server URL template substitution.
     /// </summary>
-    internal class OpenApiServerVariable : OpenApiExtendableElement, IOpenApiExtendable
+    internal class OpenApiServerVariable : IOpenApiElement, IOpenApiExtensible, IOpenApiWritable
     {
         /// <summary>
         /// REQUIRED. The default value to use for substitution, and to send, if an alternate value is not supplied.
@@ -22,30 +23,30 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// An optional description for the server variable.
         /// </summary>
-        public string Description { get; }
+        public string Description { get; set; }
 
         /// <summary>
         /// An enumeration of string values to be used if the substitution options are from a limited set.
         /// </summary>
-        public IList<string> Enums { get; }
+        public IList<string> Enums { get; set; }
+
+        /// <summary>
+        /// This object MAY be extended with Specification Extensions.
+        /// </summary>
+        public IList<OpenApiExtension> Extensions { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OpenApiServerVariable"/> class.
         /// </summary>
-        /// <param name="def">The default string.</param>
-        public OpenApiServerVariable(string def)
-            : this(def, null)
+        /// <param name="@default">The default string.</param>
+        public OpenApiServerVariable(string @default)
         {
-        }
+            if (String.IsNullOrWhiteSpace(@default))
+            {
+                throw Error.ArgumentNullOrEmpty(nameof(@default));
+            }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OpenApiServerVariable"/> class.
-        /// </summary>
-        /// <param name="def">The default string.</param>
-        /// <param name="description">An optional description.</param>
-        public OpenApiServerVariable(string def, string description)
-            : this(def, description, null)
-        {
+            Default = @default;
         }
 
         /// <summary>
@@ -65,7 +66,7 @@ namespace Microsoft.OData.OpenAPI
         /// Write Open API server variable object.
         /// </summary>
         /// <param name="writer">The Open API Writer.</param>
-        public override void Write(IOpenApiWriter writer)
+        public virtual void Write(IOpenApiWriter writer)
         {
             if (writer == null)
             {
@@ -94,7 +95,7 @@ namespace Microsoft.OData.OpenAPI
             }
 
             // specification extensions
-            base.Write(writer);
+            writer.WriteDictionary(Extensions);
 
             // } for JSON, empty for YAML
             writer.WriteEndObject();

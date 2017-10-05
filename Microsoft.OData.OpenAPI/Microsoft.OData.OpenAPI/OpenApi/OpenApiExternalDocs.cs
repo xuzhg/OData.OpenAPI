@@ -5,42 +5,37 @@
 //---------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 
 namespace Microsoft.OData.OpenAPI
 {
     /// <summary>
     /// Allows referencing an external resource for extended documentation.
     /// </summary>
-    internal class OpenApiExternalDocs : IOpenApiElement
+    internal class OpenApiExternalDocs : IOpenApiElement, IOpenApiWritable, IOpenApiExtensible
     {
-        /// <summary>
-        /// A short description of the target documentation.
-        /// </summary>
-        public string Description { get; }
-
         /// <summary>
         /// REQUIRED.The URL for the target documentation. Value MUST be in the format of a URL.
         /// </summary>
         public Uri Url { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OpenApiExternalDocs"/> class.
+        /// A short description of the target documentation.
         /// </summary>
-        /// <param name="description">A short description.</param>
-        public OpenApiExternalDocs(Uri url)
-            : this(url, null)
-        {
-        }
+        public string Description { get; set; }
+
+        /// <summary>
+        /// This object MAY be extended with Specification Extensions.
+        /// </summary>
+        public IList<OpenApiExtension> Extensions { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OpenApiExternalDocs"/> class.
         /// </summary>
-        /// <param name="url">The URL for the target documentation.</param>
         /// <param name="description">A short description.</param>
-        public OpenApiExternalDocs(Uri url, string description)
+        public OpenApiExternalDocs(Uri url)
         {
-            Url = url;
-            Description = description;
+            Url = Url ?? throw Error.ArgumentNull(nameof(url));
         }
 
         /// <summary>
@@ -54,11 +49,19 @@ namespace Microsoft.OData.OpenAPI
                 throw Error.ArgumentNull("writer");
             }
 
+            // { for json, empty for YAML
             writer.WriteStartObject();
-            {
-                writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocDescription, Description);
-                writer.WriteProperty(OpenApiConstants.OpenApiDocUrl, Url.OriginalString);
-            }
+
+            // description
+            writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocDescription, Description);
+
+            // url
+            writer.WriteProperty(OpenApiConstants.OpenApiDocUrl, Url.OriginalString);
+
+            // specification extensions
+            writer.WriteDictionary(Extensions);
+
+            // } for json, empty for YAML
             writer.WriteEndObject();
         }
     }

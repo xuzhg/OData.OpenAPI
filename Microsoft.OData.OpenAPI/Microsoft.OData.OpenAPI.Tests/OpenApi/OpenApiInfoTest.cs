@@ -29,15 +29,14 @@ termsOfService: http://any/
         [InlineData(OpenApiTarget.Yaml, InfoYamlExpect)]
         public void WriteInfoToStreamWorks(OpenApiTarget target, string expect)
         {
+            OpenApiInfo info = new OpenApiInfo("My Title", new Version(3, 0))
+            {
+                Description = "My Description",
+                TermsOfService = new Uri("http://any/")
+            };
+
             Action<IOpenApiWriter> action = writer =>
             {
-                OpenApiInfo info = new OpenApiInfo
-                {
-                    Title = "My Title",
-                    Description = "My Description",
-                    TermsOfService = new Uri("http://any/")
-                };
-
                 info.Write(writer);
                 writer.Flush();
             };

@@ -6,7 +6,7 @@
 
 namespace Microsoft.OData.OpenAPI
 {
-    internal class OpenApiSecurity : IOpenApiElement
+    internal class OpenApiSecurity : IOpenApiElement, IOpenApiWritable
     {
         /// <summary>
         /// The name of the tag.

@@ -1,16 +1,12 @@
 ﻿//---------------------------------------------------------------------
-// <copyright file="OpenApiElement.cs" company="Microsoft">
+// <copyright file="ODataOpenApiConvertTest.cs" company="Microsoft">
 //      Copyright (C) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 // </copyright>
 //---------------------------------------------------------------------
 
-namespace Microsoft.OData.OpenAPI
+namespace Microsoft.OData.OpenAPI.Tests
 {
-    internal abstract class OpenApiElement : IOpenApiElement
+    public class ODataOpenApiConvertTest
     {
-        public virtual void Write(IOpenApiWriter writer)
-        {
-            // nothing here
-        }
     }
 }

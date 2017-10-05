@@ -11,6 +11,7 @@
 namespace Microsoft.OData.OpenAPI.Properties {
     using System;
     
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -83,6 +84,15 @@ namespace Microsoft.OData.OpenAPI.Properties {
         internal static string OpenApiExceptionGeneralError {
             get {
                 return ResourceManager.GetString("OpenApiExceptionGeneralError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The OpenApi element &apos;{0}&apos; is already marked as reference object..
+        /// </summary>
+        internal static string OpenApiObjectMarkAsReference {
+            get {
+                return ResourceManager.GetString("OpenApiObjectMarkAsReference", resourceCulture);
             }
         }
     }

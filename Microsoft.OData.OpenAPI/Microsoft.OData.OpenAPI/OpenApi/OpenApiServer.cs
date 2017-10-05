@@ -10,9 +10,9 @@ using System.Collections.Generic;
 namespace Microsoft.OData.OpenAPI
 {
     /// <summary>
-    /// An object representing a Server.
+    /// Server Object: an object representing a Server.
     /// </summary>
-    internal class OpenApiServer : OpenApiExtendableElement, IOpenApiExtendable
+    internal class OpenApiServer : IOpenApiElement, IOpenApiExtensible, IOpenApiWritable
     {
         /// <summary>
         /// A URL to the target host. This URL supports Server Variables and MAY be relative,
@@ -30,6 +30,11 @@ namespace Microsoft.OData.OpenAPI
         /// A map between a variable name and its value. 
         /// </summary>
         public IDictionary<string, OpenApiServerVariable> Variables { get; set; }
+
+        /// <summary>
+        /// This object MAY be extended with Specification Extensions.
+        /// </summary>
+        public IList<OpenApiExtension> Extensions { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OpenApiServer"/> class.
@@ -55,7 +60,7 @@ namespace Microsoft.OData.OpenAPI
         /// Write Open API server object.
         /// </summary>
         /// <param name="writer">The Open API Writer.</param>
-        public override void Write(IOpenApiWriter writer)
+        public virtual void Write(IOpenApiWriter writer)
         {
             if (writer == null)
             {
@@ -75,7 +80,7 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteDictionary(OpenApiConstants.OpenApiDocVariables, Variables);
 
             // specification extensions
-            base.Write(writer);
+            writer.WriteDictionary(Extensions);
 
             // } for JSON, empty for YAML
             writer.WriteEndObject();

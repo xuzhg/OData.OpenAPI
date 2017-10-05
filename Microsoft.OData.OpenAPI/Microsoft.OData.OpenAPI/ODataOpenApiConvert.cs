@@ -12,7 +12,20 @@ namespace Microsoft.OData.OpenAPI
     {
         public static OpenApiDocument ConvertTo(this IEdmModel model)
         {
-            return new OpenApiDocument();
+            if (model == null)
+            {
+                throw Error.ArgumentNull("model");
+            }
+
+            OpenApiDocument doc = new OpenApiDocument();
+
+            foreach(IEdmEntitySet entitySet in model.EntityContainer.EntitySets())
+            {
+                OpenApiTag tag = new OpenApiTag(entitySet.Name);
+                doc.Tags.Add(tag);
+            }
+
+            return doc;
         }
     }
 }

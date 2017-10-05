@@ -12,7 +12,7 @@ namespace Microsoft.OData.OpenAPI
     /// <summary>
     /// Additional data can be added to extend the specification at certain points.
     /// </summary>
-    internal class OpenApiExtension : IOpenApiElement
+    internal class OpenApiExtension : IOpenApiElement, IOpenApiWritable
     {
         /// <summary>
         /// The field name MUST begin with x-, for example, x-internal-id
@@ -51,9 +51,9 @@ namespace Microsoft.OData.OpenAPI
 
             writer.WritePropertyName(Name);
 
-            if (Value is IOpenApiElement)
+            if (Value is IOpenApiWritable)
             {
-                ((IOpenApiElement)Value).Write(writer);
+                ((IOpenApiWritable)Value).Write(writer);
             }
             else
             {

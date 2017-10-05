@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.OData.OpenAPI
 {
-    internal abstract class OpenApiExtendableElement : OpenApiElement, IOpenApiExtendable
+    internal abstract class OpenApiExtendableElement : OpenApiElement, IOpenApiExtensible
     {
         private IList<OpenApiExtension> _extensions;
 

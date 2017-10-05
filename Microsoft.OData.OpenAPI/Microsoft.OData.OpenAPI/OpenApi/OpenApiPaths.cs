@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.OData.OpenAPI
 {
-    internal class OpenApiPaths : IOpenApiElement
+    internal class OpenApiPaths : IOpenApiElement, IOpenApiWritable
     {
         public IList<OpenApiPathItem> PathItems { get; set; }
 

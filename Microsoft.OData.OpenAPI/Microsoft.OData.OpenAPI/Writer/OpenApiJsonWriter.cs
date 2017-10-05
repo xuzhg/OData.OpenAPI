@@ -35,7 +35,6 @@ namespace Microsoft.OData.OpenAPI
             Scope current = EndScope(ScopeType.Object);
             if (current.ObjectCount != 0)
             {
-
                 Writer.WriteLine();
                 DecreaseIndentation();
                 WriteIndentation();
@@ -43,9 +42,11 @@ namespace Microsoft.OData.OpenAPI
             else
             {
                 Writer.Write(JsonConstants.WhiteSpaceForEmptyObjectArray);
+                DecreaseIndentation();
             }
 
             Writer.Write(JsonConstants.EndObjectScope);
+            
         }
 
         public override void WriteStartArray()
@@ -67,6 +68,7 @@ namespace Microsoft.OData.OpenAPI
             else
             {
                 Writer.Write(JsonConstants.WhiteSpaceForEmptyObjectArray);
+                DecreaseIndentation();
             }
 
             Writer.Write(JsonConstants.EndArrayScope);
