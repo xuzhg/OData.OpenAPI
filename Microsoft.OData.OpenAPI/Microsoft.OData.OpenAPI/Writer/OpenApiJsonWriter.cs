@@ -37,7 +37,16 @@ namespace Microsoft.OData.OpenAPI
         /// </summary>
         public override void WriteStartObject()
         {
+            Scope preScope = CurrentScope();
+
             StartScope(ScopeType.Object);
+
+            if (preScope != null && preScope.Type == ScopeType.Array)
+            {
+                Writer.WriteLine();
+                WriteIndentation();
+            }
+
             Writer.Write(JsonConstants.StartObjectScope);
             IncreaseIndentation();
         }

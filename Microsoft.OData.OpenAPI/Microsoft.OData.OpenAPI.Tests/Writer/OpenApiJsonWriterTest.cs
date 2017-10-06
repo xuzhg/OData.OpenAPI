@@ -7,11 +7,54 @@
 using System;
 using System.IO;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Microsoft.OData.OpenAPI.Tests
 {
     public class OpenApiJsonWriterTest
     {
+        private readonly ITestOutputHelper output;
+
+        public OpenApiJsonWriterTest(ITestOutputHelper output)
+        {
+            this.output = output;
+        }
+
+        [Fact]
+        public void WriteEmptyObjectWorks2()
+        {
+            // Arrange
+            Action<IOpenApiWriter> writerAction = writer =>
+            {
+                writer.WriteObject(() =>
+                {
+                    writer.WriteProperty("security", () =>
+                    {
+                        writer.WriteArray(() =>
+                        {
+                            writer.WriteObject(() =>
+                            {
+                                writer.WriteProperty("petstore_auth", () =>
+                                {
+                                    writer.WriteArray(() =>
+                                    {
+                                        writer.WriteValue("write:pets");
+                                        writer.WriteValue("read:pets");
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            };
+
+            string actual = OpenApiWriterTestHelper.Write(OpenApiTarget.Json, writerAction);
+            output.WriteLine(actual);
+
+            // Act & Assert
+            Assert.Equal("{ }", actual);
+        }
+
         [Fact]
         public void WriteEmptyObjectWorks()
         {

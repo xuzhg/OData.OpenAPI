@@ -143,6 +143,7 @@ namespace Microsoft.OData.OpenAPI.Tests
             // Act & Assert
             Assert.Equal("{\n  \"name\": \"value\"\n}", yaml);
         }
+
         private static string Write(Action<OpenApiYamlWriter> action)
         {
             MemoryStream stream = new MemoryStream();
