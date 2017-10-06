@@ -92,11 +92,37 @@ namespace Microsoft.OData.OpenAPI
         }
 
         /// <summary>
+        /// Writes a separator of a value if it's needed for the next value to be written.
+        /// </summary>
+        protected abstract void WriteValueSeparator();
+
+        /// <summary>
+        /// Write null value.
+        /// </summary>
+        public abstract void WriteNull();
+
+        /// <summary>
         /// Flush the writer.
         /// </summary>
         public void Flush()
         {
             this.Writer.Flush();
+        }
+
+        /// <summary>
+        /// Write string value.
+        /// </summary>
+        /// <param name="value">The string value.</param>
+        public abstract void WriteValue(string value);
+
+        /// <summary>
+        /// Write decimal value.
+        /// </summary>
+        /// <param name="value">The decimal value.</param>
+        public virtual void WriteValue(decimal value)
+        {
+            WriteValueSeparator();
+            Writer.Write(value);
         }
 
         /// <summary>
@@ -106,30 +132,33 @@ namespace Microsoft.OData.OpenAPI
         public virtual void WriteValue(double value)
         {
             this.WriteValueSeparator();
-           // JsonValueUtils.WriteValue(this.writer, value);
+            Writer.Write(value);
         }
 
-        public virtual void WriteValue(string value)
-        {
-        }
-
-        public virtual void WriteValue(decimal value)
-        {
-
-        }
-
+        /// <summary>
+        /// Write integer value.
+        /// </summary>
+        /// <param name="value">The integer value.</param>
         public virtual void WriteValue(int value)
         {
-
+            WriteValueSeparator();
+            Writer.Write(value);
         }
 
+        /// <summary>
+        /// Write boolean value.
+        /// </summary>
+        /// <param name="value">The boolean value.</param>
         public virtual void WriteValue(bool value)
         {
-
+            WriteValueSeparator();
+            Writer.Write(value);
         }
 
-        public abstract void WriteNull();
-
+        /// <summary>
+        /// Write object value
+        /// </summary>
+        /// <param name="value">The object value.</param>
         public virtual void WriteValue(object value)
         {
             if (value == null)
@@ -146,24 +175,6 @@ namespace Microsoft.OData.OpenAPI
             {
                 // TODO:
             }
-        }
-
-        public virtual void WritePropertyName(string name)
-        {
-            Debug.Assert(!string.IsNullOrEmpty(name), "The name must be specified.");
-//            Debug.Assert(this.scopes.Count > 0, "There must be an active scope for name to be written.");
-//            Debug.Assert(this.scopes.Peek().Type == ScopeType.Object, "The active scope must be an object scope for name to be written.");
-
-            Scope currentScope = CurrentScope();
-            Debug.Assert(currentScope != null);
-
-            if (currentScope.ObjectCount != 0)
-            {
-                Writer.Write(JsonConstants.ObjectMemberSeparator);
-            }
-            Writer.WriteLine();
-
-            currentScope.ObjectCount++;
         }
 
         /// <summary>
@@ -209,29 +220,7 @@ namespace Microsoft.OData.OpenAPI
             }
         }
 
-        /// <summary>
-        /// Writes a separator of a value if it's needed for the next value to be written.
-        /// </summary>
-        protected void WriteValueSeparator()
-        {
-            if (scopes.Count == 0)
-            {
-                return;
-            }
 
-            Scope currentScope = this.scopes.Peek();
-            if (currentScope.Type == ScopeType.Array)
-            {
-                if (currentScope.ObjectCount != 0)
-                {
-                    Writer.Write(JsonConstants.ArrayElementSeparator);
-                }
-
-                Writer.WriteLine();
-                WriteIndentation();
-                currentScope.ObjectCount++;
-            }
-        }
 
         /// <summary>
         /// Get current scope.

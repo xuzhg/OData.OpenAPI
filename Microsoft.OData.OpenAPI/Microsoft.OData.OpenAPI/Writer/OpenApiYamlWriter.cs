@@ -123,65 +123,14 @@ namespace Microsoft.OData.OpenAPI
         }
 
         /// <summary>
-        /// Write property name.
+        /// Write string value.
         /// </summary>
-        /// <param name="name">The property name.</param>
-        public override void WritePropertyName(string name)
-        {
-            ValifyCanWritePropertyName(name);
-
-            Scope current = CurrentScope();
-
-            if (current.ObjectCount == 0)
-            {
-                if (current.IsInArray)
-                {
-                    Writer.WriteLine();
-
-                    WritePrefixIndentation();
-
-                    Writer.Write(JsonConstants.PrefixOfArrayItem);
-                }
-                else
-                {
-                    WriteIndentation();
-                }
-            }
-            else
-            {
-                Writer.WriteLine();
-                WriteIndentation();
-            }
-
-            Writer.Write(name);
-            Writer.Write(JsonConstants.NameValueSeparator);
-
-            ++current.ObjectCount;
-        }
-
+        /// <param name="value">The string value.</param>
         public override void WriteValue(string value)
         {
-            WriteArrayPrefix();
+            WriteValueSeparator();
 
             value = value.Replace("\n", "\\n");
-            Writer.Write(value);
-        }
-
-        public override void WriteValue(decimal value)
-        {
-            WriteArrayPrefix();
-            Writer.Write(value);
-        }
-
-        public override void WriteValue(int value)
-        {
-            WriteArrayPrefix();
-            Writer.Write(value);
-        }
-
-        public override void WriteValue(bool value)
-        {
-            WriteArrayPrefix();
             Writer.Write(value);
         }
 
@@ -190,11 +139,11 @@ namespace Microsoft.OData.OpenAPI
         /// </summary>
         public override void WriteNull()
         {
-            WriteArrayPrefix();
+            WriteValueSeparator();
             // nothing here
         }
 
-        private void WriteArrayPrefix()
+        protected override void WriteValueSeparator()
         {
             if (IsArrayScope())
             {

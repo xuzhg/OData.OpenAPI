@@ -69,7 +69,6 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// Write the object value.
         /// </summary>
-        /// <param name="value">The value.</param>
         void WriteValue(object value);
 
         /// <summary>

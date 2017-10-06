@@ -132,6 +132,10 @@ namespace Microsoft.OData.OpenAPI
             base.WriteStartProperty(name);
         }
 
+        /// <summary>
+        /// Write string value.
+        /// </summary>
+        /// <param name="value">The string value.</param>
         public override void WriteValue(string value)
         {
             WriteValueSeparator();
@@ -146,6 +150,30 @@ namespace Microsoft.OData.OpenAPI
         public override void WriteNull()
         {
             Writer.WriteLine("null");
+        }
+
+        /// <summary>
+        /// Writes a separator of a value if it's needed for the next value to be written.
+        /// </summary>
+        protected override void WriteValueSeparator()
+        {
+            if (scopes.Count == 0)
+            {
+                return;
+            }
+
+            Scope currentScope = this.scopes.Peek();
+            if (currentScope.Type == ScopeType.Array)
+            {
+                if (currentScope.ObjectCount != 0)
+                {
+                    Writer.Write(JsonConstants.ArrayElementSeparator);
+                }
+
+                Writer.WriteLine();
+                WriteIndentation();
+                currentScope.ObjectCount++;
+            }
         }
     }
 }
