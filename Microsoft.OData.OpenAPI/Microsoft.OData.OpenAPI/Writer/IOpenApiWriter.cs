@@ -42,21 +42,6 @@ namespace Microsoft.OData.OpenAPI
         void WriteEndProperty();
 
         /// <summary>
-        /// Write the property name.
-        /// </summary>
-        // void WritePropertyName(string name);
-
-        /// <summary>
-        /// Write the property name & property value.
-        /// </summary>
-        // void WriteProperty(string name, string value);
-
-        /// <summary>
-        /// Write the property name & property value.
-        /// </summary>
-        void WriteOptionalProperty(string name, object value);
-
-        /// <summary>
         /// Write the string value.
         /// </summary>
         void WriteValue(string value);

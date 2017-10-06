@@ -109,23 +109,6 @@ namespace Microsoft.OData.OpenAPI
            // JsonValueUtils.WriteValue(this.writer, value);
         }
 
-        public virtual void WriteProperty(string name, string value)
-        {
-            WritePropertyName(name);
-            WriteValue(value);
-        }
-
-        public void WriteOptionalProperty(string name, object value)
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            WritePropertyName(name);
-            WriteValue(value);
-        }
-
         public virtual void WriteValue(string value)
         {
         }

@@ -28,9 +28,9 @@ namespace Microsoft.OData.OpenAPI.Tests
             {
                 writer.WriteStartObject();
 
-                writer.WriteProperty("name", "API Support");
+                writer.WriteRequiredProperty("name", "API Support");
 
-                writer.WriteProperty("url", "http://www.example.com/support");
+                writer.WriteRequiredProperty("url", "http://www.example.com/support");
 
                 writer.WriteEndObject();
             };

@@ -48,7 +48,7 @@ namespace Microsoft.OData.OpenAPI.Tests
             {
                 writer.WriteStartObject();
                 {
-                    writer.WriteProperty("name", "value");
+                    writer.WriteRequiredProperty("name", "value");
                 }
                 writer.WriteEndObject();
             };
