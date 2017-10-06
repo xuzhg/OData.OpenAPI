@@ -265,5 +265,15 @@ namespace Microsoft.OData.OpenAPI
         /// The white space for empty object & array
         /// </summary>
         internal const string WhiteSpaceForEmptyObjectArray = " ";
+
+        /// <summary>
+        /// The prefix of array item
+        /// </summary>
+        internal const string PrefixOfArrayItem = "- ";
+
+        /// <summary>
+        /// The white space for indent
+        /// </summary>
+        internal const string WhiteSpaceForIndent = "  ";
     }
 }

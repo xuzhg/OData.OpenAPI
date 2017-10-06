@@ -12,6 +12,21 @@ namespace Microsoft.OData.OpenAPI.Tests
 {
     public class OpenApiServerVariableTest
     {
+        private OpenApiServerVariable _serverVariable;
+        public OpenApiServerVariableTest()
+        {
+            _serverVariable = new OpenApiServerVariable("default string")
+            {
+                Description = "description string",
+                Enums = new List<string>
+                {
+                    "a",
+                    "b",
+                    "c"
+                }
+            };
+        }
+
         [Fact]
         public void CtorThrowsArgumentNullDefault()
         {
@@ -64,22 +79,32 @@ namespace Microsoft.OData.OpenAPI.Tests
 }"
 .Replace();
 
-            OpenApiServerVariable sv = new OpenApiServerVariable("default string")
-            {
-                Description = "description string",
-                Enums = new List<string>
-                {
-                    "a",
-                    "b",
-                    "c"
-                }
-            };
-
             // Act
-            string actual = sv.WriteToJson();
+            string actual = _serverVariable.WriteToJson();
 
             // Assert
             Assert.Equal(expect, actual);
         }
+/*
+        [Fact]
+        public void WriteServerVariableWithPropertiesToYamlStreamWorks()
+        {
+            // Arrange
+            string expect = @"
+default: default string,
+description: description string,
+enum:
+- a,
+- b,
+- c
+"
+.Replace();
+
+            // Act
+            string actual = _serverVariable.WriteToYaml();
+
+            // Assert
+            Assert.Equal(expect, actual);
+        }*/
     }
 }

@@ -26,21 +26,21 @@ namespace Microsoft.OData.OpenAPI
         {
             if (writer == null)
             {
-                throw Error.ArgumentNull("writer");
+                throw Error.ArgumentNull(nameof(writer));
             }
 
             if (String.IsNullOrWhiteSpace(name))
             {
-                throw Error.ArgumentNullOrEmpty("name");
+                throw Error.ArgumentNullOrEmpty(nameof(name));
             }
 
             writer.WritePropertyName(name);
-            writer.WriteStartObject();
+            // writer.WriteStartObject();
             if (element != null)
             {
                 element.Write(writer);
             }
-            writer.WriteEndObject();
+            // writer.WriteEndObject();
         }
 
         /// <summary>
@@ -147,6 +147,104 @@ namespace Microsoft.OData.OpenAPI
             }
 
             writer.WriteEndObject();
+        }
+
+        public static void WriteRequiredProperty(this IOpenApiWriter writer, string name,
+            object value)
+        {
+            if (writer == null)
+            {
+                throw Error.ArgumentNull("writer");
+            }
+
+            if (String.IsNullOrWhiteSpace(name))
+            {
+                throw Error.ArgumentNullOrEmpty("name");
+            }
+
+            writer.WriteStartProperty(name);
+            writer.WriteValue(value);
+            writer.WriteEndProperty();
+        }
+
+        public static void WriteOptionalProperty(this IOpenApiWriter writer, string name,
+            object value)
+        {
+            if (writer == null)
+            {
+                throw Error.ArgumentNull("writer");
+            }
+
+            if (String.IsNullOrWhiteSpace(name))
+            {
+                throw Error.ArgumentNullOrEmpty("name");
+            }
+
+            if (value == null)
+            {
+                return;
+            }
+
+            writer.WriteRequiredProperty(name, value);
+        }
+
+        public static void WriteProperty(this IOpenApiWriter writer, string name,
+            Action valueAction)
+        {
+            if (writer == null)
+            {
+                throw Error.ArgumentNull("writer");
+            }
+
+            if (String.IsNullOrWhiteSpace(name))
+            {
+                throw Error.ArgumentNullOrEmpty("name");
+            }
+
+            if (valueAction == null)
+            {
+                return;
+            }
+
+            writer.WriteStartProperty(name);
+            valueAction();
+            writer.WriteEndProperty();
+        }
+
+        public static void WriteObject(this IOpenApiWriter writer, Action objectAction)
+        {
+            if (writer == null)
+            {
+                throw Error.ArgumentNull("writer");
+            }
+
+            if (objectAction == null)
+            {
+                throw Error.ArgumentNull("valueAction");
+            }
+
+            writer.WriteStartObject();
+
+            objectAction();
+
+            writer.WriteEndObject();
+        }
+
+        public static void WriteArray(this IOpenApiWriter writer, Action ArrayAction)
+        {
+            if (writer == null)
+            {
+                throw Error.ArgumentNull("writer");
+            }
+
+            if (ArrayAction == null)
+            {
+                throw Error.ArgumentNull("valueAction");
+            }
+
+            writer.WriteStartArray();
+            ArrayAction();
+            writer.WriteEndArray();
         }
     }
 }

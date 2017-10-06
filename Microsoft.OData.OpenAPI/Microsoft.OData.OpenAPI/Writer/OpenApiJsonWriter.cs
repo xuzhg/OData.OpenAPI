@@ -9,20 +9,32 @@ using System.IO;
 namespace Microsoft.OData.OpenAPI
 {
     /// <summary>
-    /// JSON Writer for Open API
+    /// JSON Writer.
     /// </summary>
     internal class OpenApiJsonWriter : OpenApiWriterBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OpenApiJsonWriter"/> class.
+        /// </summary>
+        /// <param name="textWriter">The text writer.</param>
         public OpenApiJsonWriter(TextWriter textWriter)
             : this(textWriter, new OpenApiWriterSettings())
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OpenApiJsonWriter"/> class.
+        /// </summary>
+        /// <param name="textWriter">The text writer.</param>
+        /// <param name="settings">The writer settings.</param>
         public OpenApiJsonWriter(TextWriter textWriter, OpenApiWriterSettings settings)
             : base(textWriter, settings)
         {
         }
 
+        /// <summary>
+        /// Write JSON start object.
+        /// </summary>
         public override void WriteStartObject()
         {
             StartScope(ScopeType.Object);
@@ -30,6 +42,9 @@ namespace Microsoft.OData.OpenAPI
             IncreaseIndentation();
         }
 
+        /// <summary>
+        /// Write JSOn end object.
+        /// </summary>
         public override void WriteEndObject()
         {
             Scope current = EndScope(ScopeType.Object);
@@ -46,9 +61,11 @@ namespace Microsoft.OData.OpenAPI
             }
 
             Writer.Write(JsonConstants.EndObjectScope);
-            
         }
 
+        /// <summary>
+        /// Write JSON start array.
+        /// </summary>
         public override void WriteStartArray()
         {
             StartScope(ScopeType.Array);
@@ -56,6 +73,9 @@ namespace Microsoft.OData.OpenAPI
             IncreaseIndentation();
         }
 
+        /// <summary>
+        /// Write JSON end array.
+        /// </summary>
         public override void WriteEndArray()
         {
             Scope current = EndScope(ScopeType.Array);
@@ -74,9 +94,22 @@ namespace Microsoft.OData.OpenAPI
             Writer.Write(JsonConstants.EndArrayScope);
         }
 
+        /// <summary>
+        /// Write property name.
+        /// </summary>
+        /// <param name="name">The property name.</param>
         public override void WritePropertyName(string name)
         {
-            base.WritePropertyName(name);
+            ValifyCanWritePropertyName(name);
+
+            Scope currentScope = CurrentScope();
+            if (currentScope.ObjectCount != 0)
+            {
+                Writer.Write(JsonConstants.ObjectMemberSeparator);
+            }
+            Writer.WriteLine();
+
+            currentScope.ObjectCount++;
 
             // JsonValueUtils.WriteEscapedJsonString(this.writer, name);
             WriteIndentation();

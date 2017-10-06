@@ -65,5 +65,7 @@ namespace Microsoft.OData.OpenAPI
                 return this.type;
             }
         }
+
+        public bool IsInArray { get; set; } = false;
     }
 }

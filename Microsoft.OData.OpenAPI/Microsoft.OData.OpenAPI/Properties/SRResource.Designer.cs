@@ -95,5 +95,23 @@ namespace Microsoft.OData.OpenAPI.Properties {
                 return ResourceManager.GetString("OpenApiObjectMarkAsReference", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The active scope must be an object scope for name &apos;{0}&apos; to be written..
+        /// </summary>
+        internal static string OpenApiWriterMustBeObjectScope {
+            get {
+                return ResourceManager.GetString("OpenApiWriterMustBeObjectScope", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There must be an active scope for name &apos;{0}&apos; to be written..
+        /// </summary>
+        internal static string OpenApiWriterMustHaveActiveScope {
+            get {
+                return ResourceManager.GetString("OpenApiWriterMustHaveActiveScope", resourceCulture);
+            }
+        }
     }
 }

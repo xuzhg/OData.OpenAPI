@@ -8,9 +8,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using Microsoft.OData.OpenAPI.Properties;
 
 namespace Microsoft.OData.OpenAPI
 {
+    /// <summary>
+    /// Base class for Open API writer.
+    /// </summary>
     internal abstract class OpenApiWriterBase : IOpenApiWriter
     {
         /// <summary>
@@ -26,18 +30,24 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// Scope of the Open API element - object, array, property.
         /// </summary>
-        private readonly Stack<Scope> scopes;
+        protected readonly Stack<Scope> scopes;
 
         /// <summary>
         /// Number which specifies the level of indentation. Starts with 0 which means no indentation.
         /// </summary>
         private OpenApiWriterSettings settings;
 
+        protected virtual int IndentShift { get { return 0; } }
+
         protected TextWriter Writer { get; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OpenApiWriterBase"/> class.
+        /// </summary>
+        /// <param name="textWriter">The text writer.</param>
+        /// <param name="settings">The writer settings.</param>
         public OpenApiWriterBase(TextWriter textWriter, OpenApiWriterSettings settings)
         {
-            //Writer = new IndentedTextWriter(textWriter);
             Writer = textWriter;
             Writer.NewLine = "\n";
 
@@ -45,19 +55,41 @@ namespace Microsoft.OData.OpenAPI
             this.settings = settings;
         }
 
-        public virtual void WriteStartObject()
-        {
-            StartScope(ScopeType.Object);
-        }
+        /// <summary>
+        /// Write start object.
+        /// </summary>
+        public abstract void WriteStartObject();
 
-        public virtual void WriteEndObject()
-        {
-            EndScope(ScopeType.Object);
-        }
+        /// <summary>
+        /// Write end object.
+        /// </summary>
+        public abstract void WriteEndObject();
 
+        /// <summary>
+        /// Write start array.
+        /// </summary>
         public abstract void WriteStartArray();
 
+        /// <summary>
+        /// Write end array.
+        /// </summary>
         public abstract void WriteEndArray();
+
+        /// <summary>
+        /// Write the start property.
+        /// </summary>
+        public virtual void WriteStartProperty(string name)
+        {
+
+        }
+
+        /// <summary>
+        /// Write the end property.
+        /// </summary>
+        public virtual void WriteEndProperty()
+        {
+
+        }
 
         public void Flush()
         {
@@ -133,8 +165,8 @@ namespace Microsoft.OData.OpenAPI
         public virtual void WritePropertyName(string name)
         {
             Debug.Assert(!string.IsNullOrEmpty(name), "The name must be specified.");
-            Debug.Assert(this.scopes.Count > 0, "There must be an active scope for name to be written.");
-            Debug.Assert(this.scopes.Peek().Type == ScopeType.Object, "The active scope must be an object scope for name to be written.");
+//            Debug.Assert(this.scopes.Count > 0, "There must be an active scope for name to be written.");
+//            Debug.Assert(this.scopes.Peek().Type == ScopeType.Object, "The active scope must be an object scope for name to be written.");
 
             Scope currentScope = CurrentScope();
             Debug.Assert(currentScope != null);
@@ -177,7 +209,15 @@ namespace Microsoft.OData.OpenAPI
         /// </summary>
         public virtual void WriteIndentation()
         {
-            for (int i = 0; i < indentLevel; i++)
+            for (int i = 0; i < (indentLevel + IndentShift); i++)
+            {
+                Writer.Write(IndentationString);
+            }
+        }
+
+        public virtual void WritePrefixIndentation()
+        {
+            for (int i = 0; i < (indentLevel + IndentShift - 1); i++)
             {
                 Writer.Write(IndentationString);
             }
@@ -220,7 +260,7 @@ namespace Microsoft.OData.OpenAPI
         /// Start the scope given the scope type.
         /// </summary>
         /// <param name="type">The scope type to start.</param>
-        protected void StartScope(ScopeType type)
+        protected Scope StartScope(ScopeType type)
         {
             if (scopes.Count != 0)
             {
@@ -236,6 +276,7 @@ namespace Microsoft.OData.OpenAPI
 
             Scope scope = new Scope(type);
             this.scopes.Push(scope);
+            return scope;
         }
 
         protected Scope EndScope(ScopeType type)
@@ -243,6 +284,54 @@ namespace Microsoft.OData.OpenAPI
             Debug.Assert(scopes.Count > 0, "No scope to end.");
             Debug.Assert(scopes.Peek().Type == type, "Ending scope does not match.");
             return scopes.Pop();
+        }
+
+        protected void IncreaseScopeObject()
+        {
+            ++this.scopes.Peek().ObjectCount;
+        }
+
+        protected bool IsObjectScope()
+        {
+            return IsScopeType(ScopeType.Object);
+        }
+
+        protected bool IsArrayScope()
+        {
+            return IsScopeType(ScopeType.Array);
+        }
+
+        protected bool IsPropertyScope()
+        {
+            return IsScopeType(ScopeType.Property);
+        }
+
+        private bool IsScopeType(ScopeType type)
+        {
+            if (scopes.Count == 0)
+            {
+                return false;
+            }
+
+            return scopes.Peek().Type == type;
+        }
+
+        protected void ValifyCanWritePropertyName(string name)
+        {
+            if (String.IsNullOrWhiteSpace(name))
+            {
+                throw Error.ArgumentNullOrEmpty(nameof(name));
+            }
+
+            if (this.scopes.Count == 0)
+            {
+                throw new OpenApiException(String.Format(SRResource.OpenApiWriterMustHaveActiveScope, name));
+            }
+
+            if (this.scopes.Peek().Type != ScopeType.Object)
+            {
+                throw new OpenApiException(String.Format(SRResource.OpenApiWriterMustBeObjectScope, name));
+            }
         }
     }
 }
