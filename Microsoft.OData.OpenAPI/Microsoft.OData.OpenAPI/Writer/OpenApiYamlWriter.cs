@@ -60,7 +60,7 @@ namespace Microsoft.OData.OpenAPI
 
             if (current.ObjectCount == 0)
             {
-                Writer.Write(JsonConstants.WhiteSpaceForEmptyObjectArray);
+                Writer.Write(WriterConstants.WhiteSpaceForEmptyObjectArray);
             }
 
             DecreaseIndentation();
@@ -101,7 +101,7 @@ namespace Microsoft.OData.OpenAPI
 
                     WritePrefixIndentation();
 
-                    Writer.Write(JsonConstants.PrefixOfArrayItem);
+                    Writer.Write(WriterConstants.PrefixOfArrayItem);
                 }
                 else
                 {
@@ -115,7 +115,7 @@ namespace Microsoft.OData.OpenAPI
             }
 
             Writer.Write(name);
-            Writer.Write(JsonConstants.NameValueSeparator);
+            Writer.Write(WriterConstants.NameValueSeparator);
 
             ++current.ObjectCount;
 
@@ -149,7 +149,7 @@ namespace Microsoft.OData.OpenAPI
             {
                 Writer.WriteLine();
                 WriteIndentation();
-                Writer.Write(JsonConstants.PrefixOfArrayItem);
+                Writer.Write(WriterConstants.PrefixOfArrayItem);
             }
         }
     }

@@ -241,7 +241,7 @@ namespace Microsoft.OData.OpenAPI
                 if ((currentScope.Type == ScopeType.Array) &&
                     (currentScope.ObjectCount != 0))
                 {
-                    Writer.Write(JsonConstants.ArrayElementSeparator);
+                    Writer.Write(WriterConstants.ArrayElementSeparator);
                 }
 
                 currentScope.ObjectCount++;

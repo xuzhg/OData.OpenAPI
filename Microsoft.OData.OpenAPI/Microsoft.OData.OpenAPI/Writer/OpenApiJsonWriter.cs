@@ -47,7 +47,7 @@ namespace Microsoft.OData.OpenAPI
                 WriteIndentation();
             }
 
-            Writer.Write(JsonConstants.StartObjectScope);
+            Writer.Write(WriterConstants.StartObjectScope);
             IncreaseIndentation();
         }
 
@@ -65,11 +65,11 @@ namespace Microsoft.OData.OpenAPI
             }
             else
             {
-                Writer.Write(JsonConstants.WhiteSpaceForEmptyObjectArray);
+                Writer.Write(WriterConstants.WhiteSpaceForEmptyObjectArray);
                 DecreaseIndentation();
             }
 
-            Writer.Write(JsonConstants.EndObjectScope);
+            Writer.Write(WriterConstants.EndObjectScope);
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Microsoft.OData.OpenAPI
         public override void WriteStartArray()
         {
             StartScope(ScopeType.Array);
-            this.Writer.Write(JsonConstants.StartArrayScope);
+            this.Writer.Write(WriterConstants.StartArrayScope);
             IncreaseIndentation();
         }
 
@@ -96,11 +96,11 @@ namespace Microsoft.OData.OpenAPI
             }
             else
             {
-                Writer.Write(JsonConstants.WhiteSpaceForEmptyObjectArray);
+                Writer.Write(WriterConstants.WhiteSpaceForEmptyObjectArray);
                 DecreaseIndentation();
             }
 
-            Writer.Write(JsonConstants.EndArrayScope);
+            Writer.Write(WriterConstants.EndArrayScope);
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace Microsoft.OData.OpenAPI
             Scope currentScope = CurrentScope();
             if (currentScope.ObjectCount != 0)
             {
-                Writer.Write(JsonConstants.ObjectMemberSeparator);
+                Writer.Write(WriterConstants.ObjectMemberSeparator);
             }
             Writer.WriteLine();
 
@@ -124,10 +124,10 @@ namespace Microsoft.OData.OpenAPI
             // JsonValueUtils.WriteEscapedJsonString(this.writer, name);
             WriteIndentation();
 
-            Writer.Write(JsonConstants.QuoteCharacter);
+            Writer.Write(WriterConstants.QuoteCharacter);
             Writer.Write(name);
-            Writer.Write(JsonConstants.QuoteCharacter);
-            Writer.Write(JsonConstants.NameValueSeparator);
+            Writer.Write(WriterConstants.QuoteCharacter);
+            Writer.Write(WriterConstants.NameValueSeparator);
 
             base.WriteStartProperty(name);
         }
@@ -142,9 +142,9 @@ namespace Microsoft.OData.OpenAPI
 
             value = value.Replace("\n", "\\n");
 
-            Writer.Write(JsonConstants.QuoteCharacter);
+            Writer.Write(WriterConstants.QuoteCharacter);
             Writer.Write(value);
-            Writer.Write(JsonConstants.QuoteCharacter);
+            Writer.Write(WriterConstants.QuoteCharacter);
         }
 
         public override void WriteNull()
@@ -167,7 +167,7 @@ namespace Microsoft.OData.OpenAPI
             {
                 if (currentScope.ObjectCount != 0)
                 {
-                    Writer.Write(JsonConstants.ArrayElementSeparator);
+                    Writer.Write(WriterConstants.ArrayElementSeparator);
                 }
 
                 Writer.WriteLine();

@@ -148,13 +148,13 @@ namespace Microsoft.OData.OpenAPI
             Scope currentScope = this.scopes.Peek();
             if (currentScope.ObjectCount != 0)
             {
-                this.writer.Write(JsonConstants.ObjectMemberSeparator);
+                this.writer.Write(WriterConstants.ObjectMemberSeparator);
             }
 
             currentScope.ObjectCount++;
 
             JsonValueUtils.WriteEscapedJsonString(this.writer, name);
-            this.writer.Write(JsonConstants.NameValueSeparator);
+            this.writer.Write(WriterConstants.NameValueSeparator);
         }
 
         /// <summary>
@@ -363,7 +363,7 @@ namespace Microsoft.OData.OpenAPI
             {
                 if (currentScope.ObjectCount != 0)
                 {
-                    this.writer.Write(JsonConstants.ArrayElementSeparator);
+                    this.writer.Write(WriterConstants.ArrayElementSeparator);
                 }
 
                 currentScope.ObjectCount++;
@@ -382,7 +382,7 @@ namespace Microsoft.OData.OpenAPI
                 if ((currentScope.Type == ScopeType.Array) &&
                     (currentScope.ObjectCount != 0))
                 {
-                    this.writer.Write(JsonConstants.ArrayElementSeparator);
+                    this.writer.Write(WriterConstants.ArrayElementSeparator);
                 }
 
                 currentScope.ObjectCount++;
@@ -421,16 +421,16 @@ namespace Microsoft.OData.OpenAPI
                 switch (type)
                 {
                     case ScopeType.Array:
-                        this.StartString = JsonConstants.StartArrayScope;
-                        this.EndString = JsonConstants.EndArrayScope;
+                        this.StartString = WriterConstants.StartArrayScope;
+                        this.EndString = WriterConstants.EndArrayScope;
                         break;
                     case ScopeType.Object:
-                        this.StartString = JsonConstants.StartObjectScope;
-                        this.EndString = JsonConstants.EndObjectScope;
+                        this.StartString = WriterConstants.StartObjectScope;
+                        this.EndString = WriterConstants.EndObjectScope;
                         break;
                     case ScopeType.Padding:
-                        this.StartString = JsonConstants.StartPaddingFunctionScope;
-                        this.EndString = JsonConstants.EndPaddingFunctionScope;
+                        this.StartString = WriterConstants.StartPaddingFunctionScope;
+                        this.EndString = WriterConstants.EndPaddingFunctionScope;
                         break;
                 }
             }

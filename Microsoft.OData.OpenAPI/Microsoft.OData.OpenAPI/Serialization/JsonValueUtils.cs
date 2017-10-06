@@ -58,7 +58,7 @@ namespace Microsoft.OData.OpenAPI
         {
             Debug.Assert(writer != null, "writer != null");
 
-            writer.Write(value ? JsonConstants.JsonTrueLiteral : JsonConstants.JsonFalseLiteral);
+            writer.Write(value ? WriterConstants.JsonTrueLiteral : WriterConstants.JsonFalseLiteral);
         }
 
         /// <summary>
@@ -215,9 +215,9 @@ namespace Microsoft.OData.OpenAPI
                         // offset = 4DIGIT
                         string textValue = String.Format(
                             CultureInfo.InvariantCulture,
-                            JsonConstants.ODataDateTimeOffsetFormat,
+                            WriterConstants.ODataDateTimeOffsetFormat,
                             DateTimeTicksToJsonTicks(value.Ticks),
-                            offsetMinutes >= 0 ? JsonConstants.ODataDateTimeOffsetPlusSign : string.Empty,
+                            offsetMinutes >= 0 ? WriterConstants.ODataDateTimeOffsetPlusSign : string.Empty,
                             offsetMinutes);
                         WriteQuoted(writer, textValue);
                     }
@@ -297,7 +297,7 @@ namespace Microsoft.OData.OpenAPI
 
             if (value == null)
             {
-                writer.Write(JsonConstants.JsonNullLiteral);
+                writer.Write(WriterConstants.JsonNullLiteral);
             }
             else
             {
@@ -316,13 +316,13 @@ namespace Microsoft.OData.OpenAPI
 
             if (value == null)
             {
-                writer.Write(JsonConstants.JsonNullLiteral);
+                writer.Write(WriterConstants.JsonNullLiteral);
             }
             else
             {
-                writer.Write(JsonConstants.QuoteCharacter);
+                writer.Write(WriterConstants.QuoteCharacter);
                 writer.Write(Convert.ToBase64String(value));
-                writer.Write(JsonConstants.QuoteCharacter);
+                writer.Write(WriterConstants.QuoteCharacter);
             }
         }
 
@@ -336,7 +336,7 @@ namespace Microsoft.OData.OpenAPI
             Debug.Assert(writer != null, "writer != null");
             Debug.Assert(inputString != null, "The string value must not be null.");
 
-            writer.Write(JsonConstants.QuoteCharacter);
+            writer.Write(WriterConstants.QuoteCharacter);
 
             int startIndex = 0;
             int inputStringLength = inputString.Length;
@@ -369,7 +369,7 @@ namespace Microsoft.OData.OpenAPI
                 writer.Write(inputString.Substring(startIndex, subStrLength));
             }
 
-            writer.Write(JsonConstants.QuoteCharacter);
+            writer.Write(WriterConstants.QuoteCharacter);
         }
 
         /// <summary>
@@ -413,9 +413,9 @@ namespace Microsoft.OData.OpenAPI
         /// <param name="text">String value to be written.</param>
         private static void WriteQuoted(TextWriter writer, string text)
         {
-            writer.Write(JsonConstants.QuoteCharacter);
+            writer.Write(WriterConstants.QuoteCharacter);
             writer.Write(text);
-            writer.Write(JsonConstants.QuoteCharacter);
+            writer.Write(WriterConstants.QuoteCharacter);
         }
 
         /// <summary>
