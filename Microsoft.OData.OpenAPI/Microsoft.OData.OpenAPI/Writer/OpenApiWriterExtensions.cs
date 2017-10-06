@@ -34,13 +34,12 @@ namespace Microsoft.OData.OpenAPI
                 throw Error.ArgumentNullOrEmpty(nameof(name));
             }
 
-            writer.WritePropertyName(name);
-            // writer.WriteStartObject();
+            writer.WriteStartProperty(name);
             if (element != null)
             {
                 element.Write(writer);
             }
-            // writer.WriteEndObject();
+            writer.WriteEndProperty();
         }
 
         /// <summary>
@@ -81,7 +80,7 @@ namespace Microsoft.OData.OpenAPI
                 throw Error.ArgumentNullOrEmpty("name");
             }
 
-            writer.WritePropertyName(name);
+            writer.WriteStartProperty(name);
             writer.WriteStartArray();
             if (elements != null)
             {
@@ -92,6 +91,7 @@ namespace Microsoft.OData.OpenAPI
             }
 
             writer.WriteEndArray();
+            writer.WriteEndProperty();
         }
 
         public static void WriteDictionary<T>(this IOpenApiWriter writer, IEnumerable<T> element)
@@ -132,21 +132,23 @@ namespace Microsoft.OData.OpenAPI
                 return;
             }
 
-            writer.WritePropertyName(name);
+            writer.WriteStartProperty(name);
             writer.WriteStartObject();
 
             if (dics != null)
             {
                 foreach (KeyValuePair<string,T> e in dics)
                 {
-                    writer.WritePropertyName(e.Key);
+                    writer.WriteStartProperty(e.Key);
                     writer.WriteStartObject();
                     e.Value.Write(writer);
                     writer.WriteEndObject();
+                    writer.WriteEndProperty();
                 }
             }
 
             writer.WriteEndObject();
+            writer.WriteEndProperty();
         }
 
         public static void WriteRequiredProperty(this IOpenApiWriter writer, string name,

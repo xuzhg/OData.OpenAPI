@@ -106,7 +106,7 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteStartObject();
 
             // openapi:3.0.0
-            writer.WriteProperty(OpenApiConstants.OpenApiDocOpenApi, OpenApi.ToString());
+            writer.WriteRequiredProperty(OpenApiConstants.OpenApiDocOpenApi, OpenApi.ToString());
 
             // info
             writer.WriteObject(OpenApiConstants.OpenApiDocInfo, Info);

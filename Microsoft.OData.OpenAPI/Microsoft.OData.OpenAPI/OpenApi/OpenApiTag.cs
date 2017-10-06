@@ -63,7 +63,7 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteStartObject();
 
             // name
-            writer.WriteProperty(OpenApiConstants.OpenApiDocName, Name);
+            writer.WriteRequiredProperty(OpenApiConstants.OpenApiDocName, Name);
 
             // description
             writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocDescription, Description);

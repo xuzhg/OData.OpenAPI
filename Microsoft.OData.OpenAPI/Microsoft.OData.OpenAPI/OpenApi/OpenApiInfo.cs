@@ -80,7 +80,7 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteStartObject();
 
             // title
-            writer.WriteProperty(OpenApiConstants.OpenApiDocTitle, Title);
+            writer.WriteRequiredProperty(OpenApiConstants.OpenApiDocTitle, Title);
 
             // description
             writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocDescription, Description);
@@ -95,7 +95,7 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteOptionalObject(OpenApiConstants.OpenApiDocLicense, License);
 
             // version
-            writer.WriteProperty(OpenApiConstants.OpenApiDocVersion, Version.ToString());
+            writer.WriteRequiredProperty(OpenApiConstants.OpenApiDocVersion, Version.ToString());
 
             // specification extensions
             writer.WriteDictionary(Extensions);

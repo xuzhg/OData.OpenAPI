@@ -42,19 +42,14 @@ namespace Microsoft.OData.OpenAPI
         void WriteEndProperty();
 
         /// <summary>
-        /// Flush the writer.
-        /// </summary>
-        void Flush();
-
-        /// <summary>
         /// Write the property name.
         /// </summary>
-        void WritePropertyName(string name);
+        // void WritePropertyName(string name);
 
         /// <summary>
         /// Write the property name & property value.
         /// </summary>
-        void WriteProperty(string name, string value);
+        // void WriteProperty(string name, string value);
 
         /// <summary>
         /// Write the property name & property value.
@@ -91,5 +86,10 @@ namespace Microsoft.OData.OpenAPI
         /// </summary>
         /// <param name="value"></param>
         void WriteValue(object value);
+
+        /// <summary>
+        /// Flush the writer.
+        /// </summary>
+        void Flush();
     }
 }

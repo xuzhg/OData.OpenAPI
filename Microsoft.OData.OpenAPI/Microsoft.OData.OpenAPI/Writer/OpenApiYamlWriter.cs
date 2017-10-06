@@ -119,15 +119,7 @@ namespace Microsoft.OData.OpenAPI
 
             ++current.ObjectCount;
 
-            StartScope(ScopeType.Property);
-        }
-
-        /// <summary>
-        /// Write the end property.
-        /// </summary>
-        public override void WriteEndProperty()
-        {
-            EndScope(ScopeType.Property);
+            base.WriteStartProperty(name);
         }
 
         /// <summary>

@@ -141,7 +141,7 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteStartObject();
 
             // description
-            writer.WriteProperty(OpenApiConstants.OpenApiDocDescription, Description);
+            writer.WriteRequiredProperty(OpenApiConstants.OpenApiDocDescription, Description);
 
             // headers
             writer.WriteDictionary(OpenApiConstants.OpenApiDocHeaders, Headers);

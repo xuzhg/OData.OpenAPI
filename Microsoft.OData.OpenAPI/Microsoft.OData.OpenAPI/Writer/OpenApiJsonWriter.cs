@@ -98,7 +98,8 @@ namespace Microsoft.OData.OpenAPI
         /// Write property name.
         /// </summary>
         /// <param name="name">The property name.</param>
-        public override void WritePropertyName(string name)
+        /// public override void WritePropertyName(string name)
+        public override void WriteStartProperty(string name)
         {
             ValifyCanWritePropertyName(name);
 
@@ -118,6 +119,8 @@ namespace Microsoft.OData.OpenAPI
             Writer.Write(name);
             Writer.Write(JsonConstants.QuoteCharacter);
             Writer.Write(JsonConstants.NameValueSeparator);
+
+            base.WriteStartProperty(name);
         }
 
         public override void WriteValue(string value)

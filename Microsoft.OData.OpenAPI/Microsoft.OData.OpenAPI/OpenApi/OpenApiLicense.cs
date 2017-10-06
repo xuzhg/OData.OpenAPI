@@ -58,7 +58,7 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteStartObject();
 
             // name
-            writer.WriteProperty(OpenApiConstants.OpenApiDocName, Name);
+            writer.WriteRequiredProperty(OpenApiConstants.OpenApiDocName, Name);
 
             // url
             writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocUrl, Url?.OriginalString);

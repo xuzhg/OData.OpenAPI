@@ -49,7 +49,7 @@ namespace Microsoft.OData.OpenAPI
                 throw Error.ArgumentNull("writer");
             }
 
-            writer.WritePropertyName(Name);
+            writer.WriteStartProperty(Name);
 
             if (Value is IOpenApiWritable)
             {
@@ -60,6 +60,8 @@ namespace Microsoft.OData.OpenAPI
                 // TODO: 
                 writer.WriteValue(Value);
             }
+
+            writer.WriteEndProperty();
         }
 
         private static void VerifyExtensionName(string name)

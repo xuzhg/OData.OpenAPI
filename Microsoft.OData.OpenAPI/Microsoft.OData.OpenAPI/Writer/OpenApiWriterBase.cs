@@ -80,7 +80,7 @@ namespace Microsoft.OData.OpenAPI
         /// </summary>
         public virtual void WriteStartProperty(string name)
         {
-
+            StartScope(ScopeType.Property);
         }
 
         /// <summary>
@@ -88,9 +88,12 @@ namespace Microsoft.OData.OpenAPI
         /// </summary>
         public virtual void WriteEndProperty()
         {
-
+            EndScope(ScopeType.Property);
         }
 
+        /// <summary>
+        /// Flush the writer.
+        /// </summary>
         public void Flush()
         {
             this.Writer.Flush();

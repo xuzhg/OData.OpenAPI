@@ -65,7 +65,7 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteStartObject();
 
             // default
-            writer.WriteProperty(OpenApiConstants.OpenApiDocDefault, Default);
+            writer.WriteRequiredProperty(OpenApiConstants.OpenApiDocDefault, Default);
 
             // description
             writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocDescription, Description);
@@ -73,13 +73,14 @@ namespace Microsoft.OData.OpenAPI
             // enums
             if (Enums != null && Enums.Any())
             {
-                writer.WritePropertyName(OpenApiConstants.OpenApiDocEnum);
+                writer.WriteStartProperty(OpenApiConstants.OpenApiDocEnum);
                 writer.WriteStartArray();
                 foreach(string item in Enums)
                 {
                     writer.WriteValue(item);
                 }
                 writer.WriteEndArray();
+                writer.WriteEndProperty();
             }
 
             // specification extensions
