@@ -66,6 +66,9 @@ namespace Microsoft.OData.OpenAPI
             }
         }
 
+        /// <summary>
+        /// Get/Set the whether it is in previous array scope.
+        /// </summary>
         public bool IsInArray { get; set; } = false;
     }
 }
