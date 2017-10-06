@@ -17,7 +17,7 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// Write the single of Open API element.
         /// </summary>
-        /// <typeparam name="T"><see cref="IOpenApiElement"/></typeparam>
+        /// <typeparam name="T"><see cref="IOpenApiWritable"/></typeparam>
         /// <param name="writer">The Open API writer.</param>
         /// <param name="name">The property name.</param>
         /// <param name="element">The Open API element.</param>
@@ -45,7 +45,7 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// Write the single of Open API element if the element is not null, otherwise skip it.
         /// </summary>
-        /// <typeparam name="T"><see cref="IOpenApiElement"/></typeparam>
+        /// <typeparam name="T"><see cref="IOpenApiWritable"/></typeparam>
         /// <param name="writer">The Open API writer.</param>
         /// <param name="name">The property name.</param>
         /// <param name="element">The Open API element.</param>
@@ -63,7 +63,7 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// Write the collection of Open API element.
         /// </summary>
-        /// <typeparam name="T"><see cref="IOpenApiElement"/></typeparam>
+        /// <typeparam name="T"><see cref="IOpenApiWritable"/></typeparam>
         /// <param name="writer">The Open API writer.</param>
         /// <param name="name">The property name.</param>
         /// <param name="elements">The collection of Open API element.</param>
