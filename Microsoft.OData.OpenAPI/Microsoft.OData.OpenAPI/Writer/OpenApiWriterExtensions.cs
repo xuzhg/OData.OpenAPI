@@ -151,45 +151,39 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteEndProperty();
         }
 
-        public static void WriteRequiredProperty(this IOpenApiWriter writer, string name,
-            object value)
+        /// <summary>
+        /// Write the required property even the value is null;
+        /// </summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="name">The property name.</param>
+        /// <param name="value">The property value.</param>
+        public static void WriteRequiredProperty(this IOpenApiWriter writer, string name, object value)
         {
-            if (writer == null)
-            {
-                throw Error.ArgumentNull("writer");
-            }
-
-            if (String.IsNullOrWhiteSpace(name))
-            {
-                throw Error.ArgumentNullOrEmpty("name");
-            }
-
-            writer.WriteStartProperty(name);
-            writer.WriteValue(value);
-            writer.WriteEndProperty();
+            writer.WriteProperty(name, () => writer.WriteValue(value));
         }
 
-        public static void WriteOptionalProperty(this IOpenApiWriter writer, string name,
-            object value)
+        /// <summary>
+        /// Write the optional property.
+        /// </summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="name">The property name.</param>
+        /// <param name="value">The property value.</param>
+        public static void WriteOptionalProperty(this IOpenApiWriter writer, string name, object value)
         {
-            if (writer == null)
-            {
-                throw Error.ArgumentNull("writer");
-            }
-
-            if (String.IsNullOrWhiteSpace(name))
-            {
-                throw Error.ArgumentNullOrEmpty("name");
-            }
-
             if (value == null)
             {
                 return;
             }
 
-            writer.WriteRequiredProperty(name, value);
+             writer.WriteProperty(name, () => writer.WriteValue(value));
         }
 
+        /// <summary>
+        /// Write property with an action.
+        /// </summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="name">The property name.</param>
+        /// <param name="valueAction">The value action.</param>
         public static void WriteProperty(this IOpenApiWriter writer, string name,
             Action valueAction)
         {
@@ -213,6 +207,11 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteEndProperty();
         }
 
+        /// <summary>
+        /// Write an object with an action.
+        /// </summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="objectAction">The object action.</param>
         public static void WriteObject(this IOpenApiWriter writer, Action objectAction)
         {
             if (writer == null)
@@ -232,20 +231,25 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteEndObject();
         }
 
-        public static void WriteArray(this IOpenApiWriter writer, Action ArrayAction)
+        /// <summary>
+        /// Write an array with an action.
+        /// </summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="arrayAction">The array action.</param>
+        public static void WriteArray(this IOpenApiWriter writer, Action arrayAction)
         {
             if (writer == null)
             {
                 throw Error.ArgumentNull("writer");
             }
 
-            if (ArrayAction == null)
+            if (arrayAction == null)
             {
                 throw Error.ArgumentNull("valueAction");
             }
 
             writer.WriteStartArray();
-            ArrayAction();
+            arrayAction();
             writer.WriteEndArray();
         }
     }

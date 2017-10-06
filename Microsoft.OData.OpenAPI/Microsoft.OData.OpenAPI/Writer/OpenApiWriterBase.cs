@@ -220,8 +220,6 @@ namespace Microsoft.OData.OpenAPI
             }
         }
 
-
-
         /// <summary>
         /// Get current scope.
         /// </summary>
@@ -259,11 +257,6 @@ namespace Microsoft.OData.OpenAPI
             Debug.Assert(scopes.Count > 0, "No scope to end.");
             Debug.Assert(scopes.Peek().Type == type, "Ending scope does not match.");
             return scopes.Pop();
-        }
-
-        protected void IncreaseScopeObject()
-        {
-            ++this.scopes.Peek().ObjectCount;
         }
 
         protected bool IsObjectScope()
