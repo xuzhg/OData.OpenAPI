@@ -11,7 +11,7 @@ using Xunit.Abstractions;
 
 namespace Microsoft.OData.OpenAPI.Tests
 {
-    public class OpenApiYamlWriterTest
+    public class OpenApiYamlWriterTest : OpenApiWriterTest
     {
         private readonly ITestOutputHelper output;
 
@@ -21,7 +21,35 @@ namespace Microsoft.OData.OpenAPI.Tests
         }
 
         [Fact]
+        public void WriteEmptyWorks()
+        {
+            // Arrange & Act & Assert
+            Assert.Equal("", WriteEmptyAction.Write(OpenApiTarget.Yaml));
+        }
+
+        [Fact]
         public void WriteEmptyObjectWorks()
+        {
+            // Arrange & Act & Assert
+            Assert.Equal("", WriteEmptyObjectAction.Write(OpenApiTarget.Yaml));
+        }
+
+        [Fact]
+        public void WriteEmptyArrayWorks()
+        {
+            // Arrange & Act & Assert
+            Assert.Equal("", WriteEmptyArrayAction.Write(OpenApiTarget.Yaml));
+        }
+
+        [Fact]
+        public void WriteObjectWithPropertiesWorks()
+        {
+            // Act & Assert
+            Assert.Equal("{\n  \"name\": \"value\"\n}", WriteObjectWithPropertiesAction.Write(OpenApiTarget.Yaml));
+        }
+
+        [Fact]
+        public void WriteEmptyObjectWorks1()
         {
             // Arrange
             Action<OpenApiYamlWriter> writerAction = writer =>
@@ -41,7 +69,7 @@ namespace Microsoft.OData.OpenAPI.Tests
         }
 
         [Fact]
-        public void WriteEmptyArrayWorks()
+        public void WriteEmptyArrayWorks2()
         {
             // Arrange
             Action<OpenApiYamlWriter> writerAction = writer =>
@@ -55,7 +83,7 @@ namespace Microsoft.OData.OpenAPI.Tests
         }
 
         [Fact]
-        public void WriteObjectWithPropertiesWorks()
+        public void WriteObjectWithPropertiesWorks3()
         {
             // Arrange
             Action<OpenApiYamlWriter> writerAction = writer =>

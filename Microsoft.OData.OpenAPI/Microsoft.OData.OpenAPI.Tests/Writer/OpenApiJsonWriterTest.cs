@@ -59,28 +59,28 @@ namespace Microsoft.OData.OpenAPI.Tests
         public void WriteEmptyWorks()
         {
             // Arrange & Act & Assert
-            Assert.Equal("", EmptyAction.Write(OpenApiTarget.Json));
+            Assert.Equal("", WriteEmptyAction.Write(OpenApiTarget.Json));
         }
 
         [Fact]
         public void WriteEmptyObjectWorks()
         {
             // Arrange & Act & Assert
-            Assert.Equal("{ }", EmptyObjectAction.Write(OpenApiTarget.Json));
+            Assert.Equal("{ }", WriteEmptyObjectAction.Write(OpenApiTarget.Json));
         }
 
         [Fact]
         public void WriteEmptyArrayWorks()
         {
             // Arrange & Act & Assert
-            Assert.Equal("[ ]", EmptyArrayAction.Write(OpenApiTarget.Json));
+            Assert.Equal("[ ]", WriteEmptyArrayAction.Write(OpenApiTarget.Json));
         }
 
         [Fact]
         public void WriteObjectWithPropertiesWorks()
         {
             // Act & Assert
-            Assert.Equal("{\n  \"name\": \"value\"\n}", ObjectWithPropertiesAction.Write(OpenApiTarget.Json));
+            Assert.Equal("{\n  \"name\": \"value\"\n}", WriteObjectWithPropertiesAction.Write(OpenApiTarget.Json));
         }
 
         [Fact]

@@ -58,10 +58,11 @@ namespace Microsoft.OData.OpenAPI
         {
             Scope current = EndScope(ScopeType.Object);
 
+            /*
             if (current.ObjectCount == 0)
             {
                 Writer.Write(WriterConstants.WhiteSpaceForEmptyObjectArray);
-            }
+            }*/
 
             DecreaseIndentation();
         }
@@ -80,7 +81,12 @@ namespace Microsoft.OData.OpenAPI
         /// </summary>
         public override void WriteEndArray()
         {
-            EndScope(ScopeType.Array);
+            Scope current = EndScope(ScopeType.Array);
+            /*
+            if (current.ObjectCount == 0)
+            {
+                Writer.Write(WriterConstants.WhiteSpaceForEmptyObjectArray);
+            }*/
             DecreaseIndentation();
         }
 
@@ -148,6 +154,8 @@ namespace Microsoft.OData.OpenAPI
                 Writer.WriteLine();
                 WriteIndentation();
                 Writer.Write(WriterConstants.PrefixOfArrayItem);
+
+                CurrentScope().ObjectCount++;
             }
         }
     }
