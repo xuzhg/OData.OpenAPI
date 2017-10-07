@@ -37,8 +37,14 @@ namespace Microsoft.OData.OpenAPI
         /// </summary>
         private OpenApiWriterSettings settings;
 
+        /// <summary>
+        /// Indentent shift value.
+        /// </summary>
         protected virtual int IndentShift { get { return 0; } }
 
+        /// <summary>
+        /// The text writer.
+        /// </summary>
         protected TextWriter Writer { get; }
 
         /// <summary>
