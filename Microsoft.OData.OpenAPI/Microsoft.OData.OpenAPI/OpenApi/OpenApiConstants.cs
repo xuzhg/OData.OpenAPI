@@ -48,9 +48,17 @@ namespace Microsoft.OData.OpenAPI
 
         public const string OpenApiDocName = "name";
 
+        public const string OpenApiDocSummary = "summary";
+
         public const string OpenApiDocVariables = "variables";
 
         public const string OpenApiDocDescription = "description";
+
+        public const string OpenApiDocValue = "value";
+
+        public const string OpenApiDocExternalValue = "externalValue";
+
+        public const string OpenApiDocDollarRef = "$ref";
 
         public const string OpenApiDocHeaders = "headers";
 

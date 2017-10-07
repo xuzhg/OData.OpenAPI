@@ -35,7 +35,7 @@ namespace Microsoft.OData.OpenAPI.Tests
         }
 
         [Fact]
-        public void CtorSetsDefaultValue()
+        public void CtorSetsDefaultPropertyValue()
         {
             // Arrange & Act
             OpenApiServerVariable sv = new OpenApiServerVariable("default string");
