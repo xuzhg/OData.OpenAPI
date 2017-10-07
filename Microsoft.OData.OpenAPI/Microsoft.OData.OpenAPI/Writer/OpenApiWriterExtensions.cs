@@ -66,8 +66,7 @@ namespace Microsoft.OData.OpenAPI
         /// <param name="writer">The Open API writer.</param>
         /// <param name="name">The property name.</param>
         /// <param name="elements">The collection of Open API element.</param>
-        public static void WriteCollection<T>(this IOpenApiWriter writer, string name, IEnumerable<T> elements)
-            where T : IOpenApiWritable
+        public static void WriteCollection(this IOpenApiWriter writer, string name, IEnumerable<IOpenApiWritable> elements)
         {
             if (writer == null)
             {
@@ -83,7 +82,7 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteStartArray();
             if (elements != null)
             {
-                foreach (T e in elements)
+                foreach (IOpenApiWritable e in elements)
                 {
                     e.Write(writer);
                 }
@@ -138,13 +137,44 @@ namespace Microsoft.OData.OpenAPI
                 foreach (KeyValuePair<string,T> e in dics)
                 {
                     writer.WritePropertyName(e.Key);
-                    writer.WriteStartObject();
                     e.Value.Write(writer);
-                    writer.WriteEndObject();
                 }
             }
 
             writer.WriteEndObject();
+        }
+
+        public static void WriteRequiredCollection<T>(this IOpenApiWriter writer, string name, IEnumerable<T> elements)
+        {
+            writer.WritePropertyName(name);
+            writer.WriteStartArray();
+            if (elements != null)
+            {
+                foreach (T e in elements)
+                {
+                    IOpenApiWritable writableElement = e as IOpenApiWritable;
+                    if (writableElement != null)
+                    {
+                        writableElement.Write(writer);
+                    }
+                    else
+                    {
+                        writer.WriteValue(e);
+                    }
+                }
+            }
+
+            writer.WriteEndArray();
+        }
+
+        public static void WriteOptionalCollection<T>(this IOpenApiWriter writer, string name, IEnumerable<T> elements)
+        {
+            if (elements == null)
+            {
+                return;
+            }
+
+            writer.WriteRequiredCollection(name, elements);
         }
 
         /// <summary>
@@ -172,6 +202,23 @@ namespace Microsoft.OData.OpenAPI
             }
 
              writer.WriteProperty(name, () => writer.WriteValue(value));
+        }
+
+        /// <summary>
+        /// Write the boolean property.
+        /// </summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="name">The property name.</param>
+        /// <param name="value">The property value.</param>
+        /// <param name="defaultValue">The default value.</param>
+        public static void WriteBooleanProperty(this IOpenApiWriter writer, string name, bool value, bool? defaultValue)
+        {
+            if (defaultValue != null && value == defaultValue.Value)
+            {
+                return;
+            }
+
+            writer.WriteProperty(name, () => writer.WriteValue(value));
         }
 
         /// <summary>

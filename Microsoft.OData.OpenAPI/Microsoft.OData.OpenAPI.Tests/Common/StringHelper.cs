@@ -1,10 +1,8 @@
 ﻿//---------------------------------------------------------------------
-// <copyright file="OpenApiTestBase.cs" company="Microsoft">
+// <copyright file="StringHelper.cs" company="Microsoft">
 //      Copyright (C) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 // </copyright>
 //---------------------------------------------------------------------
-
-using Xunit.Abstractions;
 
 namespace Microsoft.OData.OpenAPI.Tests
 {

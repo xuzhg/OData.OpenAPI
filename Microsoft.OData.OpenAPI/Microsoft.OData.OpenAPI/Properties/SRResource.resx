@@ -129,6 +129,12 @@
   <data name="OpenApiObjectMarkAsReference" xml:space="preserve">
     <value>The OpenApi element '{0}' is already marked as reference object.</value>
   </data>
+  <data name="OpenApiParameterRequiredPropertyMandatory" xml:space="preserve">
+    <value>If the parameter location is "path", this property is REQUIRED and its value MUST be true</value>
+  </data>
+  <data name="OpenApiUnsupportedValueType" xml:space="preserve">
+    <value>The type '{0}' is not supported in Open API document.</value>
+  </data>
   <data name="OpenApiWriterMustBeObjectScope" xml:space="preserve">
     <value>The active scope must be an object scope for name '{0}' to be written.</value>
   </data>

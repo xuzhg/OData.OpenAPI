@@ -121,16 +121,6 @@ namespace Microsoft.OData.OpenAPI
         }
 
         /// <summary>
-        /// Write a double value.
-        /// </summary>
-        /// <param name="value">Double value to be written.</param>
-        public virtual void WriteValue(double value)
-        {
-            this.WriteValueSeparator();
-            Writer.Write(value);
-        }
-
-        /// <summary>
         /// Write integer value.
         /// </summary>
         /// <param name="value">The integer value.</param>
@@ -147,11 +137,11 @@ namespace Microsoft.OData.OpenAPI
         public virtual void WriteValue(bool value)
         {
             WriteValueSeparator();
-            Writer.Write(value);
+            Writer.Write(value.ToString().ToLower());
         }
 
         /// <summary>
-        /// Write object value
+        /// Write object value.
         /// </summary>
         /// <param name="value">The object value.</param>
         public virtual void WriteValue(object value)
@@ -162,13 +152,27 @@ namespace Microsoft.OData.OpenAPI
                 return;
             }
 
-            if (value is String)
+            Type type = value.GetType();
+
+            if (type == typeof(string))
             {
                 WriteValue((String)(value));
             }
+            else if (type == typeof(int) || type == typeof(int?))
+            {
+                WriteValue((int)value);
+            }
+            else if (type == typeof(bool) || type == typeof(bool?))
+            {
+                WriteValue((bool)value);
+            }
+            else if (type == typeof(decimal) || type == typeof(decimal))
+            {
+                WriteValue((decimal)value);
+            }
             else
             {
-                // TODO:
+                throw new OpenApiException(String.Format(SRResource.OpenApiUnsupportedValueType, type.FullName));
             }
         }
 
@@ -252,6 +256,16 @@ namespace Microsoft.OData.OpenAPI
             Debug.Assert(scopes.Count > 0, "No scope to end.");
             Debug.Assert(scopes.Peek().Type == type, "Ending scope does not match.");
             return scopes.Pop();
+        }
+
+        protected bool IsTopLevelObjectScope()
+        {
+            if (scopes.Count != 1)
+            {
+                return false;
+            }
+
+            return scopes.Peek().Type == ScopeType.Object;
         }
 
         protected bool IsObjectScope()

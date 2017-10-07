@@ -147,7 +147,7 @@ namespace Microsoft.OData.OpenAPI
 
         public override void WriteNull()
         {
-            Writer.WriteLine("null");
+            Writer.Write("null");
         }
 
         /// <summary>

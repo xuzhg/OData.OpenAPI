@@ -97,6 +97,24 @@ namespace Microsoft.OData.OpenAPI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to If the parameter location is &quot;path&quot;, this property is REQUIRED and its value MUST be true.
+        /// </summary>
+        internal static string OpenApiParameterRequiredPropertyMandatory {
+            get {
+                return ResourceManager.GetString("OpenApiParameterRequiredPropertyMandatory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The type &apos;{0}&apos; is not supported in Open API document..
+        /// </summary>
+        internal static string OpenApiUnsupportedValueType {
+            get {
+                return ResourceManager.GetString("OpenApiUnsupportedValueType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The active scope must be an object scope for name &apos;{0}&apos; to be written..
         /// </summary>
         internal static string OpenApiWriterMustBeObjectScope {

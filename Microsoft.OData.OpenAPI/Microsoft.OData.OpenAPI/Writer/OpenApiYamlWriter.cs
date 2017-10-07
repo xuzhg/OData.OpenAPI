@@ -111,6 +111,10 @@ namespace Microsoft.OData.OpenAPI
                 }
                 else
                 {
+                    if (!IsTopLevelObjectScope())
+                    {
+                        Writer.WriteLine();
+                    }
                     WriteIndentation();
                 }
             }
@@ -121,7 +125,8 @@ namespace Microsoft.OData.OpenAPI
             }
 
             Writer.Write(name);
-            Writer.Write(WriterConstants.NameValueSeparator);
+            // writer.Write(WriterConstants.NameValueSeparator);
+            Writer.Write(":");
 
             ++current.ObjectCount;
         }
@@ -135,6 +140,12 @@ namespace Microsoft.OData.OpenAPI
             WriteValueSeparator();
 
             value = value.Replace("\n", "\\n");
+
+            if (value.StartsWith("#"))
+            {
+                value = "'" + value + "'";
+            }
+
             Writer.Write(value);
         }
 
@@ -156,6 +167,10 @@ namespace Microsoft.OData.OpenAPI
                 Writer.Write(WriterConstants.PrefixOfArrayItem);
 
                 CurrentScope().ObjectCount++;
+            }
+            else
+            {
+                Writer.Write(" ");
             }
         }
     }

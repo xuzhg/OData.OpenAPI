@@ -14,6 +14,10 @@ namespace Microsoft.OData.OpenAPI
 
         public const string OpenApiDocTitle = "title";
 
+        public const string OpenApiDocType = "type";
+
+        public const string OpenApiDocFormat = "format";
+
         public const string OpenApiDocVersion = "version";
 
         public const string OpenApiDocContact = "contact";
@@ -48,11 +52,31 @@ namespace Microsoft.OData.OpenAPI
 
         public const string OpenApiDocName = "name";
 
+        public const string OpenApiDocIn = "in";
+
         public const string OpenApiDocSummary = "summary";
 
         public const string OpenApiDocVariables = "variables";
 
         public const string OpenApiDocDescription = "description";
+
+        public const string OpenApiDocRequired = "required";
+
+        public const string OpenApiDocDeprecated = "deprecated";
+
+        public const string OpenApiDocStyle = "style";
+
+        public const string OpenApiDocExplode = "explode";
+
+        public const string OpenApiDocAllowReserved = "allowReserved";
+
+        public const string OpenApiDocSchema = "schema";
+
+        public const string OpenApiDocExample = "example";
+
+        public const string OpenApiDocExamples = "examples";
+
+        public const string OpenApiDocAllowEmptyValue = "allowEmptyValue";
 
         public const string OpenApiDocValue = "value";
 
@@ -73,6 +97,56 @@ namespace Microsoft.OData.OpenAPI
         public const string OpenApiDocDefault = "default";
 
         public const string OpenApiDocEnum = "enum";
+
+        public const string OpenApiDocMultipleOf = "multipleOf";
+
+        public const string OpenApiDocMaximum = "maximum";
+
+        public const string OpenApiDocExclusiveMaximum = "exclusiveMaximum";
+
+        public const string OpenApiDocMinimum = "minimum";
+
+        public const string OpenApiDocExclusiveMinimum = "exclusiveMinimum";
+
+        public const string OpenApiDocMaxLength = "maxLength";
+
+        public const string OpenApiDocMinLength = "minLength";
+
+        public const string OpenApiDocPattern = "pattern";
+
+        public const string OpenApiDocMaxItems = "maxItems";
+
+        public const string OpenApiDocMinItems = "minItems";
+
+        public const string OpenApiDocUniqueItems = "uniqueItems";
+
+        public const string OpenApiDocMaxProperties = "maxProperties";
+
+        public const string OpenApiDocMinProperties = "minProperties";
+
+        public const string OpenApiDocAllOf = "allOf";
+
+        public const string OpenApiDocOneOf = "oneOf";
+
+        public const string OpenApiDocAnyOf = "anyOf";
+
+        public const string OpenApiDocNot = "not";
+
+        public const string OpenApiDocItems = "items";
+
+        public const string OpenApiDocProperties = "properties";
+
+        public const string OpenApiDocAdditionalProperties = "additionalProperties";
+
+        public const string OpenApiDocNullable = "nullable";
+
+        public const string OpenApiDocDiscriminator = "discriminator";
+
+        public const string OpenApiDocReadOnly = "readOnly";
+
+        public const string OpenApiDocWriteOnly = "writeOnly";
+
+        public const string OpenApiDocXml = "xml";
 
         public const string OpenApiDocDefaultName = "Default Name";
 
