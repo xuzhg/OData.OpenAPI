@@ -57,6 +57,26 @@ namespace Microsoft.OData.OpenAPI.Tests
             return Write(target, action);
         }
 
+        internal static string Write(this Action<IOpenApiWriter> action, OpenApiTarget target)
+        {
+            MemoryStream stream = new MemoryStream();
+            IOpenApiWriter writer;
+            if (target == OpenApiTarget.Yaml)
+            {
+                writer = new OpenApiYamlWriter(new StreamWriter(stream));
+            }
+            else
+            {
+                writer = new OpenApiJsonWriter(new StreamWriter(stream));
+            }
+
+            action(writer);
+            writer.Flush();
+            stream.Position = 0;
+            return new StreamReader(stream).ReadToEnd();
+        }
+
+
         internal static string Write(OpenApiTarget target, Action<IOpenApiWriter> action)
         {
             MemoryStream stream = new MemoryStream();

@@ -1,5 +1,5 @@
 ﻿//---------------------------------------------------------------------
-// <copyright file="OpenApiDocumentTest.cs" company="Microsoft">
+// <copyright file="OpenApiJsonWriterTest.cs" company="Microsoft">
 //      Copyright (C) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 // </copyright>
 //---------------------------------------------------------------------
@@ -11,7 +11,7 @@ using Xunit.Abstractions;
 
 namespace Microsoft.OData.OpenAPI.Tests
 {
-    public class OpenApiJsonWriterTest
+    public class OpenApiJsonWriterTest : OpenApiWriterTest
     {
         private readonly ITestOutputHelper output;
 
@@ -56,35 +56,35 @@ namespace Microsoft.OData.OpenAPI.Tests
         }
 
         [Fact]
+        public void WriteEmptyWorks()
+        {
+            // Arrange & Act & Assert
+            Assert.Equal("", EmptyAction.Write(OpenApiTarget.Json));
+        }
+
+        [Fact]
         public void WriteEmptyObjectWorks()
         {
-            // Arrange
-            Action<OpenApiJsonWriter> writerAction = writer =>
-            {
-                writer.WriteStartObject();
-                writer.WriteEndObject();
-            };
-
-            // Act & Assert
-            Assert.Equal("{ }", Write(writerAction));
+            // Arrange & Act & Assert
+            Assert.Equal("{ }", EmptyObjectAction.Write(OpenApiTarget.Json));
         }
 
         [Fact]
         public void WriteEmptyArrayWorks()
         {
-            // Arrange
-            Action<OpenApiJsonWriter> writerAction = writer =>
-            {
-                writer.WriteStartArray();
-                writer.WriteEndArray();
-            };
-
-            // Act & Assert
-            Assert.Equal("[ ]", Write(writerAction));
+            // Arrange & Act & Assert
+            Assert.Equal("[ ]", EmptyArrayAction.Write(OpenApiTarget.Json));
         }
 
         [Fact]
         public void WriteObjectWithPropertiesWorks()
+        {
+            // Act & Assert
+            Assert.Equal("{\n  \"name\": \"value\"\n}", ObjectWithPropertiesAction.Write(OpenApiTarget.Json));
+        }
+
+        [Fact]
+        public void WriteObjectWithPropertiesWorks2()
         {
             // Arrange
             Action<OpenApiJsonWriter> writerAction = writer =>
