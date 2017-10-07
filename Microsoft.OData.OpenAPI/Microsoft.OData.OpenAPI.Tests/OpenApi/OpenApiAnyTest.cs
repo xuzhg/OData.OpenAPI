@@ -4,8 +4,8 @@
 // </copyright>
 //---------------------------------------------------------------------
 
-using Microsoft.OData.OpenAPI.Properties;
 using System;
+using Microsoft.OData.OpenAPI.Properties;
 using Xunit;
 
 namespace Microsoft.OData.OpenAPI.Tests
@@ -18,7 +18,7 @@ namespace Microsoft.OData.OpenAPI.Tests
         };
 
         [Fact]
-        public void WriteNotsupportedValueTypeThrowNotSupportedException()
+        public void WriteNotSupportedValueTypeThrowNotSupportedException()
         {
             // Arrange & Act & Assert
             var jsonExcep = Assert.Throws<OpenApiException>(() => _wrongAny.WriteToJson());
