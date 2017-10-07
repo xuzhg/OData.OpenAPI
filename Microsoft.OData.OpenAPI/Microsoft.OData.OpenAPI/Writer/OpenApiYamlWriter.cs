@@ -87,7 +87,7 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// Write the start property.
         /// </summary>
-        public override void WriteStartProperty(string name)
+        public override void WritePropertyName(string name)
         {
             ValifyCanWritePropertyName(name);
 
@@ -118,8 +118,6 @@ namespace Microsoft.OData.OpenAPI
             Writer.Write(WriterConstants.NameValueSeparator);
 
             ++current.ObjectCount;
-
-            base.WriteStartProperty(name);
         }
 
         /// <summary>

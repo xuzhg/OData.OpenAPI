@@ -20,11 +20,6 @@ namespace Microsoft.OData.OpenAPI
         /// Array scope.
         /// </summary>
         Array = 1,
-
-        /// <summary>
-        /// Property scope.
-        /// </summary>
-        Property = 2,
     }
 
     /// <summary>

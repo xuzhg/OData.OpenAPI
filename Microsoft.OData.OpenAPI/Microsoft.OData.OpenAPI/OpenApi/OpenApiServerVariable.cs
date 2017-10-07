@@ -73,14 +73,13 @@ namespace Microsoft.OData.OpenAPI
             // enums
             if (Enums != null && Enums.Any())
             {
-                writer.WriteStartProperty(OpenApiConstants.OpenApiDocEnum);
+                writer.WritePropertyName(OpenApiConstants.OpenApiDocEnum);
                 writer.WriteStartArray();
                 foreach(string item in Enums)
                 {
                     writer.WriteValue(item);
                 }
                 writer.WriteEndArray();
-                writer.WriteEndProperty();
             }
 
             // specification extensions

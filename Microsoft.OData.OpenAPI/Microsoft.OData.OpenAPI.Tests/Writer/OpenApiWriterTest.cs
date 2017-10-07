@@ -27,9 +27,8 @@ namespace Microsoft.OData.OpenAPI.Tests
         internal Action<IOpenApiWriter> ObjectWithPropertiesAction { get; } = w =>
         {
             w.WriteStartObject();
-            w.WriteStartProperty("name");
+            w.WritePropertyName("name");
             w.WriteValue("value");
-            w.WriteEndProperty();
             w.WriteEndObject();
         };
     }

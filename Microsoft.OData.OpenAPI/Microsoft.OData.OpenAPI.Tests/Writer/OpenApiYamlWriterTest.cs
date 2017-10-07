@@ -62,13 +62,13 @@ namespace Microsoft.OData.OpenAPI.Tests
             {
                 writer.WriteStartObject();
                 {
-                    writer.WriteStartProperty("security");
+                    writer.WritePropertyName("security");
                     {
                         writer.WriteStartArray();
                         {
                             writer.WriteStartObject();
                             {
-                                writer.WriteStartProperty("petstore_auth");
+                                writer.WritePropertyName("petstore_auth");
                                 {
                                     writer.WriteStartArray();
                                     {
@@ -77,12 +77,11 @@ namespace Microsoft.OData.OpenAPI.Tests
                                     }
                                     writer.WriteEndArray();
                                 }
-                                writer.WriteEndProperty();
 
 
                                 writer.WriteRequiredProperty("abc", "xxxxyyyy");
 
-                                writer.WriteStartProperty("petstore_website");
+                                writer.WritePropertyName("petstore_website");
                                 {
                                     writer.WriteStartArray();
                                     {
@@ -91,13 +90,11 @@ namespace Microsoft.OData.OpenAPI.Tests
                                     }
                                     writer.WriteEndArray();
                                 }
-                                writer.WriteEndProperty();
                             }
                             writer.WriteEndObject();
                         }
                         writer.WriteEndArray();
                     }
-                    writer.WriteEndProperty();
                 }
                 writer.WriteEndObject();
             };

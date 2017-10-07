@@ -32,14 +32,9 @@ namespace Microsoft.OData.OpenAPI
         void WriteEndArray();
 
         /// <summary>
-        /// Write the start property.
+        /// Write the property name.
         /// </summary>
-        void WriteStartProperty(string name);
-
-        /// <summary>
-        /// Write the end property.
-        /// </summary>
-        void WriteEndProperty();
+        void WritePropertyName(string name);
 
         /// <summary>
         /// Write the string value.

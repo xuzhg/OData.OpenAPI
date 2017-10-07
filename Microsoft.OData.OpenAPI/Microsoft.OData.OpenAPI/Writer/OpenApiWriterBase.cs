@@ -78,18 +78,7 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// Write the start property.
         /// </summary>
-        public virtual void WriteStartProperty(string name)
-        {
-            StartScope(ScopeType.Property);
-        }
-
-        /// <summary>
-        /// Write the end property.
-        /// </summary>
-        public virtual void WriteEndProperty()
-        {
-            EndScope(ScopeType.Property);
-        }
+        public abstract void WritePropertyName(string name);
 
         /// <summary>
         /// Writes a separator of a value if it's needed for the next value to be written.
@@ -267,11 +256,6 @@ namespace Microsoft.OData.OpenAPI
         protected bool IsArrayScope()
         {
             return IsScopeType(ScopeType.Array);
-        }
-
-        protected bool IsPropertyScope()
-        {
-            return IsScopeType(ScopeType.Property);
         }
 
         private bool IsScopeType(ScopeType type)

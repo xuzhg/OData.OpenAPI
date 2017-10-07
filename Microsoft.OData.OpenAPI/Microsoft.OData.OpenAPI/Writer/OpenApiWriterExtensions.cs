@@ -34,12 +34,11 @@ namespace Microsoft.OData.OpenAPI
                 throw Error.ArgumentNullOrEmpty(nameof(name));
             }
 
-            writer.WriteStartProperty(name);
+            writer.WritePropertyName(name);
             if (element != null)
             {
                 element.Write(writer);
             }
-            writer.WriteEndProperty();
         }
 
         /// <summary>
@@ -80,7 +79,7 @@ namespace Microsoft.OData.OpenAPI
                 throw Error.ArgumentNullOrEmpty("name");
             }
 
-            writer.WriteStartProperty(name);
+            writer.WritePropertyName(name);
             writer.WriteStartArray();
             if (elements != null)
             {
@@ -91,7 +90,6 @@ namespace Microsoft.OData.OpenAPI
             }
 
             writer.WriteEndArray();
-            writer.WriteEndProperty();
         }
 
         public static void WriteDictionary<T>(this IOpenApiWriter writer, IEnumerable<T> element)
@@ -132,23 +130,21 @@ namespace Microsoft.OData.OpenAPI
                 return;
             }
 
-            writer.WriteStartProperty(name);
+            writer.WritePropertyName(name);
             writer.WriteStartObject();
 
             if (dics != null)
             {
                 foreach (KeyValuePair<string,T> e in dics)
                 {
-                    writer.WriteStartProperty(e.Key);
+                    writer.WritePropertyName(e.Key);
                     writer.WriteStartObject();
                     e.Value.Write(writer);
                     writer.WriteEndObject();
-                    writer.WriteEndProperty();
                 }
             }
 
             writer.WriteEndObject();
-            writer.WriteEndProperty();
         }
 
         /// <summary>
@@ -202,9 +198,8 @@ namespace Microsoft.OData.OpenAPI
                 return;
             }
 
-            writer.WriteStartProperty(name);
+            writer.WritePropertyName(name);
             valueAction();
-            writer.WriteEndProperty();
         }
 
         /// <summary>
