@@ -4,7 +4,6 @@
 // </copyright>
 //---------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 
 namespace Microsoft.OData.OpenAPI
@@ -17,7 +16,7 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// The name of the tag.
         /// </summary>
-        public string Name { get; }
+        public string Name { get; set; } = OpenApiConstants.OpenApiDocDefaultName;
 
         /// <summary>
         /// A short description for the tag.
@@ -35,20 +34,6 @@ namespace Microsoft.OData.OpenAPI
         public IList<OpenApiExtension> Extensions { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OpenApiTag"/> class.
-        /// </summary>
-        /// <param name="name">The tag name.</param>
-        public OpenApiTag(string name)
-        {
-            if (String.IsNullOrWhiteSpace(name))
-            {
-                throw Error.ArgumentNullOrEmpty("name");
-            }
-
-            Name = name;
-        }
-
-        /// <summary>
         /// Write Open API tag object.
         /// </summary>
         /// <param name="writer">The Open API Writer.</param>
@@ -63,13 +48,13 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteStartObject();
 
             // name
-            writer.WriteRequiredProperty(OpenApiConstants.OpenApiDocName, Name);
+            writer.WriteRequired(OpenApiConstants.OpenApiDocName, Name);
 
             // description
-            writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocDescription, Description);
+            writer.WriteOptional(OpenApiConstants.OpenApiDocDescription, Description);
 
             // External Docs
-            writer.WriteOptionalObject(OpenApiConstants.OpenApiDocExternalDocs, ExternalDocs);
+            writer.WriteOptional(OpenApiConstants.OpenApiDocExternalDocs, ExternalDocs);
 
             // specification extensions
             writer.WriteDictionary(Extensions);

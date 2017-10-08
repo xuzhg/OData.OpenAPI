@@ -21,7 +21,11 @@ namespace Microsoft.OData.OpenAPI
 
             foreach(IEdmEntitySet entitySet in model.EntityContainer.EntitySets())
             {
-                OpenApiTag tag = new OpenApiTag(entitySet.Name);
+                OpenApiTag tag = new OpenApiTag
+                {
+                    Name = entitySet.Name
+                };
+
                 doc.Tags.Add(tag);
             }
 
