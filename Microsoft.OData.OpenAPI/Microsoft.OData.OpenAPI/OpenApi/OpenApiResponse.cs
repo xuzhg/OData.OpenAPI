@@ -11,7 +11,7 @@ using Microsoft.OData.OpenAPI.Properties;
 
 namespace Microsoft.OData.OpenAPI
 {
-    internal class OpenApiResponse : IOpenApiElement, IOpenApiWritable, IOpenApiExtensible
+    internal class OpenApiResponse : IOpenApiElement, IOpenApiWritable, IOpenApiExtensible, IOpenApiReferencable
     {
         private IDictionary<string, OpenApiHeader> _headers;
         private IDictionary<string, OpenApiMediaType> _content;
@@ -20,64 +20,22 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// REQUIRED. A short description of the response.
         /// </summary>
-        public string Description { get; }
+        public string Description { get; set; }
 
         /// <summary>
         /// Maps a header name to its definition.
         /// </summary>
-        public IDictionary<string, OpenApiHeader> Headers
-        {
-            get
-            {
-                return _headers;
-            }
-            set
-            {
-                if (Reference != null)
-                {
-                    throw new OpenApiException(String.Format(SRResource.OpenApiObjectMarkAsReference, nameof(OpenApiResponse)));
-                }
-
-                _headers = value;
-            }
-        }
+        public IDictionary<string, OpenApiHeader> Headers { get; set; }
 
         /// <summary>
         /// A map containing descriptions of potential response payloads.
         /// </summary>
-        public IDictionary<string, OpenApiMediaType> Content
-        {
-            get
-            {
-                return _content;
-            }
-            set
-            {
-                if (Reference != null)
-                {
-                    throw new OpenApiException(String.Format(SRResource.OpenApiObjectMarkAsReference, nameof(OpenApiResponse)));
-                }
+        public IDictionary<string, OpenApiMediaType> Content { get; set; }
 
-                _content = value;
-            }
-        }
-
-        public IDictionary<string, OpenApiLink> Links
-        {
-            get
-            {
-                return _link;
-            }
-            set
-            {
-                if (Reference != null)
-                {
-                    throw new OpenApiException(String.Format(SRResource.OpenApiObjectMarkAsReference, nameof(OpenApiResponse)));
-                }
-
-                _link = value;
-            }
-        }
+        /// <summary>
+        /// A map of operations links that can be followed from the response.
+        /// </summary>
+        public IDictionary<string, OpenApiLink> Links { get; set; }
 
         /// <summary>
         /// This object MAY be extended with Specification Extensions.
@@ -87,30 +45,7 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// Reference object.
         /// </summary>
-        public OpenApiReference Reference { get; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OpenApiResponse"/> class.
-        /// </summary>
-        /// <param name="reference">The reference object.</param>
-        public OpenApiResponse(OpenApiReference reference)
-        {
-            Reference = reference ?? throw Error.ArgumentNull("reference");
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OpenApiResponse"/> class.
-        /// </summary>
-        /// <param name="description">A short description of the response.</param>
-        public OpenApiResponse(string description)
-        {
-            if (string.IsNullOrWhiteSpace(description))
-            {
-                throw Error.ArgumentNullOrEmpty("description");
-            }
-
-            Description = description;
-        }
+        public OpenApiReference Reference { get; set; }
 
         /// <summary>
         /// Write Open API response to given writer.

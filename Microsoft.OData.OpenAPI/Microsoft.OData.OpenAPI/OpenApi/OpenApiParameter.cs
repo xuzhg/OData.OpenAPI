@@ -138,7 +138,7 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// Describes how the parameter value will be serialized depending on the type of the parameter value.
         /// </summary>
-        public ParameterStyle Style { get; }
+        public ParameterStyle Style { get; set; }
 
         /// <summary>
         /// When this is true, parameter values of type array or object generate separate parameters for

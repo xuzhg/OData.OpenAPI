@@ -1,15 +1,15 @@
 ﻿//---------------------------------------------------------------------
-// <copyright file="OpenApiPaths.cs" company="Microsoft">
+// <copyright file="OpenApiEncodingTest.cs" company="Microsoft">
 //      Copyright (C) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 // </copyright>
 //---------------------------------------------------------------------
 
-namespace Microsoft.OData.OpenAPI
+using System.Collections.Generic;
+using Xunit;
+
+namespace Microsoft.OData.OpenAPI.Tests
 {
-    /// <summary>
-    /// Paths object.
-    /// </summary>
-    internal class OpenApiPaths : OpenApiDictionaryExtensibleOfT<OpenApiPathItem>
+    public class OpenApiEncodingTest
     {
     }
 }

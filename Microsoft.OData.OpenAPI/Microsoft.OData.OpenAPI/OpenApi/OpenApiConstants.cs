@@ -80,6 +80,8 @@ namespace Microsoft.OData.OpenAPI
 
         public const string OpenApiDocExamples = "examples";
 
+        public const string OpenApiDocEncoding = "encoding";
+
         public const string OpenApiDocRequestBodies = "requestBodies";
 
         public const string OpenApiDocAllowEmptyValue = "allowEmptyValue";
@@ -173,6 +175,17 @@ namespace Microsoft.OData.OpenAPI
         public const string OpenApiDocRefreshUrl = "refreshUrl";
 
         public const string OpenApiDocScopes = "scopes";
+
+        public const string OpenApiDocContentType = "contentType";
+
+        public const string OpenApiDocGet = "get";
+        public const string OpenApiDocPut = "put";
+        public const string OpenApiDocPost = "post";
+        public const string OpenApiDocDelete = "delete";
+        public const string OpenApiDocOptions = "options";
+        public const string OpenApiDocHead = "head";
+        public const string OpenApiDocPatch = "patch";
+        public const string OpenApiDocTrace = "trace";
 
         public const string OpenApiDocDefaultName = "Default Name";
 

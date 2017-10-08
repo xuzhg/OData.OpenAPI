@@ -7,32 +7,9 @@
 namespace Microsoft.OData.OpenAPI
 {
     /// <summary>
-    /// Any object.
+    /// Responses object.
     /// </summary>
-    internal class OpenApiResponses : IOpenApiElement, IOpenApiWritable
+    internal class OpenApiResponses : OpenApiDictionaryExtensibleOfT<OpenApiResponse>
     {
-        /// <summary>
-        /// The default response.
-        /// </summary>
-        public OpenApiResponse Default { get; set; }
-
-        /// <summary>
-        /// Write Any object to the given writer.
-        /// </summary>
-        /// <param name="writer">The writer.</param>
-        public void Write(IOpenApiWriter writer)
-        {
-            if (writer == null)
-            {
-                throw Error.ArgumentNull("writer");
-            }
-
-            // { for json, empty for YAML
-            writer.WriteStartObject();
-
-
-            // } for json, empty for YAML
-            writer.WriteEndObject();
-        }
     }
 }

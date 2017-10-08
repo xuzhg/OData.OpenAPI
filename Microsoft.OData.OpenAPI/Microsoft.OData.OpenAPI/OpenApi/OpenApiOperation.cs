@@ -51,7 +51,7 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// REQUIRED. The list of possible responses as they are returned from executing this operation.
         /// </summary>
-        public IDictionary<string, OpenApiResponse> Responses { get; set; }
+        public OpenApiResponses Responses { get; set; }
 
         /// <summary>
         /// A map of possible out-of band callbacks related to the parent operation.
@@ -61,7 +61,7 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// Declares this operation to be deprecated.
         /// </summary>
-        public bool Deprecated { get; set; }
+        public bool? Deprecated { get; set; }
 
         /// <summary>
         /// Security requirement list.
@@ -114,7 +114,7 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteOptionalObject(OpenApiConstants.OpenApiDocRequestBody, RequestBody);
 
             // responses
-            writer.WriteDictionary(OpenApiConstants.OpenApiDocResponses, Responses);
+            writer.WriteOptionalObject(OpenApiConstants.OpenApiDocResponses, Responses);
 
             // callbacks
             writer.WriteDictionary(OpenApiConstants.OpenApiDocCallbacks, Callbacks);

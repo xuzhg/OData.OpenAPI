@@ -11,7 +11,7 @@ namespace Microsoft.OData.OpenAPI
     /// <summary>
     /// Path Item Object: to describe the operations available on a single path.
     /// </summary>
-    internal class OpenApiPathItem : IOpenApiElement, IOpenApiWritable, IOpenApiExtensible
+    internal class OpenApiPathItem : IOpenApiElement, IOpenApiWritable, IOpenApiExtensible, IOpenApiReferencable
     {
         /// <summary>
         /// An optional, string summary.
@@ -79,7 +79,12 @@ namespace Microsoft.OData.OpenAPI
         public IList<OpenApiExtension> Extensions { get; set; }
 
         /// <summary>
-        /// Write path item object to the given writer.
+        /// Reference Object.
+        /// </summary>
+        public OpenApiReference Reference { get; }
+
+        /// <summary>
+        /// Write Open API response to given writer.
         /// </summary>
         /// <param name="writer">The writer.</param>
         public virtual void Write(IOpenApiWriter writer)
@@ -89,10 +94,61 @@ namespace Microsoft.OData.OpenAPI
                 throw Error.ArgumentNull("writer");
             }
 
+            if (Reference != null)
+            {
+                Reference.Write(writer);
+            }
+            else
+            {
+                WriteInternal(writer);
+            }
+        }
+
+        private void WriteInternal(IOpenApiWriter writer)
+        {
+            if (writer == null)
+            {
+                throw Error.ArgumentNull("writer");
+            }
+
             // { for json, empty for YAML
             writer.WriteStartObject();
 
+            // summary
+            writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocSummary, Summary);
 
+            // description
+            writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocDescription, Description);
+
+            // get
+            writer.WriteOptionalObject(OpenApiConstants.OpenApiDocGet, Get);
+
+            // put
+            writer.WriteOptionalObject(OpenApiConstants.OpenApiDocPut, Put);
+
+            // post
+            writer.WriteOptionalObject(OpenApiConstants.OpenApiDocPost, Post);
+
+            // delete
+            writer.WriteOptionalObject(OpenApiConstants.OpenApiDocDelete, Delete);
+
+            // options
+            writer.WriteOptionalObject(OpenApiConstants.OpenApiDocOptions, Options);
+
+            // head
+            writer.WriteOptionalObject(OpenApiConstants.OpenApiDocHead, Head);
+
+            // patch
+            writer.WriteOptionalObject(OpenApiConstants.OpenApiDocPatch, Patch);
+
+            // trace
+            writer.WriteOptionalObject(OpenApiConstants.OpenApiDocTrace, Trace);
+
+            // servers
+            writer.WriteOptionalCollection(OpenApiConstants.OpenApiDocServers, Servers);
+
+            // parameters
+            writer.WriteOptionalCollection(OpenApiConstants.OpenApiDocParameters, Parameters);
 
             // specification extensions
             writer.WriteDictionary(Extensions);
