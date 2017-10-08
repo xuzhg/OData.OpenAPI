@@ -110,16 +110,8 @@ version: 1.0.1
                 Version = new Version(1, 0, 1),
                 Description = "This is a sample server for a pet store.",
                 TermsOfService = new Uri("http://example.com/terms/"),
-                Contact = new OpenApiContact
-                {
-                    Name = "API Support",
-                    Url = new Uri("http://www.example.com/support"),
-                    Email = "support@example.com"
-                },
-                License = new OpenApiLicense("Apache 2.0")
-                {
-                    Url = new Uri("http://www.apache.org/licenses/LICENSE-2.0.html")
-                }
+                Contact = OpenApiContactTest.AdvanceContact,
+                License = OpenApiLicenseTest.AdvanceLicense
             };
         }
     }

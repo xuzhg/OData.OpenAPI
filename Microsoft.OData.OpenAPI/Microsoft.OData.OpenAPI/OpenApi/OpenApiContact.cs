@@ -1,5 +1,5 @@
 ﻿//---------------------------------------------------------------------
-// <copyright file="EdmModelOpenApiExtensions.cs" company="Microsoft">
+// <copyright file="OpenApiContact.cs" company="Microsoft">
 //      Copyright (C) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 // </copyright>
 //---------------------------------------------------------------------
@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace Microsoft.OData.OpenAPI
 {
     /// <summary>
-    /// Contact Object
+    /// Contact Object.
     /// </summary>
     internal class OpenApiContact : IOpenApiElement, IOpenApiExtensible, IOpenApiWritable
     {
@@ -36,7 +36,7 @@ namespace Microsoft.OData.OpenAPI
         public IList<OpenApiExtension> Extensions { get; set; }
 
         /// <summary>
-        /// Write Open API Contact object to given writer.
+        /// Write Open API Contact object to the given writer.
         /// </summary>
         /// <param name="writer">The writer.</param>
         public virtual void Write(IOpenApiWriter writer)
@@ -50,13 +50,13 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteStartObject();
 
             // name
-            writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocName, Name);
+            writer.WriteOptional(OpenApiConstants.OpenApiDocName, Name);
 
             // url
-            writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocUrl, Url?.OriginalString);
+            writer.WriteOptional(OpenApiConstants.OpenApiDocUrl, Url?.OriginalString);
 
             // email
-            writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocEmail, Email);
+            writer.WriteOptional(OpenApiConstants.OpenApiDocEmail, Email);
 
             // specification extensions
             writer.WriteDictionary(Extensions);

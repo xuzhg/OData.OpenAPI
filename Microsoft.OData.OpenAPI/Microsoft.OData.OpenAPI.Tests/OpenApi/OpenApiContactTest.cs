@@ -1,5 +1,5 @@
 ﻿//---------------------------------------------------------------------
-// <copyright file="OpenApiDocumentTest.cs" company="Microsoft">
+// <copyright file="OpenApiContactTest.cs" company="Microsoft">
 //      Copyright (C) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 // </copyright>
 //---------------------------------------------------------------------
@@ -11,29 +11,30 @@ namespace Microsoft.OData.OpenAPI.Tests
 {
     public class OpenApiContactTest
     {
-        private OpenApiContact basicContact;
-        private OpenApiContact fullContact;
-
-        public OpenApiContactTest()
+        internal static OpenApiContact BasicContact = new OpenApiContact();
+        internal static OpenApiContact AdvanceContact = new OpenApiContact
         {
-            basicContact = new OpenApiContact();
-            fullContact = new OpenApiContact
-            {
-                Name = "API Support",
-                Url = new Uri("http://www.example.com/support"),
-                Email = "support@example.com"
-            };
-        }
+            Name = "API Support",
+            Url = new Uri("http://www.example.com/support"),
+            Email = "support@example.com"
+        };
 
         [Fact]
         public void WriteBasicContactToJsonWorks()
         {
             // Arrange & Act & Assert
-            Assert.Equal("{ }", basicContact.WriteToJson());
+            Assert.Equal("{ }", BasicContact.WriteToJson());
         }
 
         [Fact]
-        public void WriteFullContactToJsonWorks()
+        public void WriteBasicContactToYamlWorks()
+        {
+            // Arrange & Act & Assert
+            Assert.Equal("", BasicContact.WriteToYaml());
+        }
+
+        [Fact]
+        public void WriteAdvanceContactToJsonWorks()
         {
             // Arrange
             string expect = @"
@@ -44,18 +45,8 @@ namespace Microsoft.OData.OpenAPI.Tests
 }"
 .Replace();
 
-            // Act
-            string json = fullContact.WriteToJson();
-
-            // Assert
-            Assert.Equal(expect, json);
-        }
-
-        [Fact]
-        public void WriteBasicContactToYamlWorks()
-        {
-            // Arrange & Act & Assert
-            Assert.Equal(" ", basicContact.WriteToYaml());
+            // Act & Assert
+            Assert.Equal(expect, AdvanceContact.WriteToJson());
         }
 
         [Fact]
@@ -63,17 +54,14 @@ namespace Microsoft.OData.OpenAPI.Tests
         {
             // Arrange
             string expect = @"
-name: API Support,
-url: http://www.example.com/support,
+name: API Support
+url: http://www.example.com/support
 email: support@example.com
 "
 .Replace();
 
-            // Act
-            string yaml = fullContact.WriteToYaml();
-
-            // Assert
-            Assert.Equal(expect, yaml);
+            // Act & Assert
+            Assert.Equal(expect, AdvanceContact.WriteToYaml());
         }
     }
 }

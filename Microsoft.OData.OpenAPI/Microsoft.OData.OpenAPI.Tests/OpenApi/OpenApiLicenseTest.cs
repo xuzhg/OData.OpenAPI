@@ -11,17 +11,31 @@ namespace Microsoft.OData.OpenAPI.Tests
 {
     public class OpenApiLicenseTest
     {
-        private OpenApiLicense basicLicense = new OpenApiLicense("Apache 2.0");
-        private OpenApiLicense fullLicense = new OpenApiLicense("Apache 2.0")
+        internal static OpenApiLicense BasicLicense = new OpenApiLicense();
+        internal static OpenApiLicense AdvanceLicense = new OpenApiLicense
         {
+            Name = "Apache 2.0",
             Url = new Uri("http://www.apache.org/licenses/LICENSE-2.0.html")
         };
 
         [Fact]
         public void WriteBasicLicenseToJsonWorks()
         {
+            // Arrange
+            string expect = @"
+{
+  ""name"": ""Default Name""
+}".Replace();
+
+            // Act & Assert
+            Assert.Equal(expect, BasicLicense.WriteToJson());
+        }
+
+        [Fact]
+        public void WriteBasicLicenseToYamlWorks()
+        {
             // Arrange & Act & Assert
-            Assert.Equal("{ }", basicLicense.WriteToJson());
+            Assert.Equal("name: Default Name", BasicLicense.WriteToYaml());
         }
 
         [Fact]
@@ -30,24 +44,13 @@ namespace Microsoft.OData.OpenAPI.Tests
             // Arrange
             string expect = @"
 {
-  ""name"": ""API Support"",
-  ""url"": ""http://www.example.com/support"",
-  ""email"": ""support@example.com""
+  ""name"": ""Apache 2.0"",
+  ""url"": ""http://www.apache.org/licenses/LICENSE-2.0.html""
 }"
 .Replace();
 
-            // Act
-            string json = fullLicense.WriteToJson();
-
-            // Assert
-            Assert.Equal(expect, json);
-        }
-
-        [Fact]
-        public void WriteBasicLicenseToYamlWorks()
-        {
-            // Arrange & Act & Assert
-            Assert.Equal(" ", basicLicense.WriteToYaml());
+            // Act & Assert
+            Assert.Equal(expect, AdvanceLicense.WriteToJson());
         }
 
         [Fact]
@@ -55,17 +58,13 @@ namespace Microsoft.OData.OpenAPI.Tests
         {
             // Arrange
             string expect = @"
-name: API Support,
-url: http://www.example.com/support,
-email: support@example.com
+name: Apache 2.0
+url: http://www.apache.org/licenses/LICENSE-2.0.html
 "
 .Replace();
 
-            // Act
-            string yaml = fullLicense.WriteToYaml();
-
-            // Assert
-            Assert.Equal(expect, yaml);
+            // Act & Assert
+            Assert.Equal(expect, AdvanceLicense.WriteToYaml());
         }
     }
 }

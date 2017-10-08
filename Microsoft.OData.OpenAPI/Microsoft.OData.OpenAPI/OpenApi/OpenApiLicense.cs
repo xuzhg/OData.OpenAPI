@@ -15,9 +15,9 @@ namespace Microsoft.OData.OpenAPI
     internal class OpenApiLicense : IOpenApiElement, IOpenApiWritable, IOpenApiExtensible
     {
         /// <summary>
-        /// REQUIRED.The identifying name of the contact person/organization.
+        /// REQUIRED.The license name used for the API.
         /// </summary>
-        public string Name { get; }
+        public string Name { get; set; } = OpenApiConstants.OpenApiDocDefaultName;
 
         /// <summary>
         /// The URL pointing to the contact information. MUST be in the format of a URL.
@@ -28,20 +28,6 @@ namespace Microsoft.OData.OpenAPI
         /// This object MAY be extended with Specification Extensions.
         /// </summary>
         public IList<OpenApiExtension> Extensions { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OpenApiLicense"/> class.
-        /// </summary>
-        /// <param name="name">The license name.</param>
-        public OpenApiLicense(string name)
-        {
-            if (String.IsNullOrWhiteSpace(name))
-            {
-                throw Error.ArgumentNullOrEmpty("name");
-            }
-
-            Name = name;
-        }
 
         /// <summary>
         /// Write Open API license object to the given writer.
@@ -58,10 +44,10 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteStartObject();
 
             // name
-            writer.WriteRequiredProperty(OpenApiConstants.OpenApiDocName, Name);
+            writer.WriteRequired(OpenApiConstants.OpenApiDocName, Name);
 
             // url
-            writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocUrl, Url?.OriginalString);
+            writer.WriteOptional(OpenApiConstants.OpenApiDocUrl, Url?.OriginalString);
 
             // specification extensions
             writer.WriteDictionary(Extensions);
