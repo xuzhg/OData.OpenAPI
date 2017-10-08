@@ -11,7 +11,7 @@ namespace Microsoft.OData.OpenAPI
     /// <summary>
     /// Operation Object.
     /// </summary>
-    internal class OpenApiOperation : IOpenApiElement, IOpenApiWritable
+    internal class OpenApiOperation : IOpenApiElement, IOpenApiWritable, IOpenApiExtensible
     {
         /// <summary>
         /// A list of tags for API documentation control.
@@ -38,7 +38,45 @@ namespace Microsoft.OData.OpenAPI
         /// </summary>
         public string OperationId { get; set; }
 
-        public IList<string> Parameters { get; set; }
+        /// <summary>
+        /// A list of parameters.
+        /// </summary>
+        public IList<OpenApiParameter> Parameters { get; set; }
+
+        /// <summary>
+        /// The request body applicable for this operation.
+        /// </summary>
+        public OpenApiRequestBody RequestBody { get; set; }
+
+        /// <summary>
+        /// REQUIRED. The list of possible responses as they are returned from executing this operation.
+        /// </summary>
+        public IDictionary<string, OpenApiResponse> Responses { get; set; }
+
+        /// <summary>
+        /// A map of possible out-of band callbacks related to the parent operation.
+        /// </summary>
+        public IDictionary<string, OpenApiCallback> Callbacks { get; set; }
+
+        /// <summary>
+        /// Declares this operation to be deprecated.
+        /// </summary>
+        public bool Deprecated { get; set; }
+
+        /// <summary>
+        /// Security requirement list.
+        /// </summary>
+        public IList<OpenApiSecurityRequirement> Security { get; set; }
+
+        /// <summary>
+        /// An alternative server array to service this operation.
+        /// </summary>
+        public IList<OpenApiServer> Servers { get; set; }
+
+        /// <summary>
+        /// This object MAY be extended with Specification Extensions.
+        /// </summary>
+        public IList<OpenApiExtension> Extensions { get; set; }
 
         /// <summary>
         /// Write Open API operation object.
@@ -51,6 +89,50 @@ namespace Microsoft.OData.OpenAPI
                 throw Error.ArgumentNull("writer");
             }
 
+            // { for json, empty for YAML
+            writer.WriteStartObject();
+
+            // tags
+            writer.WriteOptionalCollection(OpenApiConstants.OpenApiDocTags, Tags);
+
+            // summary
+            writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocSummary, Summary);
+
+            // description
+            writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocDescription, Description);
+
+            // externalDocs
+            writer.WriteOptionalObject(OpenApiConstants.OpenApiDocExternalDocs, ExternalDocs);
+
+            // operationId
+            writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocOperationId, OperationId);
+
+            // parameters
+            writer.WriteOptionalCollection(OpenApiConstants.OpenApiDocParameters, Parameters);
+
+            // requestBody
+            writer.WriteOptionalObject(OpenApiConstants.OpenApiDocRequestBody, RequestBody);
+
+            // responses
+            writer.WriteDictionary(OpenApiConstants.OpenApiDocResponses, Responses);
+
+            // callbacks
+            writer.WriteDictionary(OpenApiConstants.OpenApiDocCallbacks, Callbacks);
+
+            // deprecated
+            writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocDeprecated, Deprecated);
+
+            // security
+            writer.WriteOptionalCollection(OpenApiConstants.OpenApiDocSecurity, Security);
+
+            // servers
+            writer.WriteOptionalCollection(OpenApiConstants.OpenApiDocServers, Servers);
+
+            // specification extensions
+            writer.WriteDictionary(Extensions);
+
+            // } for json, empty for YAML
+            writer.WriteEndObject();
         }
     }
 }

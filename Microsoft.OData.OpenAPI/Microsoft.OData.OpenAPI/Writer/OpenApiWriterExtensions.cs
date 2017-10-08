@@ -112,7 +112,6 @@ namespace Microsoft.OData.OpenAPI
 
         public static void WriteDictionary<T>(this IOpenApiWriter writer, string name,
             IDictionary<string, T> dics, bool optional = true)
-            where T : IOpenApiWritable
         {
             if (writer == null)
             {
@@ -137,7 +136,16 @@ namespace Microsoft.OData.OpenAPI
                 foreach (KeyValuePair<string,T> e in dics)
                 {
                     writer.WritePropertyName(e.Key);
-                    e.Value.Write(writer);
+
+                    IOpenApiWritable writableElement = e.Value as IOpenApiWritable;
+                    if (writableElement != null)
+                    {
+                        writableElement.Write(writer);
+                    }
+                    else
+                    {
+                        writer.WriteValue(e.Value);
+                    }
                 }
             }
 

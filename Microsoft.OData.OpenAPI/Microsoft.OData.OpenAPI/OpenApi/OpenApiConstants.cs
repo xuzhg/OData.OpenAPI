@@ -72,9 +72,15 @@ namespace Microsoft.OData.OpenAPI
 
         public const string OpenApiDocSchema = "schema";
 
+        public const string OpenApiDocSchemas = "schemas";
+
+        public const string OpenApiDocResponses = "responses";
+
         public const string OpenApiDocExample = "example";
 
         public const string OpenApiDocExamples = "examples";
+
+        public const string OpenApiDocRequestBodies = "requestBodies";
 
         public const string OpenApiDocAllowEmptyValue = "allowEmptyValue";
 
@@ -86,9 +92,13 @@ namespace Microsoft.OData.OpenAPI
 
         public const string OpenApiDocHeaders = "headers";
 
+        public const string OpenApiDocSecuritySchemes = "securitySchemes";
+
         public const string OpenApiDocContent = "content";
 
         public const string OpenApiDocLinks = "links";
+
+        public const string OpenApiDocCallbacks = "callbacks";
 
         public const string OpenApiDocUrl = "url";
 
@@ -147,6 +157,22 @@ namespace Microsoft.OData.OpenAPI
         public const string OpenApiDocWriteOnly = "writeOnly";
 
         public const string OpenApiDocXml = "xml";
+
+        public const string OpenApiDocImplicit = "implicit";
+
+        public const string OpenApiDocPassword = "password";
+
+        public const string OpenApiDocClientCredentials = "clientCredentials";
+
+        public const string OpenApiDocAuthorizationCode = "authorizationCode";
+
+        public const string OpenApiDocAuthorizationUrl = "authorizationUrl";
+
+        public const string OpenApiDocTokenUrl = "tokenUrl";
+
+        public const string OpenApiDocRefreshUrl = "refreshUrl";
+
+        public const string OpenApiDocScopes = "scopes";
 
         public const string OpenApiDocDefaultName = "Default Name";
 
