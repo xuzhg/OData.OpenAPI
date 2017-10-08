@@ -88,6 +88,15 @@ namespace Microsoft.OData.OpenAPI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The object element name &apos;{0}&apos; is required..
+        /// </summary>
+        internal static string OpenApiObjectElementIsRequired {
+            get {
+                return ResourceManager.GetString("OpenApiObjectElementIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The OpenApi element &apos;{0}&apos; is already marked as reference object..
         /// </summary>
         internal static string OpenApiObjectMarkAsReference {

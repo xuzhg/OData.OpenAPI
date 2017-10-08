@@ -27,16 +27,16 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteRequiredProperty(OpenApiConstants.OpenApiDocOpenApi, doc.OpenApi.ToString());
 
             // info
-            writer.WriteObject(OpenApiConstants.OpenApiDocInfo, doc.Info);
+            writer.WriteOptionalObject(OpenApiConstants.OpenApiDocInfo, doc.Info);
 
             // servers
             writer.WriteCollection(OpenApiConstants.OpenApiDocServers, doc.Servers);
 
             // paths
-            writer.WriteObject(OpenApiConstants.OpenApiDocPaths, doc.Paths);
+            writer.WriteOptionalObject(OpenApiConstants.OpenApiDocPaths, doc.Paths);
 
             // components
-            writer.WriteObject(OpenApiConstants.OpenApiDocComponents, doc.Components);
+            writer.WriteOptionalObject(OpenApiConstants.OpenApiDocComponents, doc.Components);
 
             // security
             writer.WriteCollection(OpenApiConstants.OpenApiDocSecurity, doc.Security);
@@ -45,7 +45,7 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteCollection(OpenApiConstants.OpenApiDocTags, doc.Tags);
 
             // external docs
-            writer.WriteObject(OpenApiConstants.OpenApiDocExternalDocs, doc.ExternalDoc);
+            writer.WriteOptionalObject(OpenApiConstants.OpenApiDocExternalDocs, doc.ExternalDoc);
 
             // specification extensions
             writer.WriteDictionary(doc.Extensions);

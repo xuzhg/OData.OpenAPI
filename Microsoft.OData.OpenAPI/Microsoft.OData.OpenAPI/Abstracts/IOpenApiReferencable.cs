@@ -9,7 +9,7 @@ namespace Microsoft.OData.OpenAPI
     /// <summary>
     /// Represents an Open API element is referencable.
     /// </summary>
-    internal interface IOpenApiReferencable
+    internal interface IOpenApiReferencable : IOpenApiElement
     {
         /// <summary>
         /// Reference object.

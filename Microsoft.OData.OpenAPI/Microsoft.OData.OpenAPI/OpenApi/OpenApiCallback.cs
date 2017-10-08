@@ -27,9 +27,6 @@ namespace Microsoft.OData.OpenAPI
             // { for json, empty for YAML
             writer.WriteStartObject();
 
-
-            
-
             // } for json, empty for YAML
             writer.WriteEndObject();
         }

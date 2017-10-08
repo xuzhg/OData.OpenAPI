@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using Microsoft.OData.OpenAPI.Properties;
 
 namespace Microsoft.OData.OpenAPI
 {
@@ -15,14 +16,165 @@ namespace Microsoft.OData.OpenAPI
     internal static class OpenApiWriterExtensions
     {
         /// <summary>
+        /// Write a single, required property.
+        /// </summary>
+        /// <typeparam name="T">The property value type.</typeparam>
+        /// <param name="writer">The Open API writer.</param>
+        /// <param name="name">The property name.</param>
+        /// <param name="element">The property value.</param>
+        public static void WriteRequired<T>(this IOpenApiWriter writer, string name, T element)
+        {
+            CheckArgument(writer, name);
+
+            // write the property name
+            writer.WritePropertyName(name);
+
+            // write the property value
+            IOpenApiWritable writable = element as IOpenApiWritable;
+            if (writable != null)
+            {
+                writable.Write(writer);
+            }
+            else
+            {
+                writer.WriteValue(element);
+            }
+        }
+
+        /// <summary>
+        /// Write a single, optional property.
+        /// </summary>
+        /// <typeparam name="T">The property value type.</typeparam>
+        /// <param name="writer">The Open API writer.</param>
+        /// <param name="name">The property name.</param>
+        /// <param name="element">The property value.</param>
+        public static void WriteOptional<T>(this IOpenApiWriter writer, string name, T element)
+        {
+            if (element == null)
+            {
+                return;
+            }
+
+            writer.WriteRequired(name, element);
+        }
+
+        /// <summary>
+        /// Write a collection, required property.
+        /// </summary>
+        /// <typeparam name="T">The property element value type.</typeparam>
+        /// <param name="writer">The Open API writer.</param>
+        /// <param name="name">The property name.</param>
+        /// <param name="elements">The property value.</param>
+        public static void WriteRequired<T>(this IOpenApiWriter writer, string name, IEnumerable<T> elements)
+        {
+            CheckArgument(writer, name);
+
+            // write the property name
+            writer.WritePropertyName(name);
+
+            // write start array
+            writer.WriteStartArray();
+
+            if (elements != null)
+            {
+                foreach (T e in elements)
+                {
+                    IOpenApiWritable writableElement = e as IOpenApiWritable;
+                    if (writableElement != null)
+                    {
+                        writableElement.Write(writer);
+                    }
+                    else
+                    {
+                        writer.WriteValue(e);
+                    }
+                }
+            }
+
+            // write end array
+            writer.WriteEndArray();
+        }
+
+        /// <summary>
+        /// Write a collection, optional property.
+        /// </summary>
+        /// <typeparam name="T">The property element value type.</typeparam>
+        /// <param name="writer">The Open API writer.</param>
+        /// <param name="name">The property name.</param>
+        /// <param name="elements">The property value.</param>
+        public static void WriteOptional<T>(this IOpenApiWriter writer, string name, IEnumerable<T> elements)
+        {
+            if (elements == null)
+            {
+                return;
+            }
+
+            writer.WriteRequired(name, elements);
+        }
+
+        /// <summary>
+        /// Write a key/value container, required property.
+        /// </summary>
+        /// <typeparam name="T">The property element value type.</typeparam>
+        /// <param name="writer">The Open API writer.</param>
+        /// <param name="name">The property name.</param>
+        /// <param name="elements">The property value.</param>
+        public static void WriteRequired<T>(this IOpenApiWriter writer, string name, IDictionary<string, T> elements)
+        {
+            CheckArgument(writer, name);
+
+            // write the property name
+            writer.WritePropertyName(name);
+
+            // write start object
+            writer.WriteStartObject();
+
+            if (elements != null)
+            {
+                foreach (KeyValuePair<string, T> e in elements)
+                {
+                    writer.WritePropertyName(e.Key);
+
+                    IOpenApiWritable writableElement = e.Value as IOpenApiWritable;
+                    if (writableElement != null)
+                    {
+                        writableElement.Write(writer);
+                    }
+                    else
+                    {
+                        writer.WriteValue(e.Value);
+                    }
+                }
+            }
+
+            // write end object
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Write a key/value container, optional property.
+        /// </summary>
+        /// <typeparam name="T">The property element value type.</typeparam>
+        /// <param name="writer">The Open API writer.</param>
+        /// <param name="name">The property name.</param>
+        /// <param name="elements">The property value.</param>
+        public static void WriteOptional<T>(this IOpenApiWriter writer, string name, IDictionary<string, T> elements)
+        {
+            if (elements == null)
+            {
+                return;
+            }
+
+            writer.WriteRequired(name, elements);
+        }
+
+        /// <summary>
         /// Write the single of Open API element.
         /// </summary>
-        /// <typeparam name="T"><see cref="IOpenApiWritable"/></typeparam>
         /// <param name="writer">The Open API writer.</param>
         /// <param name="name">The property name.</param>
         /// <param name="element">The Open API element.</param>
-        public static void WriteObject<T>(this IOpenApiWriter writer, string name, T element)
-            where T : IOpenApiWritable
+        public static void WriteRequiredObject<T>(this IOpenApiWriter writer, string name, T element)
         {
             if (writer == null)
             {
@@ -34,29 +186,71 @@ namespace Microsoft.OData.OpenAPI
                 throw Error.ArgumentNullOrEmpty(nameof(name));
             }
 
-            writer.WritePropertyName(name);
-            if (element != null)
+            if (element == null)
             {
-                element.Write(writer);
+                throw new OpenApiException(String.Format(SRResource.OpenApiObjectElementIsRequired, name));
+            }
+
+            writer.WritePropertyName(name);
+
+            IOpenApiWritable writable = element as IOpenApiWritable;
+            if (writable != null)
+            {
+                writable.Write(writer);
+            }
+            else
+            {
+                writer.WriteValue(element);
             }
         }
 
         /// <summary>
         /// Write the single of Open API element if the element is not null, otherwise skip it.
         /// </summary>
-        /// <typeparam name="T"><see cref="IOpenApiWritable"/></typeparam>
         /// <param name="writer">The Open API writer.</param>
         /// <param name="name">The property name.</param>
         /// <param name="element">The Open API element.</param>
-        public static void WriteOptionalObject<T>(this IOpenApiWriter writer, string name, T element)
-            where T : IOpenApiWritable
+        public static void WriteOptionalObject(this IOpenApiWriter writer, string name, IOpenApiWritable element)
         {
             if (element == null)
             {
                 return;
             }
 
-            writer.WriteObject(name, element);
+            writer.WriteRequiredObject(name, element);
+        }
+
+        public static void WriteRequiredCollection<T>(this IOpenApiWriter writer, string name, IEnumerable<T> elements)
+        {
+            writer.WritePropertyName(name);
+            writer.WriteStartArray();
+            if (elements != null)
+            {
+                foreach (T e in elements)
+                {
+                    IOpenApiWritable writableElement = e as IOpenApiWritable;
+                    if (writableElement != null)
+                    {
+                        writableElement.Write(writer);
+                    }
+                    else
+                    {
+                        writer.WriteValue(e);
+                    }
+                }
+            }
+
+            writer.WriteEndArray();
+        }
+
+        public static void WriteOptionalCollection<T>(this IOpenApiWriter writer, string name, IEnumerable<T> elements)
+        {
+            if (elements == null)
+            {
+                return;
+            }
+
+            writer.WriteRequiredCollection(name, elements);
         }
 
         /// <summary>
@@ -152,38 +346,7 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteEndObject();
         }
 
-        public static void WriteRequiredCollection<T>(this IOpenApiWriter writer, string name, IEnumerable<T> elements)
-        {
-            writer.WritePropertyName(name);
-            writer.WriteStartArray();
-            if (elements != null)
-            {
-                foreach (T e in elements)
-                {
-                    IOpenApiWritable writableElement = e as IOpenApiWritable;
-                    if (writableElement != null)
-                    {
-                        writableElement.Write(writer);
-                    }
-                    else
-                    {
-                        writer.WriteValue(e);
-                    }
-                }
-            }
 
-            writer.WriteEndArray();
-        }
-
-        public static void WriteOptionalCollection<T>(this IOpenApiWriter writer, string name, IEnumerable<T> elements)
-        {
-            if (elements == null)
-            {
-                return;
-            }
-
-            writer.WriteRequiredCollection(name, elements);
-        }
 
         /// <summary>
         /// Write the required property even the value is null;
@@ -301,6 +464,19 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteStartArray();
             arrayAction();
             writer.WriteEndArray();
+        }
+
+        private static void CheckArgument(IOpenApiWriter writer, string name)
+        {
+            if (writer == null)
+            {
+                throw Error.ArgumentNull(nameof(writer));
+            }
+
+            if (String.IsNullOrWhiteSpace(name))
+            {
+                throw Error.ArgumentNullOrEmpty(nameof(name));
+            }
         }
     }
 }

@@ -17,12 +17,12 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// REQUIRED. The title of the application.
         /// </summary>
-        public string Title { get; }
+        public string Title { get; set; } = OpenApiConstants.OpenApiDocDefaultTitle;
 
         /// <summary>
         /// REQUIRED. The version of the OpenAPI document.
         /// </summary>
-        public Version Version { get; }
+        public Version Version { get; set; } = OpenApiConstants.OpenApiDocDefaultVersion;
 
         /// <summary>
         /// A short description of the application.
@@ -50,23 +50,7 @@ namespace Microsoft.OData.OpenAPI
         public IList<OpenApiExtension> Extensions { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OpenApiInfo"/> class.
-        /// </summary>
-        /// <param name="title">The tag name.</param>
-        /// <param name="version">The tag version.</param>
-        public OpenApiInfo(string title, Version version)
-        {
-            if (String.IsNullOrWhiteSpace(title))
-            {
-                throw Error.ArgumentNullOrEmpty("title");
-            }
-
-            Version = version ?? throw Error.ArgumentNull("version");
-            Title = title;
-        }
-
-        /// <summary>
-        /// Write Open API Info to given writer.
+        /// Write Open API Info to the given writer.
         /// </summary>
         /// <param name="writer">The writer.</param>
         public virtual void Write(IOpenApiWriter writer)
@@ -80,22 +64,22 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteStartObject();
 
             // title
-            writer.WriteRequiredProperty(OpenApiConstants.OpenApiDocTitle, Title);
+            writer.WriteRequired(OpenApiConstants.OpenApiDocTitle, Title);
 
             // description
-            writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocDescription, Description);
+            writer.WriteOptional(OpenApiConstants.OpenApiDocDescription, Description);
 
             // termsOfService
-            writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocTermsOfService, TermsOfService.OriginalString);
+            writer.WriteOptional(OpenApiConstants.OpenApiDocTermsOfService, TermsOfService?.OriginalString);
 
             // contact object
-            writer.WriteOptionalObject(OpenApiConstants.OpenApiDocContact, Contact);
+            writer.WriteOptional(OpenApiConstants.OpenApiDocContact, Contact);
 
             // license object
-            writer.WriteOptionalObject(OpenApiConstants.OpenApiDocLicense, License);
+            writer.WriteOptional(OpenApiConstants.OpenApiDocLicense, License);
 
             // version
-            writer.WriteRequiredProperty(OpenApiConstants.OpenApiDocVersion, Version.ToString());
+            writer.WriteRequired(OpenApiConstants.OpenApiDocVersion, Version?.ToString());
 
             // specification extensions
             writer.WriteDictionary(Extensions);

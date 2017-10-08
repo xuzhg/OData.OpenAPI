@@ -126,6 +126,9 @@
   <data name="OpenApiExceptionGeneralError" xml:space="preserve">
     <value>An error occurred while processing the OData message.</value>
   </data>
+  <data name="OpenApiObjectElementIsRequired" xml:space="preserve">
+    <value>The object element name '{0}' is required.</value>
+  </data>
   <data name="OpenApiObjectMarkAsReference" xml:space="preserve">
     <value>The OpenApi element '{0}' is already marked as reference object.</value>
   </data>

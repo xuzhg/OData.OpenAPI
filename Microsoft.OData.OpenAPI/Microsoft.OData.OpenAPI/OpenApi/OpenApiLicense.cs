@@ -44,7 +44,7 @@ namespace Microsoft.OData.OpenAPI
         }
 
         /// <summary>
-        /// Write Open API license to given writer.
+        /// Write Open API license object to the given writer.
         /// </summary>
         /// <param name="writer">The writer.</param>
         public virtual void Write(IOpenApiWriter writer)

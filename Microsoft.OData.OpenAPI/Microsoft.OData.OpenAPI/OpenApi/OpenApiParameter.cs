@@ -301,7 +301,7 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteBooleanProperty(OpenApiConstants.OpenApiDocAllowReserved, AllowReserved, false);
 
             // schema
-            writer.WriteObject(OpenApiConstants.OpenApiDocSchema, Schema);
+            writer.WriteOptionalObject(OpenApiConstants.OpenApiDocSchema, Schema);
 
             // example
             writer.WriteOptionalObject(OpenApiConstants.OpenApiDocExample, Example);

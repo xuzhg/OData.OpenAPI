@@ -23,12 +23,12 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// REQUIRED. Provides metadata about the API. The metadata MAY be used by tooling as required.
         /// </summary>
-        public OpenApiInfo Info { get; set; }
+        public OpenApiInfo Info { get; set; } = new OpenApiInfo();
 
         /// <summary>
         /// An array of Server Objects, which provide connectivity information to a target server.
         /// </summary>
-        public IList<OpenApiServer> Servers { get; set; } = new List<OpenApiServer>();
+        public IList<OpenApiServer> Servers { get; set; }
 
         /// <summary>
         /// REQUIRED. The available paths and operations for the API.
@@ -38,7 +38,7 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// An element to hold various schemas for the specification.
         /// </summary>
-        public OpenApiComponents Components { get; } = new OpenApiComponents();
+        public OpenApiComponents Components { get; set; }
 
         /// <summary>
         /// A declaration of which security mechanisms can be used across the API.
@@ -48,7 +48,7 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// A list of tags used by the specification with additional metadata. 
         /// </summary>
-        public IList<OpenApiTag> Tags { get; set; } = new List<OpenApiTag>();
+        public IList<OpenApiTag> Tags { get; set; }
 
         /// <summary>
         /// Additional external documentation.
@@ -106,28 +106,28 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteStartObject();
 
             // openapi:3.0.0
-            writer.WriteRequiredProperty(OpenApiConstants.OpenApiDocOpenApi, OpenApi.ToString());
+            writer.WriteRequired(OpenApiConstants.OpenApiDocOpenApi, OpenApi.ToString());
 
             // info
-            writer.WriteObject(OpenApiConstants.OpenApiDocInfo, Info);
+            writer.WriteRequired(OpenApiConstants.OpenApiDocInfo, Info);
 
             // servers
-            writer.WriteCollection(OpenApiConstants.OpenApiDocServers, Servers);
+            writer.WriteOptional(OpenApiConstants.OpenApiDocServers, Servers);
 
             // paths
-            writer.WriteObject(OpenApiConstants.OpenApiDocPaths, Paths);
+            writer.WriteRequired(OpenApiConstants.OpenApiDocPaths, Paths);
 
             // components
-            writer.WriteObject(OpenApiConstants.OpenApiDocComponents, Components);
+            writer.WriteOptional(OpenApiConstants.OpenApiDocComponents, Components);
 
             // security
-            writer.WriteCollection(OpenApiConstants.OpenApiDocSecurity, Security);
+            writer.WriteOptional(OpenApiConstants.OpenApiDocSecurity, Security);
 
             // tags
-            writer.WriteCollection(OpenApiConstants.OpenApiDocTags, Tags);
+            writer.WriteOptional(OpenApiConstants.OpenApiDocTags, Tags);
 
             // external docs
-            writer.WriteObject(OpenApiConstants.OpenApiDocExternalDocs, ExternalDoc);
+            writer.WriteOptional(OpenApiConstants.OpenApiDocExternalDocs, ExternalDoc);
 
             // specification extensions
             writer.WriteDictionary(Extensions);

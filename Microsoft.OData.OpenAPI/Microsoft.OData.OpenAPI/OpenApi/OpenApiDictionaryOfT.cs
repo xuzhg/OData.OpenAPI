@@ -33,7 +33,7 @@ namespace Microsoft.OData.OpenAPI
             // path items
             foreach (var item in this)
             {
-                writer.WriteObject(item.Key, item.Value);
+                writer.WriteRequiredObject(item.Key, item.Value);
             }
 
             // } for json, empty for YAML

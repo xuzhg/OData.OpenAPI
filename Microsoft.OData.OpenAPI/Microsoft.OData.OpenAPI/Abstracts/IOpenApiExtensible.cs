@@ -11,7 +11,7 @@ namespace Microsoft.OData.OpenAPI
     /// <summary>
     /// Represents an Extensible Open API element.
     /// </summary>
-    internal interface IOpenApiExtensible
+    internal interface IOpenApiExtensible : IOpenApiElement
     {
         /// <summary>
         /// Specification extensions.
