@@ -192,7 +192,7 @@ namespace Microsoft.OData.OpenAPI
         public const string OpenApiDocDefaultName = "Default Name";
         public const string OpenApiDocDefaultTitle = "Default Title";
         public static Version OpenApiDocDefaultVersion = new Version(3, 0, 0);
-
+        public static Uri OpenApiDocDefaultUrl = new Uri("http://localhost/");
         public const string OpenApiDocDefaultDescription = "Default Description";
     }
 }

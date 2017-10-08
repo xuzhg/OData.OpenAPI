@@ -17,7 +17,7 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// REQUIRED.The URL for the target documentation. Value MUST be in the format of a URL.
         /// </summary>
-        public Uri Url { get; }
+        public Uri Url { get; set; } = OpenApiConstants.OpenApiDocDefaultUrl;
 
         /// <summary>
         /// A short description of the target documentation.
@@ -28,15 +28,6 @@ namespace Microsoft.OData.OpenAPI
         /// This object MAY be extended with Specification Extensions.
         /// </summary>
         public IList<OpenApiExtension> Extensions { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OpenApiExternalDocs"/> class.
-        /// </summary>
-        /// <param name="description">A short description.</param>
-        public OpenApiExternalDocs(Uri url)
-        {
-            Url = Url ?? throw Error.ArgumentNull(nameof(url));
-        }
 
         /// <summary>
         /// Write Open API External Documentation object.
@@ -53,10 +44,10 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteStartObject();
 
             // description
-            writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocDescription, Description);
+            writer.WriteOptional(OpenApiConstants.OpenApiDocDescription, Description);
 
             // url
-            writer.WriteRequiredProperty(OpenApiConstants.OpenApiDocUrl, Url.OriginalString);
+            writer.WriteRequired(OpenApiConstants.OpenApiDocUrl, Url.OriginalString);
 
             // specification extensions
             writer.WriteDictionary(Extensions);

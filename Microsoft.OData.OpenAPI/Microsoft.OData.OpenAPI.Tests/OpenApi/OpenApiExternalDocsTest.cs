@@ -11,38 +11,59 @@ namespace Microsoft.OData.OpenAPI.Tests
 {
     public class OpenApiExternalDocsTest
     {
+        internal static OpenApiExternalDocs BasicExDocs = new OpenApiExternalDocs();
+        internal static OpenApiExternalDocs AdvanceExDocs = new OpenApiExternalDocs()
+        {
+            Url = new Uri("https://example.com"),
+            Description = "Find more info here"
+        };
+
         [Fact]
-        public void WriteExternalDocumentationObjectJsonWorks()
+        public void WriteBasicExternalDocsToJson()
         {
             // Arrange
-            OpenApiExternalDocs exd = new OpenApiExternalDocs(new Uri("http://any/"));
-            Action<IOpenApiWriter> action = writer =>
-            {
-                exd.Write(writer);
-            };
+            string expect = @"
+{
+  ""url"": ""http://localhost/""
+}".Replace();
 
             // Act & Assert
-            Assert.Equal("{\n  \"url\": \"http://any/\"\n}",
-                OpenApiWriterTestHelper.Write(OpenApiTarget.Json, action));
+            Assert.Equal(expect, BasicExDocs.WriteToJson());
         }
 
         [Fact]
-        public void WriteExternalDocumentationObjectWithDescriptionJsonWorks()
+        public void WriteBasicExternalDocsToYaml()
+        {
+            // Arrange & Act & Assert
+            Assert.Equal("url: http://localhost/", BasicExDocs.WriteToYaml());
+        }
+
+        [Fact]
+        public void WriteAdvanceExternalDocsToJson()
         {
             // Arrange
-            OpenApiExternalDocs exd = new OpenApiExternalDocs(new Uri("http://any/"))
-            {
-                Description = "abc"
-            };
-
-            Action<IOpenApiWriter> action = writer =>
-            {
-                exd.Write(writer);
-            };
+            string expect = @"
+{
+  ""description"": ""Find more info here"",
+  ""url"": ""https://example.com""
+}".Replace();
 
             // Act & Assert
-            Assert.Equal("{\n  \"description\": \"abc\",\n  \"url\": \"http://any/\"\n}",
-                OpenApiWriterTestHelper.Write(OpenApiTarget.Json, action));
+            Assert.Equal(expect, AdvanceExDocs.WriteToJson());
+        }
+
+        [Fact]
+        public void WriteAdvanceExternalDocsToYaml()
+        {
+            // Arrange
+            string expect = @"
+description: Find more info here
+url: https://example.com
+"
+.Replace();
+
+            // Act & Assert
+            Assert.Equal(expect, AdvanceExDocs.WriteToYaml());
         }
     }
 }
