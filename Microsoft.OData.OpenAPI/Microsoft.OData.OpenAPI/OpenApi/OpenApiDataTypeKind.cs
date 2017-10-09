@@ -101,11 +101,11 @@ namespace Microsoft.OData.OpenAPI
         }
 
         /// <summary>
-        /// Get the Type.
+        /// Get the Type name.
         /// </summary>
         /// <param name="kind">The Open Api data type kind.</param>
         /// <returns>The Type.</returns>
-        public static string GetType(this OpenApiDataTypeKind kind)
+        public static string GetTypeName(this OpenApiDataTypeKind kind)
         {
             OpenApiDataTypeMetadataAttribute attribute = kind.GetAttributeOfType<OpenApiDataTypeMetadataAttribute>();
             return attribute?.Type;
