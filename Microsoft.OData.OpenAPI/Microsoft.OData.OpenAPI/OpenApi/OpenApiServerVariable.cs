@@ -19,7 +19,7 @@ namespace Microsoft.OData.OpenAPI
         /// REQUIRED. The default value to use for substitution, and to send,
         /// if an alternate value is not supplied.
         /// </summary>
-        public string Default { get; }
+        public string Default { get; set; } = OpenApiConstants.OpenApiDocDefaultDefault;
 
         /// <summary>
         /// An optional description for the server variable.
@@ -35,20 +35,6 @@ namespace Microsoft.OData.OpenAPI
         /// This object MAY be extended with Specification Extensions.
         /// </summary>
         public IList<OpenApiExtension> Extensions { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OpenApiServerVariable"/> class.
-        /// </summary>
-        /// <param name="@default">The default string.</param>
-        public OpenApiServerVariable(string @default)
-        {
-            if (String.IsNullOrWhiteSpace(@default))
-            {
-                throw Error.ArgumentNullOrEmpty(nameof(@default));
-            }
-
-            Default = @default;
-        }
 
         /// <summary>
         /// Write Open API server variable object.

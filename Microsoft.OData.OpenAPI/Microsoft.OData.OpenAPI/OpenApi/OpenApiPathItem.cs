@@ -81,7 +81,7 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// Reference Object.
         /// </summary>
-        public OpenApiReference Reference { get; }
+        public OpenApiReference Reference { get; set; }
 
         /// <summary>
         /// Write Open API response to given writer.

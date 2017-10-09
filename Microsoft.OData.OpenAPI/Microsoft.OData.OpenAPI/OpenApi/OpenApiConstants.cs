@@ -190,6 +190,7 @@ namespace Microsoft.OData.OpenAPI
         public const string OpenApiDocTrace = "trace";
 
         public const string OpenApiDocDefaultName = "Default Name";
+        public const string OpenApiDocDefaultDefault = "Default Default";
         public const string OpenApiDocDefaultTitle = "Default Title";
         public static Version OpenApiDocDefaultVersion = new Version(3, 0, 0);
         public static Uri OpenApiDocDefaultUrl = new Uri("http://localhost/");

@@ -11,7 +11,7 @@ namespace Microsoft.OData.OpenAPI.Tests
 {
     public class OpenApiPathsTest
     {
-        private OpenApiPaths _paths = new OpenApiPaths
+        internal static OpenApiPaths Paths = new OpenApiPaths
         {
             {
                 "/pets",
@@ -81,7 +81,7 @@ namespace Microsoft.OData.OpenAPI.Tests
 }".Replace();
 
             // Act & Assert
-            Assert.Equal(expect, _paths.WriteToJson());
+            Assert.Equal(expect, Paths.WriteToJson());
         }
 
         [Fact]
@@ -104,7 +104,7 @@ namespace Microsoft.OData.OpenAPI.Tests
 ".Replace();
 
             // Act & Assert
-            Assert.Equal(expect, _paths.WriteToYaml());
+            Assert.Equal(expect, Paths.WriteToYaml());
         }
     }
 }

@@ -4,7 +4,6 @@
 // </copyright>
 //---------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using Xunit;
 
@@ -12,65 +11,47 @@ namespace Microsoft.OData.OpenAPI.Tests
 {
     public class OpenApiServerVariableTest
     {
-        private OpenApiServerVariable _serverVariable;
-        public OpenApiServerVariableTest()
+        internal static OpenApiServerVariable BasicServerVariable = new OpenApiServerVariable();
+        internal static OpenApiServerVariable AdvanceServerVariable = new OpenApiServerVariable
         {
-            _serverVariable = new OpenApiServerVariable("default string")
+            Default = "server variable default",
+            Description = "server variable description string",
+            Enums = new List<string>
             {
-                Description = "description string",
-                Enums = new List<string>
-                {
-                    "a",
-                    "b",
-                    "c"
-                }
-            };
+                "a",
+                "b",
+                "c"
+            }
+        };
+
+        [Fact]
+        public void WriteBasicServerVariableToJsonWorks()
+        {
+            // Arrange
+            string expect = @"
+{
+  ""default"": ""Default Default""
+}".Replace();
+
+            // Act & Assert
+            Assert.Equal(expect, BasicServerVariable.WriteToJson());
         }
 
         [Fact]
-        public void CtorThrowsArgumentNullDefault()
+        public void WriteBasicServerVariableToYamlWorks()
         {
             // Arrange & Act & Assert
-            Assert.Throws<ArgumentException>("default", () => new OpenApiServerVariable(null));
+            Assert.Equal("default: Default Default", BasicServerVariable.WriteToYaml());
         }
 
         [Fact]
-        public void CtorSetsDefaultPropertyValue()
-        {
-            // Arrange & Act
-            OpenApiServerVariable sv = new OpenApiServerVariable("default string");
-
-            // Assert
-            Assert.Equal("default string", sv.Default);
-        }
-
-        [Fact]
-        public void WriteServerVariableToJsonStreamWorks()
+        public void WriteAdvanceServerVariableToJsonWorks()
         {
             // Arrange
             string expect = @"
 {
-  ""default"": ""default string""
-}"
-.Replace();
-
-            OpenApiServerVariable sv = new OpenApiServerVariable("default string");
-
-            // Act
-            string actual = sv.WriteToJson();
-
-            // Assert
-            Assert.Equal(expect, actual);
-        }
-
-        [Fact]
-        public void WriteServerVariableWithPropertiesToJsonStreamWorks()
-        {
-            // Arrange
-            string expect = @"
-{
-  ""default"": ""default string"",
-  ""description"": ""description string"",
+  ""default"": ""server variable default"",
+  ""description"": ""server variable description string"",
   ""enum"": [
     ""a"",
     ""b"",
@@ -79,32 +60,26 @@ namespace Microsoft.OData.OpenAPI.Tests
 }"
 .Replace();
 
-            // Act
-            string actual = _serverVariable.WriteToJson();
-
-            // Assert
-            Assert.Equal(expect, actual);
+            // Act & Assert
+            Assert.Equal(expect, AdvanceServerVariable.WriteToJson());
         }
-/*
+
         [Fact]
-        public void WriteServerVariableWithPropertiesToYamlStreamWorks()
+        public void WriteAdvanceServerVariableToYamlWorks()
         {
             // Arrange
             string expect = @"
-default: default string,
-description: description string,
+default: server variable default
+description: server variable description string
 enum:
-- a,
-- b,
-- c
+  - a
+  - b
+  - c
 "
 .Replace();
 
-            // Act
-            string actual = _serverVariable.WriteToYaml();
-
-            // Assert
-            Assert.Equal(expect, actual);
-        }*/
+            // Act & Assert
+            Assert.Equal(expect, AdvanceServerVariable.WriteToYaml());
+        }
     }
 }

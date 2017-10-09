@@ -30,14 +30,24 @@ namespace Microsoft.OData.OpenAPI
             // { for json, empty for YAML
             writer.WriteStartObject();
 
+            // write something after start
+            WriteAfterStart(writer);
+
             // path items
             foreach (var item in this)
             {
                 writer.WriteRequiredObject(item.Key, item.Value);
             }
 
+            // write something before end.
+            WriteBeforeEnd(writer);
+
             // } for json, empty for YAML
             writer.WriteEndObject();
         }
+
+        public abstract void WriteAfterStart(IOpenApiWriter writer);
+
+        public abstract void WriteBeforeEnd(IOpenApiWriter writer);
     }
 }

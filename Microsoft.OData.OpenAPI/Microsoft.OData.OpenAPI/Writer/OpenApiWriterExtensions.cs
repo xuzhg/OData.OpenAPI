@@ -346,8 +346,6 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteEndObject();
         }
 
-
-
         /// <summary>
         /// Write the required property even the value is null;
         /// </summary>

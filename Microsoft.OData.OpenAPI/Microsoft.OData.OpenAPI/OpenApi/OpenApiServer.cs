@@ -19,7 +19,7 @@ namespace Microsoft.OData.OpenAPI
         /// to indicate that the host location is relative to the location
         /// where the OpenAPI document is being served
         /// </summary>
-        public Uri Url { get; }
+        public Uri Url { get; set; } = OpenApiConstants.OpenApiDocDefaultUrl;
 
         /// <summary>
         /// An optional string describing the host designated by the URL.
@@ -35,26 +35,6 @@ namespace Microsoft.OData.OpenAPI
         /// This object MAY be extended with Specification Extensions.
         /// </summary>
         public IList<OpenApiExtension> Extensions { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OpenApiServer"/> class.
-        /// </summary>
-        /// <param name="url">A URL to the target host.</param>
-        public OpenApiServer(Uri url)
-            : this(url, null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OpenApiServer"/> class.
-        /// </summary>
-        /// <param name="url">A URL to the target host.</param>
-        /// <param name="descriptioin">An optional string describing the host designated by the URL.</param>
-        public OpenApiServer(Uri url, string descriptioin)
-        {
-            Url = url;
-            Description = descriptioin;
-        }
 
         /// <summary>
         /// Write Open API server object.

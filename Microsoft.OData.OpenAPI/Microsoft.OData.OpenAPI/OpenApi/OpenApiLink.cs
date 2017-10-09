@@ -142,16 +142,7 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// Reference Object.
         /// </summary>
-        public OpenApiReference Reference { get; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OpenApiLink"/> class.
-        /// </summary>
-        /// <param name="reference">The reference object.</param>
-        public OpenApiLink(OpenApiReference reference)
-        {
-            Reference = reference ?? throw Error.ArgumentNull(nameof(reference));
-        }
+        public OpenApiReference Reference { get; set; }
 
         /// <summary>
         /// Write Open API response to given writer.

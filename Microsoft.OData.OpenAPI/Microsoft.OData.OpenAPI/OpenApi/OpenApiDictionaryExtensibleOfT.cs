@@ -20,30 +20,26 @@ namespace Microsoft.OData.OpenAPI
         public IList<OpenApiExtension> Extensions { get; set; }
 
         /// <summary>
-        /// Write dictionary with extensible elements to the given writer.
+        /// Write something before.
         /// </summary>
         /// <param name="writer">The writer.</param>
-        public override void Write(IOpenApiWriter writer)
+        public override void WriteAfterStart(IOpenApiWriter writer)
+        {
+        }
+
+        /// <summary>
+        /// Write something after.
+        /// </summary>
+        /// <param name="writer">The writer.</param>
+        public override void WriteBeforeEnd(IOpenApiWriter writer)
         {
             if (writer == null)
             {
                 throw Error.ArgumentNull("writer");
             }
 
-            // { for json, empty for YAML
-            writer.WriteStartObject();
-
-            // path items
-            foreach (var item in this)
-            {
-                writer.WriteRequiredObject(item.Key, item.Value);
-            }
-
             // specification extensions
             writer.WriteDictionary(Extensions);
-
-            // } for json, empty for YAML
-            writer.WriteEndObject();
         }
     }
 }
