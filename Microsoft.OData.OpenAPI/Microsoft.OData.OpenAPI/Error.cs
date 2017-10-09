@@ -1,9 +1,12 @@
-﻿// Copyright (c) Microsoft Corporation.  All rights reserved.
-// Licensed under the MIT License.  See License.txt in the project root for license information.
+﻿//---------------------------------------------------------------------
+// <copyright file="Error.cs" company="Microsoft">
+//      Copyright (C) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
+// </copyright>
+//---------------------------------------------------------------------
 
-using Microsoft.OData.OpenAPI.Properties;
 using System;
 using System.Globalization;
+using Microsoft.OData.OpenAPI.Properties;
 
 namespace Microsoft.OData.OpenAPI
 {

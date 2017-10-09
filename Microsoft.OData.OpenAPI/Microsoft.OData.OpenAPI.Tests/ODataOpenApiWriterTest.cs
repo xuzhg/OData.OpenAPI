@@ -31,7 +31,6 @@ namespace Microsoft.OData.OpenAPI.Tests
             Assert.True(a.IsEnable());
 
             abc.IsEnable();
-            ODataOpenApiUtilities yes = new ODataOpenApiUtilities();
             Assert.Equal(2, 2);
         }
 
@@ -115,40 +114,9 @@ namespace Microsoft.OData.OpenAPI.Tests
 
         private string GetCsdlJson(IEdmModel model)
         {
-            string edmx = string.Empty;
-
-            var builder = new StringBuilder();
-            StringWriter sw = new StringWriter(builder);
-            using (JsonTextWriter writer = new JsonTextWriter(sw))
-            {
-                writer.Formatting = Formatting.Indented;
-
-                //IEnumerable<EdmError> errors;
-                model.WriteOpenApi(writer);
-                writer.Flush();
-
-                edmx = sw.ToString();
-            }
-
-            return edmx;
-        }
-
-        private string GetCsdlJson2(IEdmModel model)
-        {
-            string edmx = string.Empty;
-
-            var builder = new StringBuilder();
-            StringWriter sw = new StringWriter(builder);
-            using (YamlWriter writer = new YamlWriter(sw))
-            {
-                //IEnumerable<EdmError> errors;
-                // model.TryWrite(model, writer);
-               // model.WriteOpenApi(writer, new OpenApiWriterSettings { Indented = false });
-
-                edmx = sw.ToString();
-            }
-
-            return edmx;
+            OpenApiDocument doc = model.ConvertTo();
+            string json = doc.WriteToJson();
+            return json;
         }
     }
 

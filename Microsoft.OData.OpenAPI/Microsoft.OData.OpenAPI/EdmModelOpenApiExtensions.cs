@@ -5,7 +5,6 @@
 //---------------------------------------------------------------------
 
 using System.IO;
-using Newtonsoft.Json;
 using Microsoft.OData.Edm;
 
 namespace Microsoft.OData.OpenAPI
@@ -21,7 +20,7 @@ namespace Microsoft.OData.OpenAPI
         /// <param name="model">Model to be written.</param>
         /// <param name="writer">JsonWriter the generated Open API will be written to.</param>
         /// <returns>A value indicating whether serialization was successful.</returns>
-        public static bool WriteOpenApi(this IEdmModel model, JsonWriter writer)
+        public static bool WriteOpenApi(this IEdmModel model, IOpenApiWriter writer)
         {
             return WriteOpenApi(model, writer, new OpenApiWriterSettings());
         }
@@ -33,7 +32,7 @@ namespace Microsoft.OData.OpenAPI
         /// <param name="writer">JsonWriter the generated Open API will be written to.</param>
         /// <param name="settings">Settings for the generated Open API.</param>
         /// <returns>A value indicating whether serialization was successful.</returns>
-        public static bool WriteOpenApi(this IEdmModel model, JsonWriter writer, OpenApiWriterSettings settings)
+        internal static bool WriteOpenApi(this IEdmModel model, IOpenApiWriter writer, OpenApiWriterSettings settings)
         {
             if (model == null)
             {

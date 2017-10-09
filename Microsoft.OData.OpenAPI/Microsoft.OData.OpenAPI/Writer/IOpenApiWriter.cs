@@ -9,7 +9,7 @@ namespace Microsoft.OData.OpenAPI
     /// <summary>
     /// Interface for writing Open API documentation.
     /// </summary>
-    internal interface IOpenApiWriter
+    public interface IOpenApiWriter
     {
         /// <summary>
         /// Write the start object.
