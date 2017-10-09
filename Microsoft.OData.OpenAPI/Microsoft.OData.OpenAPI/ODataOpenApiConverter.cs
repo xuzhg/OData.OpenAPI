@@ -12,6 +12,8 @@ namespace Microsoft.OData.OpenAPI
 {
     internal class ODataOpenApiConverter
     {
+        private EdmOpenApiComponentsVistor _componentsVistor;
+
         public IEdmModel Model { get; }
 
         public OpenApiWriterSettings Settings { get; }
@@ -20,6 +22,8 @@ namespace Microsoft.OData.OpenAPI
         {
             Model = model ?? throw Error.ArgumentNull(nameof(model));
             Settings = settings ?? throw Error.ArgumentNull(nameof(settings));
+
+            _componentsVistor = new EdmOpenApiComponentsVistor(model);
         }
 
         public virtual OpenApiDocument ConvertTo()
@@ -75,6 +79,8 @@ namespace Microsoft.OData.OpenAPI
                 };
 
                 paths.Add("/" + entitySet.Name, pathItem);
+
+
             }
 
 
@@ -83,7 +89,7 @@ namespace Microsoft.OData.OpenAPI
 
         private OpenApiComponents CreateComponents()
         {
-            return null;
+            return _componentsVistor.Visit();
         }
 
         private IList<OpenApiSecurity> CreateSecurity()
@@ -200,9 +206,60 @@ namespace Microsoft.OData.OpenAPI
         {
             OpenApiOperation operation = new OpenApiOperation
             {
-                Summary = "Add new entity to " + entitySet.Name
+                Summary = "Add new entity to " + entitySet.Name,
+                Tags = new List<string>
+                {
+                    entitySet.Name
+                },
+                RequestBody = new OpenApiRequestBody
+                {
+                    Required = true,
+                    Description = "New entity",
+                    Content = new Dictionary<string, OpenApiMediaType>
+                    {
+                        {
+                            "application/json", new OpenApiMediaType
+                            {
+                                Schema = new OpenApiSchema
+                                {
+                                    Reference = new OpenApiReference("#/components/schemas/" + entitySet.EntityType().FullName())
+                                }
+                            }
+                        }
+                    }
+                }
             };
 
+            operation.Responses = new OpenApiResponses
+            {
+                {
+                    "201",
+                    new OpenApiResponse
+                    {
+                        Description = "Created entity",
+                        Content = new Dictionary<string, OpenApiMediaType>
+                        {
+                            {
+                                "application/json",
+                                new OpenApiMediaType
+                                {
+                                    Schema = new OpenApiSchema
+                                    {
+                                        Reference = new OpenApiReference("#/components/schemas/" + entitySet.EntityType().FullName())
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "default",
+                    new OpenApiResponse
+                    {
+                        Reference = new OpenApiReference("#/components/responses/error")
+                    }
+                }
+            };
 
             return operation;
         }

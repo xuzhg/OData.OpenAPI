@@ -21,42 +21,42 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// Responses
         /// </summary>
-        public IDictionary<string, OpenApiResponse> Responses { get; }
+        public IDictionary<string, OpenApiResponse> Responses { get; set; }
 
         /// <summary>
         /// Parameters
         /// </summary>
-        public IDictionary<string, OpenApiParameter> Parameters { get; }
+        public IDictionary<string, OpenApiParameter> Parameters { get; set; }
 
         /// <summary>
         /// Examples
         /// </summary>
-        public IDictionary<string, OpenApiExample> Examples { get; }
+        public IDictionary<string, OpenApiExample> Examples { get; set; }
 
         /// <summary>
         /// RequestBodies
         /// </summary>
-        public IDictionary<string, OpenApiRequestBody> RequestBodies { get; }
+        public IDictionary<string, OpenApiRequestBody> RequestBodies { get; set; }
 
         /// <summary>
         /// Headers
         /// </summary>
-        public IDictionary<string, OpenApiHeader> Headers { get; }
+        public IDictionary<string, OpenApiHeader> Headers { get; set; }
 
         /// <summary>
         /// SecuritySchemes
         /// </summary>
-        public IDictionary<string, OpenApiSecuritySchema> SecuritySchemes { get; }
+        public IDictionary<string, OpenApiSecuritySchema> SecuritySchemes { get; set; }
 
         /// <summary>
         /// Links
         /// </summary>
-        public IDictionary<string, OpenApiLink> Links { get; }
+        public IDictionary<string, OpenApiLink> Links { get; set; }
 
         /// <summary>
         /// Callbacks
         /// </summary>
-        public IDictionary<string, OpenApiCallback> Callbacks { get; }
+        public IDictionary<string, OpenApiCallback> Callbacks { get; set; }
 
         /// <summary>
         /// This object MAY be extended with Specification Extensions.

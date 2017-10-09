@@ -92,11 +92,11 @@ namespace Microsoft.OData.OpenAPI
             // { for json, empty for YAML
             writer.WriteStartObject();
 
-            // tags
-            writer.WriteOptionalCollection(OpenApiConstants.OpenApiDocTags, Tags);
-
             // summary
             writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocSummary, Summary);
+
+            // tags
+            writer.WriteOptionalCollection(OpenApiConstants.OpenApiDocTags, Tags);
 
             // description
             writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocDescription, Description);

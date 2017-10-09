@@ -10,6 +10,7 @@ namespace Microsoft.OData.OpenAPI
 {
     /// <summary>
     /// Any object.
+    /// TODO: it looks wrong
     /// </summary>
     internal class OpenApiAny : Dictionary<string, object>, IOpenApiElement, IOpenApiWritable
     {
