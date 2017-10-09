@@ -20,7 +20,7 @@ namespace Microsoft.OData.OpenAPI
         /// Gets an attribute on an enum field value.
         /// </summary>
         /// <typeparam name="T">The type of the attribute to retrieve.</typeparam>
-        /// <param name="enumVal">The enum value..</param>
+        /// <param name="enumVal">The enum value.</param>
         /// <returns>The attribute of type <typeparam name="T"> or null.</returns>
         public static T GetAttributeOfType<T>(this Enum enumVal) where T : Attribute
         {
