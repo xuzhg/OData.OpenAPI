@@ -15,7 +15,9 @@ namespace Microsoft.OData.OpenAPI
     {
         public bool Indented { get; set; } = true;
 
-        public Func<Uri> BaseUri { get; set; } = () => new Uri("http://localhost");
+        public Uri BaseUri { get; set; } = new Uri("http://localhost");
+
+        public Version Version { get; set; } = new Version(1, 0, 1);
 
        // public Action<IOpenApiElement> OpenApiMethod { get; set; }
     }

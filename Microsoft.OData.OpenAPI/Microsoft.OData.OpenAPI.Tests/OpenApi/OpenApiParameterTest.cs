@@ -11,17 +11,14 @@ namespace Microsoft.OData.OpenAPI.Tests
     public class OpenApiParameterTest
     {
         [Fact]
-        public void CtorThrowsArgumentNullRef()
-        {
-            // Arrange & Act & Assert
-            Assert.Throws<ArgumentException>("name", () => new OpenApiParameter(null, ParameterLocation.path));
-        }
-
-        [Fact]
         public void CtorSetsPropertiesValue()
         {
             // Arrange & Act
-            OpenApiParameter parameter = new OpenApiParameter("token", ParameterLocation.header);
+            OpenApiParameter parameter = new OpenApiParameter
+            {
+                Name = "token",
+                In = ParameterLocation.header
+            };
 
             // Assert
             Assert.Equal("token", parameter.Name);

@@ -67,9 +67,11 @@ namespace Microsoft.OData.OpenAPI.Tests
                 },
                 Parameters = new List<OpenApiParameter>
                 {
-                    new OpenApiParameter("id", ParameterLocation.path)
+                    new OpenApiParameter
                     {
+                        Name = "id",
                         Description = "ID of pet to use",
+                        In = ParameterLocation.path,
                         Required = true,
                         Schema = new OpenApiSchema
                         {

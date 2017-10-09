@@ -299,16 +299,7 @@ namespace Microsoft.OData.OpenAPI
             CheckArgument(writer, name);
 
             writer.WritePropertyName(name);
-
-            IOpenApiWritable writable = element as IOpenApiWritable;
-            if (writable != null)
-            {
-                writable.Write(writer);
-            }
-            else
-            {
-                writer.WriteValue(element);
-            }
+            writer.WriteValueInternal(element);
         }
 
         private static void WriteCollectionInternal<T>(this IOpenApiWriter writer, string name, IEnumerable<T> elements)
@@ -323,21 +314,12 @@ namespace Microsoft.OData.OpenAPI
             {
                 foreach (T e in elements)
                 {
-                    IOpenApiWritable writable = e as IOpenApiWritable;
-                    if (writable != null)
-                    {
-                        writable.Write(writer);
-                    }
-                    else
-                    {
-                        writer.WriteValue(e);
-                    }
+                    writer.WriteValueInternal(e);
                 }
             }
 
             writer.WriteEndArray();
         }
-
 
         private static void WriteDictionaryInternal<T>(this IOpenApiWriter writer, string name, IDictionary<string, T> elements)
         {
@@ -352,20 +334,24 @@ namespace Microsoft.OData.OpenAPI
                 foreach (KeyValuePair<string, T> e in elements)
                 {
                     writer.WritePropertyName(e.Key);
-
-                    IOpenApiWritable writableElement = e.Value as IOpenApiWritable;
-                    if (writableElement != null)
-                    {
-                        writableElement.Write(writer);
-                    }
-                    else
-                    {
-                        writer.WriteValue(e.Value);
-                    }
+                    writer.WriteValueInternal(e.Value);
                 }
             }
 
             writer.WriteEndObject();
+        }
+
+        private static void WriteValueInternal<T>(this IOpenApiWriter writer, T value)
+        {
+            IOpenApiWritable writableElement = value as IOpenApiWritable;
+            if (writableElement != null)
+            {
+                writableElement.Write(writer);
+            }
+            else
+            {
+                writer.WriteValue(value);
+            }
         }
 
         private static void CheckArgument(IOpenApiWriter writer, string name)

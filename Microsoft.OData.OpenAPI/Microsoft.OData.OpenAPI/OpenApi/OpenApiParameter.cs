@@ -86,17 +86,41 @@ namespace Microsoft.OData.OpenAPI
     {
         private bool _required = false;
         private OpenApiAny _example;
+        private ParameterLocation _location;
         private IDictionary<string, OpenApiExample> _examples;
 
         /// <summary>
         /// REQUIRED. The name of the parameter.
         /// </summary>
-        public string Name { get; }
+        public string Name { get; set; }
 
         /// <summary>
         /// REQUIRED. The location of the parameter.
         /// </summary>
-        public ParameterLocation In { get; }
+        public ParameterLocation In
+        {
+            get
+            {
+                return _location;
+            }
+            set
+            {
+                // Default values for the Style property:
+                switch (value)
+                {
+                    case ParameterLocation.query:
+                    case ParameterLocation.cookie:
+                        Style = ParameterStyle.form;
+                        break;
+                    case ParameterLocation.path:
+                    case ParameterLocation.header:
+                        Style = ParameterStyle.simple;
+                        break;
+                }
+
+                _location = value;
+            }
+        }
 
         /// <summary>
         /// A brief description of the parameter.
@@ -208,35 +232,6 @@ namespace Microsoft.OData.OpenAPI
         /// Reference Object.
         /// </summary>
         public OpenApiReference Reference { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OpenApiParameter"/> class.
-        /// </summary>
-        /// <param name="name">The name of parameter.</param>
-        /// <param name="@in">The location of the parameter.</param>
-        public OpenApiParameter(string name, ParameterLocation @in)
-        {
-            if (String.IsNullOrWhiteSpace(name))
-            {
-                throw Error.ArgumentNullOrEmpty(nameof(name));
-            }
-
-            Name = name;
-            In = @in;
-
-            // Default values for the Style property:
-            switch (@in)
-            {
-                case ParameterLocation.query:
-                case ParameterLocation.cookie:
-                    Style = ParameterStyle.form;
-                    break;
-                case ParameterLocation.path:
-                case ParameterLocation.header:
-                    Style = ParameterStyle.simple;
-                    break;
-            }
-        }
 
         /// <summary>
         /// Write parameter object to the given writer.

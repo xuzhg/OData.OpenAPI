@@ -45,8 +45,8 @@ namespace Microsoft.OData.OpenAPI
                 throw Error.ArgumentNull("writer");
             }
 
-            ODataOpenApiConverter converter = new ODataOpenApiJsonConverter(model, writer, settings);
-            converter.Convert();
+            //ODataOpenApiConverter converter = new ODataOpenApiJsonConverter(model, writer, settings);
+            //converter.Convert();
             return true;
         }
 

@@ -92,7 +92,7 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// Enum
         /// </summary>
-        public List<string> Enum { get; set; }
+        public IList<string> Enum { get; set; }
 
         /// <summary>
         /// Type
@@ -257,6 +257,9 @@ namespace Microsoft.OData.OpenAPI
 
             // Required
             writer.WriteOptionalCollection(OpenApiConstants.OpenApiDocRequired, Required);
+
+            // enum
+            writer.WriteOptionalCollection(OpenApiConstants.OpenApiDocEnum, Enum);
 
             // AllOf
             writer.WriteOptionalCollection(OpenApiConstants.OpenApiDocAllOf, AllOf);
