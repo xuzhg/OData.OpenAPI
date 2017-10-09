@@ -64,22 +64,22 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteStartObject();
 
             // title
-            writer.WriteRequired(OpenApiConstants.OpenApiDocTitle, Title);
+            writer.WriteRequiredProperty(OpenApiConstants.OpenApiDocTitle, Title);
 
             // description
-            writer.WriteOptional(OpenApiConstants.OpenApiDocDescription, Description);
+            writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocDescription, Description);
 
             // termsOfService
-            writer.WriteOptional(OpenApiConstants.OpenApiDocTermsOfService, TermsOfService?.OriginalString);
+            writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocTermsOfService, TermsOfService?.OriginalString);
 
             // contact object
-            writer.WriteOptional(OpenApiConstants.OpenApiDocContact, Contact);
+            writer.WriteOptionalObject(OpenApiConstants.OpenApiDocContact, Contact);
 
             // license object
-            writer.WriteOptional(OpenApiConstants.OpenApiDocLicense, License);
+            writer.WriteOptionalObject(OpenApiConstants.OpenApiDocLicense, License);
 
             // version
-            writer.WriteRequired(OpenApiConstants.OpenApiDocVersion, Version?.ToString());
+            writer.WriteRequiredProperty(OpenApiConstants.OpenApiDocVersion, Version?.ToString());
 
             // specification extensions
             writer.WriteDictionary(Extensions);

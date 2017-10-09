@@ -44,10 +44,10 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteStartObject();
 
             // description
-            writer.WriteOptional(OpenApiConstants.OpenApiDocDescription, Description);
+            writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocDescription, Description);
 
             // url
-            writer.WriteRequired(OpenApiConstants.OpenApiDocUrl, Url.OriginalString);
+            writer.WriteRequiredProperty(OpenApiConstants.OpenApiDocUrl, Url?.OriginalString);
 
             // specification extensions
             writer.WriteDictionary(Extensions);

@@ -177,7 +177,7 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocOperationId, OperationId);
 
             // parameters
-            writer.WriteDictionary(OpenApiConstants.OpenApiDocParameters, Parameters);
+            writer.WriteOptionalDictionary(OpenApiConstants.OpenApiDocParameters, Parameters);
 
             // requestBody
             writer.WriteOptionalObject(OpenApiConstants.OpenApiDocRequestBody, RequestBody);

@@ -57,7 +57,7 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocDescription, Description);
 
             // variables
-            writer.WriteDictionary(OpenApiConstants.OpenApiDocVariables, Variables);
+            writer.WriteOptionalDictionary(OpenApiConstants.OpenApiDocVariables, Variables);
 
             // specification extensions
             writer.WriteDictionary(Extensions);

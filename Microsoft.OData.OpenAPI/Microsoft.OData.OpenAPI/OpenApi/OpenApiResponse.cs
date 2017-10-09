@@ -79,13 +79,13 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteRequiredProperty(OpenApiConstants.OpenApiDocDescription, Description);
 
             // headers
-            writer.WriteDictionary(OpenApiConstants.OpenApiDocHeaders, Headers);
+            writer.WriteOptionalDictionary(OpenApiConstants.OpenApiDocHeaders, Headers);
 
             // content
-            writer.WriteDictionary(OpenApiConstants.OpenApiDocContent, Content);
+            writer.WriteOptionalDictionary(OpenApiConstants.OpenApiDocContent, Content);
 
             // headers
-            writer.WriteDictionary(OpenApiConstants.OpenApiDocLinks, Links);
+            writer.WriteOptionalDictionary(OpenApiConstants.OpenApiDocLinks, Links);
 
             // Extensions
             writer.WriteDictionary(Extensions);

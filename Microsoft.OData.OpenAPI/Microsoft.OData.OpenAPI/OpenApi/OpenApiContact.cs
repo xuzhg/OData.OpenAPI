@@ -50,13 +50,13 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteStartObject();
 
             // name
-            writer.WriteOptional(OpenApiConstants.OpenApiDocName, Name);
+            writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocName, Name);
 
             // url
-            writer.WriteOptional(OpenApiConstants.OpenApiDocUrl, Url?.OriginalString);
+            writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocUrl, Url?.OriginalString);
 
             // email
-            writer.WriteOptional(OpenApiConstants.OpenApiDocEmail, Email);
+            writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocEmail, Email);
 
             // specification extensions
             writer.WriteDictionary(Extensions);

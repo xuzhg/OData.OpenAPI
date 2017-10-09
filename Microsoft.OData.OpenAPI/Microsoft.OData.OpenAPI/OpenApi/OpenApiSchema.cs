@@ -274,7 +274,7 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteOptionalObject(OpenApiConstants.OpenApiDocItems, Items);
 
             // Properties
-            writer.WriteDictionary(OpenApiConstants.OpenApiDocProperties, Properties);
+            writer.WriteOptionalDictionary(OpenApiConstants.OpenApiDocProperties, Properties);
 
             // AdditionalProperties
             writer.WriteOptionalObject(OpenApiConstants.OpenApiDocAdditionalProperties, AdditionalProperties);

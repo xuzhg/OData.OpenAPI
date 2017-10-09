@@ -59,10 +59,10 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteOptionalObject(OpenApiConstants.OpenApiDocExample, Example);
 
             // examples
-            writer.WriteDictionary(OpenApiConstants.OpenApiDocExamples, Examples);
+            writer.WriteOptionalDictionary(OpenApiConstants.OpenApiDocExamples, Examples);
 
             // encoding
-            writer.WriteDictionary(OpenApiConstants.OpenApiDocEncoding, Encoding);
+            writer.WriteOptionalDictionary(OpenApiConstants.OpenApiDocEncoding, Encoding);
 
             // specification extensions
             writer.WriteDictionary(Extensions);

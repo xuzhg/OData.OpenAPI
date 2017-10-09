@@ -78,31 +78,31 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteStartObject();
 
             // schemas
-            writer.WriteDictionary(OpenApiConstants.OpenApiDocSchemas, Schemas);
+            writer.WriteOptionalDictionary(OpenApiConstants.OpenApiDocSchemas, Schemas);
 
             // responses
-            writer.WriteDictionary(OpenApiConstants.OpenApiDocResponses, Responses);
+            writer.WriteOptionalDictionary(OpenApiConstants.OpenApiDocResponses, Responses);
 
             // parameters
-            writer.WriteDictionary(OpenApiConstants.OpenApiDocParameters, Parameters);
+            writer.WriteOptionalDictionary(OpenApiConstants.OpenApiDocParameters, Parameters);
 
             // examples
-            writer.WriteDictionary(OpenApiConstants.OpenApiDocExamples, Examples);
+            writer.WriteOptionalDictionary(OpenApiConstants.OpenApiDocExamples, Examples);
 
             // requestBodies
-            writer.WriteDictionary(OpenApiConstants.OpenApiDocRequestBodies, RequestBodies);
+            writer.WriteOptionalDictionary(OpenApiConstants.OpenApiDocRequestBodies, RequestBodies);
 
             // headers
-            writer.WriteDictionary(OpenApiConstants.OpenApiDocHeaders, Headers);
+            writer.WriteOptionalDictionary(OpenApiConstants.OpenApiDocHeaders, Headers);
 
             // securitySchemes
-            writer.WriteDictionary(OpenApiConstants.OpenApiDocSecuritySchemes, SecuritySchemes);
+            writer.WriteOptionalDictionary(OpenApiConstants.OpenApiDocSecuritySchemes, SecuritySchemes);
 
             // links
-            writer.WriteDictionary(OpenApiConstants.OpenApiDocLinks, Links);
+            writer.WriteOptionalDictionary(OpenApiConstants.OpenApiDocLinks, Links);
 
             // callbacks
-            writer.WriteDictionary(OpenApiConstants.OpenApiDocCallbacks, Callbacks);
+            writer.WriteOptionalDictionary(OpenApiConstants.OpenApiDocCallbacks, Callbacks);
 
             // specification extensions
             writer.WriteDictionary(Extensions);

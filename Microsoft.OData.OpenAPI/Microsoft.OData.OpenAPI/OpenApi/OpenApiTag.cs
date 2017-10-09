@@ -48,13 +48,13 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteStartObject();
 
             // name
-            writer.WriteRequired(OpenApiConstants.OpenApiDocName, Name);
+            writer.WriteRequiredProperty(OpenApiConstants.OpenApiDocName, Name);
 
             // description
-            writer.WriteOptional(OpenApiConstants.OpenApiDocDescription, Description);
+            writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocDescription, Description);
 
             // External Docs
-            writer.WriteOptional(OpenApiConstants.OpenApiDocExternalDocs, ExternalDocs);
+            writer.WriteOptionalObject(OpenApiConstants.OpenApiDocExternalDocs, ExternalDocs);
 
             // specification extensions
             writer.WriteDictionary(Extensions);

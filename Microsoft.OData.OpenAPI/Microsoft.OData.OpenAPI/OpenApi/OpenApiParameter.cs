@@ -307,10 +307,10 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteOptionalObject(OpenApiConstants.OpenApiDocExample, Example);
 
             // examples
-            writer.WriteDictionary(OpenApiConstants.OpenApiDocExamples, Examples);
+            writer.WriteOptionalDictionary(OpenApiConstants.OpenApiDocExamples, Examples);
 
             // content
-            writer.WriteDictionary(OpenApiConstants.OpenApiDocContent, Content);
+            writer.WriteOptionalDictionary(OpenApiConstants.OpenApiDocContent, Content);
 
             // specification extensions
             writer.WriteDictionary(Extensions);

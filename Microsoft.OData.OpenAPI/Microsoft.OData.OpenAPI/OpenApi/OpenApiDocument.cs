@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Microsoft.OData.OpenAPI
 {
@@ -106,28 +107,28 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteStartObject();
 
             // openapi:3.0.0
-            writer.WriteRequired(OpenApiConstants.OpenApiDocOpenApi, OpenApi.ToString());
+            writer.WriteRequiredProperty(OpenApiConstants.OpenApiDocOpenApi, OpenApi.ToString());
 
             // info
-            writer.WriteRequired(OpenApiConstants.OpenApiDocInfo, Info);
+            writer.WriteRequiredObject(OpenApiConstants.OpenApiDocInfo, Info);
 
             // servers
-            writer.WriteOptional(OpenApiConstants.OpenApiDocServers, Servers);
+            writer.WriteOptionalCollection(OpenApiConstants.OpenApiDocServers, Servers);
 
             // paths
-            writer.WriteRequired(OpenApiConstants.OpenApiDocPaths, Paths);
+            writer.WriteRequiredObject(OpenApiConstants.OpenApiDocPaths, Paths);
 
             // components
-            writer.WriteOptional(OpenApiConstants.OpenApiDocComponents, Components);
+            writer.WriteOptionalObject(OpenApiConstants.OpenApiDocComponents, Components);
 
             // security
-            writer.WriteOptional(OpenApiConstants.OpenApiDocSecurity, Security);
+            writer.WriteOptionalCollection(OpenApiConstants.OpenApiDocSecurity, Security);
 
             // tags
-            writer.WriteOptional(OpenApiConstants.OpenApiDocTags, Tags);
+            writer.WriteOptionalCollection(OpenApiConstants.OpenApiDocTags, Tags);
 
             // external docs
-            writer.WriteOptional(OpenApiConstants.OpenApiDocExternalDocs, ExternalDoc);
+            writer.WriteOptionalObject(OpenApiConstants.OpenApiDocExternalDocs, ExternalDoc);
 
             // specification extensions
             writer.WriteDictionary(Extensions);

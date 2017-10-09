@@ -117,7 +117,7 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteOptionalObject(OpenApiConstants.OpenApiDocResponses, Responses);
 
             // callbacks
-            writer.WriteDictionary(OpenApiConstants.OpenApiDocCallbacks, Callbacks);
+            writer.WriteOptionalDictionary(OpenApiConstants.OpenApiDocCallbacks, Callbacks);
 
             // deprecated
             writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocDeprecated, Deprecated);

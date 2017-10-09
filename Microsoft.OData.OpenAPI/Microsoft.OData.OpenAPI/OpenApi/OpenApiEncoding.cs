@@ -61,7 +61,7 @@ namespace Microsoft.OData.OpenAPI
             writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocContentType, ContentType);
 
             // headers
-            writer.WriteDictionary(OpenApiConstants.OpenApiDocHeaders, Headers);
+            writer.WriteOptionalDictionary(OpenApiConstants.OpenApiDocHeaders, Headers);
 
             // style
             writer.WriteOptionalProperty(OpenApiConstants.OpenApiDocStyle, Style?.ToString());
