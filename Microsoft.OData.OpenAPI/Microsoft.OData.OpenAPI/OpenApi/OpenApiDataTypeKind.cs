@@ -101,7 +101,7 @@ namespace Microsoft.OData.OpenAPI
         }
 
         /// <summary>
-        /// Get the Type name.
+        /// Get the Type.
         /// </summary>
         /// <param name="kind">The Open Api data type kind.</param>
         /// <returns>The Type.</returns>

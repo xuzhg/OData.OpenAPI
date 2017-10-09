@@ -1,5 +1,5 @@
 ﻿//---------------------------------------------------------------------
-// <copyright file="ODataOpenApiWriterSettings.cs" company="Microsoft">
+// <copyright file="OpenApiWriterSettings.cs" company="Microsoft">
 //      Copyright (C) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 // </copyright>
 //---------------------------------------------------------------------
@@ -13,12 +13,8 @@ namespace Microsoft.OData.OpenAPI
     /// </summary>
     public sealed class OpenApiWriterSettings
     {
-        public bool Indented { get; set; } = true;
-
         public Uri BaseUri { get; set; } = new Uri("http://localhost");
 
         public Version Version { get; set; } = new Version(1, 0, 1);
-
-       // public Action<IOpenApiElement> OpenApiMethod { get; set; }
     }
 }
