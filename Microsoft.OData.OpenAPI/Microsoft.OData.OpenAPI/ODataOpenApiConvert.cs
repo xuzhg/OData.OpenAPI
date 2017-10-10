@@ -17,7 +17,7 @@ namespace Microsoft.OData.OpenAPI
 
         public static OpenApiDocument ConvertTo(this IEdmModel model, OpenApiWriterSettings settings)
         {
-            return new ODataOpenApiConverter(model, settings).ConvertTo();
+            return new EdmOpenApiDocumentGenerator(model, settings).Generate();
         }
     }
 }

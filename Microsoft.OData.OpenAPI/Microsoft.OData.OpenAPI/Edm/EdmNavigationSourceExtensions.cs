@@ -1,117 +1,12 @@
-﻿//---------------------------------------------------------------------
-// <copyright file="ODataOpenApiConverter.cs" company="Microsoft">
-//      Copyright (C) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
-// </copyright>
-//---------------------------------------------------------------------
-
-using Microsoft.OData.Edm;
+﻿using Microsoft.OData.Edm;
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Text;
 
-namespace Microsoft.OData.OpenAPI
-{
-    internal class ODataOpenApiConverter
+namespace Microsoft.OData.OpenAPI{
+    internal static class EdmNavigationSourceExtensions
     {
-        private EdmOpenApiComponentsVistor _componentsVistor;
-
-        public IEdmModel Model { get; }
-
-        public OpenApiWriterSettings Settings { get; }
-
-        public ODataOpenApiConverter(IEdmModel model, OpenApiWriterSettings settings)
-        {
-            Model = model ?? throw Error.ArgumentNull(nameof(model));
-            Settings = settings ?? throw Error.ArgumentNull(nameof(settings));
-
-            _componentsVistor = new EdmOpenApiComponentsVistor(model);
-        }
-
-        public virtual OpenApiDocument ConvertTo()
-        {
-            return new OpenApiDocument
-            {
-                Info = CreateInfo(),
-
-                Servers = CreateServers(),
-
-                Paths = CreatePaths(),
-
-                Components = CreateComponents(),
-
-                Security = CreateSecurity(),
-
-                Tags = CreateTags()
-            };
-        }
-
-        private OpenApiInfo CreateInfo()
-        {
-            return new OpenApiInfo
-            {
-                Title = "OData Service for namespace " + Model.DeclaredNamespaces.FirstOrDefault(),
-                Version = Settings.Version,
-                Description = "This OData service is located at " + Settings.BaseUri?.OriginalString
-            };
-        }
-
-        private IList<OpenApiServer> CreateServers()
-        {
-            return new List<OpenApiServer>
-            {
-                new OpenApiServer
-                {
-                    Url = Settings.BaseUri
-                }
-            };
-        }
-
-        private OpenApiPaths CreatePaths()
-        {
-            OpenApiPaths paths = new OpenApiPaths();
-
-            foreach (IEdmEntitySet entitySet in Model.EntityContainer.EntitySets())
-            {
-                OpenApiPathItem pathItem = new OpenApiPathItem
-                {
-                    Get = CreateGetOperation(entitySet),
-
-                    Post = CreatePostOperation(entitySet)
-                };
-
-                paths.Add("/" + entitySet.Name, pathItem);
-
-
-            }
-
-
-            return paths;
-        }
-
-        private OpenApiComponents CreateComponents()
-        {
-            return _componentsVistor.Visit();
-        }
-
-        private IList<OpenApiSecurity> CreateSecurity()
-        {
-            return null;
-        }
-
-        private IList<OpenApiTag> CreateTags()
-        {
-            IList<OpenApiTag> tags = new List<OpenApiTag>();
-            foreach (IEdmEntitySet entitySet in Model.EntityContainer.EntitySets())
-            {
-                tags.Add(new OpenApiTag
-                {
-                    Name = entitySet.Name
-                });
-            }
-
-            return tags;
-        }
-
-        private OpenApiOperation CreateGetOperation(IEdmEntitySet entitySet)
+        public static OpenApiOperation CreateGetOperationForEntitySet(this IEdmEntitySet entitySet)
         {
             OpenApiOperation operation = new OpenApiOperation
             {
@@ -202,7 +97,7 @@ namespace Microsoft.OData.OpenAPI
             return operation;
         }
 
-        private OpenApiOperation CreatePostOperation(IEdmEntitySet entitySet)
+        public static OpenApiOperation CreatePostOperationForEntitySet(this IEdmEntitySet entitySet)
         {
             OpenApiOperation operation = new OpenApiOperation
             {
@@ -264,7 +159,7 @@ namespace Microsoft.OData.OpenAPI
             return operation;
         }
 
-        private OpenApiParameter CreateOrderByParameter(IEdmEntitySet entitySet)
+        public static OpenApiParameter CreateOrderByParameter(this IEdmEntitySet entitySet)
         {
             OpenApiParameter parameter = new OpenApiParameter
             {
@@ -286,13 +181,13 @@ namespace Microsoft.OData.OpenAPI
             return parameter;
         }
 
-        private IList<string> CreateOrderbyItems(IEdmEntitySet entitySet)
+        public static IList<string> CreateOrderbyItems(this IEdmEntitySet entitySet)
         {
             IList<string> orderByItems = new List<string>();
 
             IEdmEntityType entityType = entitySet.EntityType();
 
-            foreach(var property in entityType.StructuralProperties())
+            foreach (var property in entityType.StructuralProperties())
             {
                 orderByItems.Add(property.Name);
                 orderByItems.Add(property.Name + " desc");
@@ -301,7 +196,7 @@ namespace Microsoft.OData.OpenAPI
             return orderByItems;
         }
 
-        private OpenApiParameter CreateSelectParameter(IEdmEntitySet entitySet)
+        public static OpenApiParameter CreateSelectParameter(this IEdmEntitySet entitySet)
         {
             OpenApiParameter parameter = new OpenApiParameter
             {
@@ -323,7 +218,7 @@ namespace Microsoft.OData.OpenAPI
             return parameter;
         }
 
-        private IList<string> CreateSelectItems(IEdmEntitySet entitySet)
+        public static IList<string> CreateSelectItems(this IEdmEntitySet entitySet)
         {
             IList<string> selectItems = new List<string>();
 
@@ -337,7 +232,7 @@ namespace Microsoft.OData.OpenAPI
             return selectItems;
         }
 
-        private OpenApiParameter CreateExpandParameter(IEdmEntitySet entitySet)
+        public static OpenApiParameter CreateExpandParameter(this IEdmEntitySet entitySet)
         {
             OpenApiParameter parameter = new OpenApiParameter
             {
@@ -359,7 +254,7 @@ namespace Microsoft.OData.OpenAPI
             return parameter;
         }
 
-        private IList<string> CreateExpandItems(IEdmEntitySet entitySet)
+        public static IList<string> CreateExpandItems(this IEdmEntitySet entitySet)
         {
             IList<string> expandItems = new List<string>
             {

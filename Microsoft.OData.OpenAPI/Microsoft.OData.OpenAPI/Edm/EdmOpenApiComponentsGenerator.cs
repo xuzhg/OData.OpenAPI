@@ -1,5 +1,5 @@
 ﻿//---------------------------------------------------------------------
-// <copyright file="EdmOpenApiComponentsVistor.cs" company="Microsoft">
+// <copyright file="EdmOpenApiComponentsGenerator.cs" company="Microsoft">
 //      Copyright (C) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 // </copyright>
 //---------------------------------------------------------------------
@@ -9,27 +9,37 @@ using Microsoft.OData.Edm;
 
 namespace Microsoft.OData.OpenAPI
 {
-    class EdmOpenApiComponentsVistor : EdmModelVisitor
+    /// <summary>
+    /// Visit Edm model to generate <see cref="OpenApiComponents"/>
+    /// </summary>
+    internal class EdmOpenApiComponentsGenerator : EdmOpenApiGenerator
     {
         private OpenApiComponents _components;
 
-        public EdmOpenApiComponentsVistor(IEdmModel model)
-            : base(model)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EdmOpenApiComponentsGenerator" /> class.
+        /// </summary>
+        /// <param name="model">The Edm model.</param>
+        /// <param name="settings">The Open Api writer settings.</param>
+        public EdmOpenApiComponentsGenerator(IEdmModel model, OpenApiWriterSettings settings)
+            : base(model, settings)
         {
         }
 
-        public OpenApiComponents Visit()
+        /// <summary>
+        /// Create the <see cref="OpenApiComponents"/>
+        /// </summary>
+        /// <returns>the components object.</returns>
+        public OpenApiComponents Generate()
         {
-            if (_components != null)
+            if (_components == null)
             {
-                return _components;
+                _components = new OpenApiComponents
+                {
+                    Schemas = VisitSchemas(),
+                    Parameters = VisitParameters()
+                };
             }
-
-            _components = new OpenApiComponents
-            {
-                Schemas = VisitSchemas(),
-                Parameters = VisitParameters()
-            };
 
             return _components;
         }
