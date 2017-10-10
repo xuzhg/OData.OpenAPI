@@ -66,7 +66,7 @@ namespace Microsoft.OData.OpenAPI
         /// <param name="model">Model to be written.</param>
         /// <param name="writer">The generated Open API writer <see cref="IOpenApiWriter"/>.</param>
         /// <param name="settings">Settings for the generated Open API.</param>
-        internal static void WriteOpenApi(this IEdmModel model, IOpenApiWriter writer, OpenApiWriterSettings settings = null)
+        public static void WriteOpenApi(this IEdmModel model, IOpenApiWriter writer, OpenApiWriterSettings settings = null)
         {
             if (model == null)
             {
