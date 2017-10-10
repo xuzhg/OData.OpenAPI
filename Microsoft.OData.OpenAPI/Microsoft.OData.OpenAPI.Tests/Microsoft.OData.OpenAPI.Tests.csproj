@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\TripService.OpenApi.json" />
+    <None Remove="Resources\TripService.OpenApi.yaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\TripService.OData.xml" />
+    <EmbeddedResource Include="Resources\TripService.OpenApi.json" />
+    <EmbeddedResource Include="Resources\TripService.OpenApi.yaml" />
     <EmbeddedResource Include="Resources\YamlWriterTest.yaml.txt" />
     <EmbeddedResource Include="Resources\JsonWriterTest.json.txt" />
   </ItemGroup>

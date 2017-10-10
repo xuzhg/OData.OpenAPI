@@ -16,8 +16,6 @@ namespace Microsoft.OData.OpenAPI
     /// </summary>
     internal static class EdmNavigationSourceExtensions
     {
-       
-
         public static OpenApiOperation CreateGetOperationForEntitySet(this IEdmEntitySet entitySet)
         {
             OpenApiOperation operation = new OpenApiOperation
@@ -241,6 +239,7 @@ namespace Microsoft.OData.OpenAPI
                 }
             };
 
+            operation.Parameters = new List<OpenApiParameter>();
             operation.Parameters.Add(CreateSelectParameter(singleton));
 
             operation.Parameters.Add(CreateExpandParameter(singleton));

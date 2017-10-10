@@ -1,41 +1,45 @@
-﻿using Microsoft.OData.Edm;
+﻿//---------------------------------------------------------------------
+// <copyright file="EdmModelHelper.cs" company="Microsoft">
+//      Copyright (C) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
+// </copyright>
+//---------------------------------------------------------------------
+
+using Microsoft.OData.Edm;
+using Microsoft.OData.Edm.Csdl;
 using Microsoft.OData.Edm.Validation;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+using System.Xml.Linq;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Microsoft.OData.OpenAPI.Tests
 {
-    public class ODataOpenApiWriterTest
+    public static class EdmModelHelper
     {
-        private readonly ITestOutputHelper output;
+        private static IEdmModel _tripServiceModel;
 
-        public ODataOpenApiWriterTest(ITestOutputHelper output)
+        public static IEdmModel TripServiceModel
         {
-            this.output = output;
+            get
+            {
+                if (_tripServiceModel == null)
+                {
+                    LoadTripServiceModel();
+                }
+
+                return _tripServiceModel;
+            }
         }
 
-
-        private const string abc = "myabc";
-
-        [Fact]
-        public void Test1()
+        private static void LoadTripServiceModel()
         {
-            String a = "abc";
-            Assert.True(a.IsEnable());
-
-            abc.IsEnable();
-            Assert.Equal(2, 2);
+            if (_tripServiceModel == null)
+            {
+                string csdl = Resources.GetString("TripService.OData.xml");
+                _tripServiceModel = CsdlReader.Parse(XElement.Parse(csdl).CreateReader());
+            }
         }
 
-        [Fact]
-        public void EdmToOpenApiTest()
+        private static void CreateEdmModel()
         {
             var model = new EdmModel();
 
@@ -108,44 +112,8 @@ namespace Microsoft.OData.OpenAPI.Tests
             OpenApiDocument doc = model.ConvertTo();
             string json = doc.WriteToJson();
 
-            output.WriteLine(json);
+            //output.WriteLine(json);
             //Assert.Equal("", json);
-        }
-
-        private string GetCsdlJson(IEdmModel model)
-        {
-            OpenApiDocument doc = model.ConvertTo();
-            string json = doc.WriteToJson();
-            return json;
-        }
-    }
-
-    public static class MyClass
-    {
-        public static bool IsEnable(this string myString)
-        {
-            return true;
-        }
-    }
-
-    public class MyTest2
-    {
-        private readonly ITestOutputHelper output;
-
-        public MyTest2(ITestOutputHelper output)
-        {
-            this.output = output;
-        }
-
-
-        [Fact]
-        public void Test()
-        {
-            string json = File.ReadAllText(@"e:\json.json");
-
-            object a = JsonConvert.DeserializeObject(json);
-
-            output.WriteLine(JsonConvert.SerializeObject(a, Formatting.Indented));
         }
     }
 }
