@@ -4,6 +4,7 @@
 // </copyright>
 //---------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 
 namespace Microsoft.OData.OpenAPI
@@ -16,6 +17,24 @@ namespace Microsoft.OData.OpenAPI
         IOpenApiWritable
         where T : IOpenApiElement, IOpenApiWritable
     {
+        /// <summary>
+        /// Add a key/value item.
+        /// </summary>
+        /// <param name="item">The key/value item.</param>
+        public void Add(KeyValuePair<string, T> item)
+        {
+            Add(item.Key, item.Value);
+        }
+
+        /// <summary>
+        /// Add a Tuple(key, value) item.
+        /// </summary>
+        /// <param name="item">The Tuple(key, value) item.</param>
+        public void Add(Tuple<string, T> item)
+        {
+            Add(item.Item1, item.Item2);
+        }
+
         /// <summary>
         /// Write Any object to the given writer.
         /// </summary>

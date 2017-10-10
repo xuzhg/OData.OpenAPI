@@ -68,7 +68,8 @@ namespace Microsoft.OData.OpenAPI
                             if (functionImport != null)
                             {
                                 var functionImportPathItem = functionImport.CreatePathItem();
-                                _paths.Add(functionImportPathItem.Item1, functionImportPathItem.Item2);
+
+                                _paths.Add(functionImport.CreatePathItemName(), functionImportPathItem);
                             }
                             break;
 
@@ -77,7 +78,7 @@ namespace Microsoft.OData.OpenAPI
                             if (actionImport != null)
                             {
                                 var functionImportPathItem = actionImport.CreatePathItem();
-                                _paths.Add(functionImportPathItem.Item1, functionImportPathItem.Item2);
+                                _paths.Add(actionImport.CreatePathItemName(), functionImportPathItem);
                             }
                             break;
                     }

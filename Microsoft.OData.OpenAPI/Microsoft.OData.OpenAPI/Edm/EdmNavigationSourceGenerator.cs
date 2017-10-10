@@ -4,9 +4,9 @@
 // </copyright>
 //---------------------------------------------------------------------
 
-using Microsoft.OData.Edm;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.OData.Edm;
 
 namespace Microsoft.OData.OpenAPI
 {
@@ -44,6 +44,23 @@ namespace Microsoft.OData.OpenAPI
             paths.Add("/" + entitySet.Name, pathItem);
 
             // entity
+            string entityPathName = entitySet.CreatePathNameForEntity();
+            pathItem = new OpenApiPathItem
+            {
+                Get = entitySet.CreateGetOperationForEntity(),
+
+                Patch = entitySet.CreatePatchOperationForEntity(),
+
+                Delete = entitySet.CreateDeleteOperationForEntity()
+            };
+            paths.Add(entityPathName, pathItem);
+
+            // bound operations
+            IDictionary<string, OpenApiPathItem> operations = CreatePathItemsWithOperations(entitySet);
+            foreach (var operation in operations)
+            {
+                paths.Add(operation);
+            }
 
             return paths;
         }
@@ -52,9 +69,78 @@ namespace Microsoft.OData.OpenAPI
         {
             IDictionary<string, OpenApiPathItem> paths = new Dictionary<string, OpenApiPathItem>();
 
+            // Singleton
+            string entityPathName = singleton.CreatePathNameForSingleton();
+            OpenApiPathItem pathItem = new OpenApiPathItem
+            {
+                Get = singleton.CreateGetOperationForSingleton(),
+
+                Patch = singleton.CreatePatchOperationForSingleton(),
+            };
+            paths.Add(entityPathName, pathItem);
+
+
+            IDictionary<string, OpenApiPathItem> operations = CreatePathItemsWithOperations(singleton);
+            foreach (var operation in operations)
+            {
+                paths.Add(operation);
+            }
 
             return paths;
         }
 
+        private IDictionary<string, OpenApiPathItem> CreatePathItemsWithOperations(IEdmNavigationSource navigationSource)
+        {
+            IDictionary<string, OpenApiPathItem> operationPathItems = new Dictionary<string, OpenApiPathItem>();
+
+            IEnumerable<IEdmOperation> operations;
+            IEdmEntitySet entitySet = navigationSource as IEdmEntitySet;
+            // collection bound
+            if (entitySet != null)
+            {
+                operations = FindOperations(navigationSource.EntityType(), collection: true);
+                foreach (var operation in operations)
+                {
+                    OpenApiPathItem openApiOperation = operation.CreatePathItem();
+                    string operationPathName = operation.CreatePathItemName();
+                    operationPathItems.Add("/" + navigationSource.Name + operationPathName, openApiOperation);
+                }
+            }
+
+            // non-collection bound
+            operations = FindOperations(navigationSource.EntityType(), collection: false);
+            foreach (var operation in operations)
+            {
+                OpenApiPathItem openApiOperation = operation.CreatePathItem();
+                string operationPathName = operation.CreatePathItemName();
+
+                string temp;
+                if (entitySet != null)
+                {
+                    temp = entitySet.CreatePathNameForEntity();
+                }
+                else
+                {
+                    temp = "/" + navigationSource.Name;
+                }
+                operationPathItems.Add(temp + operationPathName, openApiOperation);
+            }
+
+            return operationPathItems;
+        }
+
+        private IEnumerable<IEdmOperation> FindOperations(IEdmEntityType entityType, bool collection)
+        {
+            string fullTypeName = collection ? "Collection(" + entityType.FullName() + ")" :
+                entityType.FullName();
+
+            foreach (var item in _boundOperations)
+            {
+                if (item.Key.FullName() == fullTypeName)
+                {
+                    yield return item.Value;
+                }
+            }
+        }
     }
 }

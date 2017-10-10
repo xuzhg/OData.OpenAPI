@@ -14,6 +14,23 @@ namespace Microsoft.OData.OpenAPI
 {
     internal static class EdmElementOpenApiElementExtensions
     {
+        private static IDictionary<string, OpenApiResponse> Responses =
+           new Dictionary<string, OpenApiResponse>
+           {
+                { "default",
+                    new OpenApiResponse
+                    {
+                        Reference = new OpenApiReference("#/components/responses/error")
+                    }
+                },
+                { "204", new OpenApiResponse { Description = "Success"} },
+           };
+
+        public static KeyValuePair<string, OpenApiResponse> GetResponse(this string statusCode)
+        {
+            return new KeyValuePair<string, OpenApiResponse>(statusCode, Responses[statusCode]);
+        }
+
         public static OpenApiSchema CreateSchema(this IEdmTypeReference reference)
         {
             if (reference == null)
@@ -85,66 +102,120 @@ namespace Microsoft.OData.OpenAPI
             return null;
         }
 
-        
-
-        public static (string, OpenApiPathItem) CreatePathItem(this IEdmActionImport actionImport)
+        public static OpenApiPathItem CreatePathItem(this IEdmOperationImport operationImport)
         {
-            OpenApiPathItem pathItem = new OpenApiPathItem
+            if (operationImport.Operation.IsAction())
+            {
+                return ((IEdmActionImport)operationImport).CreatePathItem();
+            }
+
+            return ((IEdmFunctionImport)operationImport).CreatePathItem();
+        }
+
+        public static OpenApiPathItem CreatePathItem(this IEdmOperation operation)
+        {
+            if (operation.IsAction())
+            {
+                return ((IEdmAction)operation).CreatePathItem();
+            }
+
+            return ((IEdmFunction)operation).CreatePathItem();
+        }
+
+        public static OpenApiPathItem CreatePathItem(this IEdmActionImport actionImport)
+        {
+            return CreatePathItem(actionImport.Action);
+        }
+
+        public static OpenApiPathItem CreatePathItem(this IEdmAction action)
+        {
+            return new OpenApiPathItem
             {
                 Post = new OpenApiOperation
                 {
-                    Summary = "Invoke action " + actionImport.Name,
-                    Tags = CreateTags(actionImport),
-                    Parameters = CreateParameters(actionImport),
-                    Responses = CreateResponses(actionImport)
+                    Summary = "Invoke action " + action.Name,
+                    Tags = CreateTags(action),
+                    Parameters = CreateParameters(action),
+                    Responses = CreateResponses(action)
                 }
             };
-
-            return ("/" + actionImport.Name, pathItem);
         }
 
-        public static (string, OpenApiPathItem) CreatePathItem(this IEdmFunctionImport functionImport)
+        public static OpenApiPathItem CreatePathItem(this IEdmFunctionImport functionImport)
         {
-            OpenApiPathItem pathItem = new OpenApiPathItem
+            return CreatePathItem(functionImport.Function);
+        }
+
+        public static OpenApiPathItem CreatePathItem(this IEdmFunction function)
+        {
+            return new OpenApiPathItem
             {
                 Get = new OpenApiOperation
                 {
-                    Summary = "Invoke function " + functionImport.Name,
-                    Tags = CreateTags(functionImport),
-                    Parameters = CreateParameters(functionImport),
-                    Responses = CreateResponses(functionImport)
+                    Summary = "Invoke function " + function.Name,
+                    Tags = CreateTags(function),
+                    Parameters = CreateParameters(function),
+                    Responses = CreateResponses(function)
                 }
             };
+        }
 
-            StringBuilder functionName = new StringBuilder("/" + functionImport.Name + "(");
+        public static string CreatePathItemName(this IEdmActionImport actionImport)
+        {
+            return CreatePathItemName(actionImport.Action);
+        }
+
+        public static string CreatePathItemName(this IEdmAction action)
+        {
+            return "/" + action.Name;
+        }
+
+        public static string CreatePathItemName(this IEdmFunctionImport functionImport)
+        {
+            return CreatePathItemName(functionImport.Function);
+        }
+
+        public static string CreatePathItemName(this IEdmFunction function)
+        {
+            StringBuilder functionName = new StringBuilder("/" + function.Name + "(");
 
             functionName.Append(String.Join(",",
-                functionImport.Function.Parameters.Select(p => p.Name + "=" + "{" + p.Name + "}")));
+                function.Parameters.Select(p => p.Name + "=" + "{" + p.Name + "}")));
             functionName.Append(")");
 
-            return (functionName.ToString(), pathItem);
+            return functionName.ToString();
         }
 
-        private static OpenApiResponses CreateResponses(this IEdmActionImport actionImport)
+        public static string CreatePathItemName(this IEdmOperationImport operationImport)
         {
-            OpenApiResponses responses = new OpenApiResponses();
-
-            OpenApiResponse response = new OpenApiResponse
+            if (operationImport.Operation.IsAction())
             {
-                Description = "Success",
-            };
-            responses.Add("204", response);
+                return ((IEdmActionImport)operationImport).CreatePathItemName();
+            }
 
-            response = new OpenApiResponse
-            {
-                Reference = new OpenApiReference("#/components/responses/error")
-            };
-            responses.Add("default", response);
-
-            return responses;
+            return ((IEdmFunctionImport)operationImport).CreatePathItemName();
         }
 
-        private static OpenApiResponses CreateResponses(this IEdmFunctionImport functionImport)
+        public static string CreatePathItemName(this IEdmOperation operation)
+        {
+            if (operation.IsAction())
+            {
+                return ((IEdmAction)operation).CreatePathItemName();
+            }
+
+            return ((IEdmFunction)operation).CreatePathItemName();
+        }
+
+        private static OpenApiResponses CreateResponses(this IEdmAction actionImport)
+        {
+            return new OpenApiResponses
+            {
+                "204".GetResponse(),
+                "default".GetResponse()
+            };
+        }
+
+        private static OpenApiResponses CreateResponses(this IEdmFunction function)
         {
             OpenApiResponses responses = new OpenApiResponses();
 
@@ -157,19 +228,13 @@ namespace Microsoft.OData.OpenAPI
                         "application/json",
                         new OpenApiMediaType
                         {
-                            Schema = functionImport.Function.ReturnType.CreateSchema()
+                            Schema = function.ReturnType.CreateSchema()
                         }
                     }
                 }
             };
             responses.Add("200", response);
-
-            response = new OpenApiResponse
-            {
-                Reference = new OpenApiReference("#/components/responses/error")
-            };
-            responses.Add("default", response);
-
+            responses.Add("default".GetResponse());
             return responses;
         }
 
@@ -190,11 +255,28 @@ namespace Microsoft.OData.OpenAPI
             return null;
         }
 
-        private static IList<OpenApiParameter> CreateParameters(this IEdmOperationImport operationImport)
+        private static IList<string> CreateTags(this IEdmOperation operation)
+        {
+            if (operation.EntitySetPath != null)
+            {
+                var pathExpression = operation.EntitySetPath as IEdmPathExpression;
+                if (pathExpression != null)
+                {
+                    return new List<string>
+                    {
+                        PathAsString(pathExpression.PathSegments)
+                    };
+                }
+            }
+
+            return null;
+        }
+
+        private static IList<OpenApiParameter> CreateParameters(this IEdmOperation operation)
         {
             IList<OpenApiParameter> parameters = new List<OpenApiParameter>();
 
-            foreach (IEdmOperationParameter edmParameter in operationImport.Operation.Parameters)
+            foreach (IEdmOperationParameter edmParameter in operation.Parameters)
             {
                 parameters.Add(new OpenApiParameter
                 {

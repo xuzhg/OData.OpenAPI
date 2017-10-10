@@ -1,11 +1,23 @@
-﻿using Microsoft.OData.Edm;
+﻿//---------------------------------------------------------------------
+// <copyright file="EdmNavigationSourceExtensions.cs" company="Microsoft">
+//      Copyright (C) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
+// </copyright>
+//---------------------------------------------------------------------
+
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using Microsoft.OData.Edm;
 
-namespace Microsoft.OData.OpenAPI{
+namespace Microsoft.OData.OpenAPI
+{
+    /// <summary>
+    /// Entension methods for navigation source
+    /// </summary>
     internal static class EdmNavigationSourceExtensions
     {
+       
+
         public static OpenApiOperation CreateGetOperationForEntitySet(this IEdmEntitySet entitySet)
         {
             OpenApiOperation operation = new OpenApiOperation
@@ -83,16 +95,10 @@ namespace Microsoft.OData.OpenAPI{
                             }
                         }
                     }
-                },
-                {
-                    "default",
-                    new OpenApiResponse
-                    {
-                        Reference = new OpenApiReference("#/components/responses/error")
-                    }
                 }
             };
 
+            operation.Responses.Add("default".GetResponse());
 
             return operation;
         }
@@ -146,16 +152,230 @@ namespace Microsoft.OData.OpenAPI{
                             }
                         }
                     }
-                },
+                }
+            };
+            operation.Responses.Add("default".GetResponse());
+
+            return operation;
+        }
+
+        public static string CreatePathNameForEntity(this IEdmEntitySet entitySet)
+        {
+            string keyString;
+            IList<IEdmStructuralProperty> keys = entitySet.EntityType().Key().ToList();
+            if (keys.Count() == 1)
+            {
+                keyString = "{" + keys.First().Name + "}";
+            }
+            else
+            {
+                IList<string> temps = new List<string>();
+                foreach (var keyProperty in entitySet.EntityType().Key())
                 {
-                    "default",
-                    new OpenApiResponse
-                    {
-                        Reference = new OpenApiReference("#/components/responses/error")
-                    }
+                    temps.Add(keyProperty.Name + "={" + keyProperty.Name + "}");
+                }
+                keyString = String.Join(",", temps);
+            }
+
+            return "/" + entitySet.Name + "('" + keyString + "')";
+        }
+
+        public static string CreatePathNameForSingleton(this IEdmSingleton singleton)
+        {
+            return "/" + singleton.Name;
+        }
+
+        public static OpenApiOperation CreateGetOperationForEntity(this IEdmEntitySet entitySet)
+        {
+            OpenApiOperation operation = new OpenApiOperation
+            {
+                Summary = "Get entity from " + entitySet.Name + " by key",
+                Tags = new List<string>
+                {
+                    entitySet.Name
                 }
             };
 
+            operation.Parameters = CreateKeyParameters(entitySet.EntityType());
+
+            operation.Parameters.Add(CreateSelectParameter(entitySet));
+
+            operation.Parameters.Add(CreateExpandParameter(entitySet));
+
+            operation.Responses = new OpenApiResponses
+            {
+                {
+                    "200",
+                    new OpenApiResponse
+                    {
+                        Description = "Retrieved entity",
+                        Content = new Dictionary<string, OpenApiMediaType>
+                        {
+                            {
+                                "application/json",
+                                new OpenApiMediaType
+                                {
+                                    Schema = new OpenApiSchema
+                                    {
+                                        Reference = new OpenApiReference("#/components/schemas/" + entitySet.EntityType().FullName())
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            operation.Responses.Add("default".GetResponse());
+
+            return operation;
+        }
+
+        public static OpenApiOperation CreateGetOperationForSingleton(this IEdmSingleton singleton)
+        {
+            OpenApiOperation operation = new OpenApiOperation
+            {
+                Summary = "Get " + singleton.Name,
+                Tags = new List<string>
+                {
+                    singleton.Name
+                }
+            };
+
+            operation.Parameters.Add(CreateSelectParameter(singleton));
+
+            operation.Parameters.Add(CreateExpandParameter(singleton));
+
+            operation.Responses = new OpenApiResponses
+            {
+                {
+                    "200",
+                    new OpenApiResponse
+                    {
+                        Description = "Retrieved entity",
+                        Content = new Dictionary<string, OpenApiMediaType>
+                        {
+                            {
+                                "application/json",
+                                new OpenApiMediaType
+                                {
+                                    Schema = new OpenApiSchema
+                                    {
+                                        Reference = new OpenApiReference("#/components/schemas/" + singleton.EntityType().FullName())
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+            };
+            operation.Responses.Add("default".GetResponse());
+
+            return operation;
+        }
+
+        public static OpenApiOperation CreatePatchOperationForEntity(this IEdmEntitySet entitySet)
+        {
+            OpenApiOperation operation = new OpenApiOperation
+            {
+                Summary = "Update entity in " + entitySet.Name,
+                Tags = new List<string>
+                {
+                    entitySet.Name
+                }
+            };
+
+            operation.Parameters = CreateKeyParameters(entitySet.EntityType());
+
+            operation.RequestBody = new OpenApiRequestBody
+            {
+                Required = true,
+                Description = "New property values",
+                Content = new Dictionary<string, OpenApiMediaType>
+                    {
+                        {
+                            "application/json", new OpenApiMediaType
+                            {
+                                Schema = new OpenApiSchema
+                                {
+                                    Reference = new OpenApiReference("#/components/schemas/" + entitySet.EntityType().FullName())
+                                }
+                            }
+                        }
+                    }
+            };
+
+            operation.Responses = new OpenApiResponses
+            {
+                "204".GetResponse(),
+                "default".GetResponse()
+            };
+            return operation;
+        }
+
+        public static OpenApiOperation CreatePatchOperationForSingleton(this IEdmSingleton singleton)
+        {
+            OpenApiOperation operation = new OpenApiOperation
+            {
+                Summary = "Update " + singleton.Name,
+                Tags = new List<string>
+                {
+                    singleton.Name
+                }
+            };
+
+            operation.RequestBody = new OpenApiRequestBody
+            {
+                Required = true,
+                Description = "New property values",
+                Content = new Dictionary<string, OpenApiMediaType>
+                    {
+                        {
+                            "application/json", new OpenApiMediaType
+                            {
+                                Schema = new OpenApiSchema
+                                {
+                                    Reference = new OpenApiReference("#/components/schemas/" + singleton.EntityType().FullName())
+                                }
+                            }
+                        }
+                    }
+            };
+
+            operation.Responses = new OpenApiResponses
+            {
+                "204".GetResponse(),
+                "default".GetResponse()
+            };
+            return operation;
+        }
+
+        public static OpenApiOperation CreateDeleteOperationForEntity(this IEdmEntitySet entitySet)
+        {
+            OpenApiOperation operation = new OpenApiOperation
+            {
+                Summary = "Delete entity from " + entitySet.Name,
+                Tags = new List<string>
+                {
+                    entitySet.Name
+                }
+            };
+            operation.Parameters = CreateKeyParameters(entitySet.EntityType());
+            operation.Parameters.Add(new OpenApiParameter
+            {
+                Name = "If-Match",
+                In = ParameterLocation.header,
+                Description = "ETag",
+                Schema = new OpenApiSchema
+                {
+                    Type = "string"
+                }
+            });
+
+            operation.Responses = new OpenApiResponses
+            {
+                "204".GetResponse(),
+                "default".GetResponse()
+            };
             return operation;
         }
 
@@ -196,7 +416,7 @@ namespace Microsoft.OData.OpenAPI{
             return orderByItems;
         }
 
-        public static OpenApiParameter CreateSelectParameter(this IEdmEntitySet entitySet)
+        public static OpenApiParameter CreateSelectParameter(this IEdmNavigationSource navigationSource)
         {
             OpenApiParameter parameter = new OpenApiParameter
             {
@@ -210,7 +430,7 @@ namespace Microsoft.OData.OpenAPI{
                     Items = new OpenApiSchema
                     {
                         Type = "string",
-                        Enum = CreateSelectItems(entitySet)
+                        Enum = CreateSelectItems(navigationSource.EntityType())
                     }
                 }
             };
@@ -218,11 +438,9 @@ namespace Microsoft.OData.OpenAPI{
             return parameter;
         }
 
-        public static IList<string> CreateSelectItems(this IEdmEntitySet entitySet)
+        public static IList<string> CreateSelectItems(this IEdmEntityType entityType)
         {
             IList<string> selectItems = new List<string>();
-
-            IEdmEntityType entityType = entitySet.EntityType();
 
             foreach (var property in entityType.StructuralProperties())
             {
@@ -232,7 +450,7 @@ namespace Microsoft.OData.OpenAPI{
             return selectItems;
         }
 
-        public static OpenApiParameter CreateExpandParameter(this IEdmEntitySet entitySet)
+        public static OpenApiParameter CreateExpandParameter(this IEdmNavigationSource navigationSource)
         {
             OpenApiParameter parameter = new OpenApiParameter
             {
@@ -246,7 +464,7 @@ namespace Microsoft.OData.OpenAPI{
                     Items = new OpenApiSchema
                     {
                         Type = "string",
-                        Enum = CreateExpandItems(entitySet)
+                        Enum = CreateExpandItems(navigationSource.EntityType())
                     }
                 }
             };
@@ -254,14 +472,12 @@ namespace Microsoft.OData.OpenAPI{
             return parameter;
         }
 
-        public static IList<string> CreateExpandItems(this IEdmEntitySet entitySet)
+        public static IList<string> CreateExpandItems(this IEdmEntityType entityType)
         {
             IList<string> expandItems = new List<string>
             {
                 "*"
             };
-
-            IEdmEntityType entityType = entitySet.EntityType();
 
             foreach (var property in entityType.NavigationProperties())
             {
@@ -270,5 +486,29 @@ namespace Microsoft.OData.OpenAPI{
 
             return expandItems;
         }
+
+        public static IList<OpenApiParameter> CreateKeyParameters(IEdmEntityType entityType)
+        {
+            IList<OpenApiParameter> parameters = new List<OpenApiParameter>();
+
+            // append key parameter
+            foreach (var keyProperty in entityType.Key())
+            {
+                OpenApiParameter parameter = new OpenApiParameter
+                {
+                    Name = keyProperty.Name,
+                    In = ParameterLocation.path,
+                    Required = true,
+                    Description = "key: " + keyProperty.Name,
+                    Schema = keyProperty.Type.CreateSchema()
+                };
+
+                parameters.Add(parameter);
+            }
+
+            return parameters;
+        }
+
+        
     }
 }
