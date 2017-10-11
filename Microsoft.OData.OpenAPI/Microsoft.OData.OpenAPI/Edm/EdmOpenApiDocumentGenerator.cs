@@ -32,7 +32,7 @@ namespace Microsoft.OData.OpenAPI
         }
 
         /// <summary>
-        /// Get converted Open Api document.
+        /// Generate Open Api document.
         /// </summary>
         /// <returns>The <see cref="OpenApiDocument"/> object.</returns>
         public virtual OpenApiDocument Generate()

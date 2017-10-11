@@ -15,7 +15,7 @@ namespace Microsoft.OData.OpenAPI.Tests
     /// </summary>
     public static class EdmModelHelper
     {
-        public static IEdmModel EmptyModel { get; }
+        public static IEdmModel EmptyModel { get; } = new EdmModel();
 
         public static IEdmModel BasicEdmModel { get; }
 
@@ -23,7 +23,6 @@ namespace Microsoft.OData.OpenAPI.Tests
 
         static EdmModelHelper()
         {
-            EmptyModel = new EdmModel();
             BasicEdmModel = CreateEdmModel();
             TripServiceModel = LoadTripServiceModel();
         }

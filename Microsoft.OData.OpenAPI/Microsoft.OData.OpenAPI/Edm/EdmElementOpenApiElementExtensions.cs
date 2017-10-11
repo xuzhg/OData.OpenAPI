@@ -12,6 +12,9 @@ using Microsoft.OData.Edm;
 
 namespace Microsoft.OData.OpenAPI
 {
+    /// <summary>
+    /// Extension methods for Edm Elements to Open Api Elements.
+    /// </summary>
     internal static class EdmElementOpenApiElementExtensions
     {
         private static IDictionary<string, OpenApiResponse> Responses =
