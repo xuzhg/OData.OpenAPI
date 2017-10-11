@@ -121,12 +121,15 @@ namespace Microsoft.OData.OpenAPI
         private IList<OpenApiTag> CreateTags()
         {
             IList<OpenApiTag> tags = new List<OpenApiTag>();
-            foreach (IEdmEntitySet entitySet in Model.EntityContainer.EntitySets())
+            if (Model.EntityContainer != null)
             {
-                tags.Add(new OpenApiTag
+                foreach (IEdmEntitySet entitySet in Model.EntityContainer.EntitySets())
                 {
-                    Name = entitySet.Name
-                });
+                    tags.Add(new OpenApiTag
+                    {
+                        Name = entitySet.Name
+                    });
+                }
             }
 
             return tags;

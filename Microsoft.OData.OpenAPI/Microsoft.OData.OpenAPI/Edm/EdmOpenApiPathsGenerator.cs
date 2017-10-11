@@ -37,50 +37,53 @@ namespace Microsoft.OData.OpenAPI
             {
                 _paths = new OpenApiPaths();
 
-                foreach (var element in Model.EntityContainer.Elements)
+                if (Model.EntityContainer != null)
                 {
-                    switch(element.ContainerElementKind)
+                    foreach (var element in Model.EntityContainer.Elements)
                     {
-                        case EdmContainerElementKind.EntitySet:
-                            IEdmEntitySet entitySet = element as IEdmEntitySet;
-                            if (entitySet != null)
-                            {
-                                foreach (var item in _nsGenerator.CreatePaths(entitySet))
+                        switch (element.ContainerElementKind)
+                        {
+                            case EdmContainerElementKind.EntitySet:
+                                IEdmEntitySet entitySet = element as IEdmEntitySet;
+                                if (entitySet != null)
                                 {
-                                    _paths.Add(item.Key, item.Value);
+                                    foreach (var item in _nsGenerator.CreatePaths(entitySet))
+                                    {
+                                        _paths.Add(item.Key, item.Value);
+                                    }
                                 }
-                            }
-                            break;
+                                break;
 
-                        case EdmContainerElementKind.Singleton:
-                            IEdmSingleton singleton = element as IEdmSingleton;
-                            if (singleton != null)
-                            {
-                                foreach (var item in _nsGenerator.CreatePaths(singleton))
+                            case EdmContainerElementKind.Singleton:
+                                IEdmSingleton singleton = element as IEdmSingleton;
+                                if (singleton != null)
                                 {
-                                    _paths.Add(item.Key, item.Value);
+                                    foreach (var item in _nsGenerator.CreatePaths(singleton))
+                                    {
+                                        _paths.Add(item.Key, item.Value);
+                                    }
                                 }
-                            }
-                            break;
+                                break;
 
-                        case EdmContainerElementKind.FunctionImport:
-                            IEdmFunctionImport functionImport = element as IEdmFunctionImport;
-                            if (functionImport != null)
-                            {
-                                var functionImportPathItem = functionImport.CreatePathItem();
+                            case EdmContainerElementKind.FunctionImport:
+                                IEdmFunctionImport functionImport = element as IEdmFunctionImport;
+                                if (functionImport != null)
+                                {
+                                    var functionImportPathItem = functionImport.CreatePathItem();
 
-                                _paths.Add(functionImport.CreatePathItemName(), functionImportPathItem);
-                            }
-                            break;
+                                    _paths.Add(functionImport.CreatePathItemName(), functionImportPathItem);
+                                }
+                                break;
 
-                        case EdmContainerElementKind.ActionImport:
-                            IEdmActionImport actionImport = element as IEdmActionImport;
-                            if (actionImport != null)
-                            {
-                                var functionImportPathItem = actionImport.CreatePathItem();
-                                _paths.Add(actionImport.CreatePathItemName(), functionImportPathItem);
-                            }
-                            break;
+                            case EdmContainerElementKind.ActionImport:
+                                IEdmActionImport actionImport = element as IEdmActionImport;
+                                if (actionImport != null)
+                                {
+                                    var functionImportPathItem = actionImport.CreatePathItem();
+                                    _paths.Add(actionImport.CreatePathItemName(), functionImportPathItem);
+                                }
+                                break;
+                        }
                     }
                 }
             }

@@ -486,7 +486,7 @@ namespace Microsoft.OData.OpenAPI
             return expandItems;
         }
 
-        public static IList<OpenApiParameter> CreateKeyParameters(IEdmEntityType entityType)
+        public static IList<OpenApiParameter> CreateKeyParameters(this IEdmEntityType entityType)
         {
             IList<OpenApiParameter> parameters = new List<OpenApiParameter>();
 
@@ -507,7 +507,5 @@ namespace Microsoft.OData.OpenAPI
 
             return parameters;
         }
-
-        
     }
 }
