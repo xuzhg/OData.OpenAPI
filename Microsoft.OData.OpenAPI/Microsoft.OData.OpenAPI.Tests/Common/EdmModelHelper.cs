@@ -4,42 +4,37 @@
 // </copyright>
 //---------------------------------------------------------------------
 
+using System.Xml.Linq;
 using Microsoft.OData.Edm;
 using Microsoft.OData.Edm.Csdl;
-using Microsoft.OData.Edm.Validation;
-using System.Collections.Generic;
-using System.Xml.Linq;
-using Xunit;
 
 namespace Microsoft.OData.OpenAPI.Tests
 {
+    /// <summary>
+    /// Edm model helpers
+    /// </summary>
     public static class EdmModelHelper
     {
-        private static IEdmModel _tripServiceModel;
+        public static IEdmModel EmptyModel { get; }
 
-        public static IEdmModel TripServiceModel
+        public static IEdmModel BasicEdmModel { get; }
+
+        public static IEdmModel TripServiceModel { get; }
+
+        static EdmModelHelper()
         {
-            get
-            {
-                if (_tripServiceModel == null)
-                {
-                    LoadTripServiceModel();
-                }
-
-                return _tripServiceModel;
-            }
+            EmptyModel = new EdmModel();
+            BasicEdmModel = CreateEdmModel();
+            TripServiceModel = LoadTripServiceModel();
         }
 
-        private static void LoadTripServiceModel()
+        private static IEdmModel LoadTripServiceModel()
         {
-            if (_tripServiceModel == null)
-            {
-                string csdl = Resources.GetString("TripService.OData.xml");
-                _tripServiceModel = CsdlReader.Parse(XElement.Parse(csdl).CreateReader());
-            }
+            string csdl = Resources.GetString("TripService.OData.xml");
+            return CsdlReader.Parse(XElement.Parse(csdl).CreateReader());
         }
 
-        private static void CreateEdmModel()
+        private static IEdmModel CreateEdmModel()
         {
             var model = new EdmModel();
 
@@ -103,17 +98,7 @@ namespace Microsoft.OData.OpenAPI.Tests
             entityContainer.AddElement(cities);
             entityContainer.AddElement(countriesOrRegions);
 
-            IEnumerable<EdmError> actualErrors = null;
-            model.Validate(out actualErrors);
-            Assert.Empty(actualErrors);
-
-            // string json = GetCsdlJson2(model);
-
-            OpenApiDocument doc = model.ConvertTo();
-            string json = doc.WriteToJson();
-
-            //output.WriteLine(json);
-            //Assert.Equal("", json);
+            return model;
         }
     }
 }
