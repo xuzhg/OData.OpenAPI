@@ -5,4 +5,8 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.OData.OpenAPI\Microsoft.OData.OpenAPI.csproj" />
+  </ItemGroup>
+
 </Project>
