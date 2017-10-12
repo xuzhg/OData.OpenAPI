@@ -3,7 +3,11 @@
   <PropertyGroup>
     <AssemblyName>Microsoft.OData.OpenAPI</AssemblyName>
     <RootNamespace>Microsoft.OData.OpenAPI</RootNamespace>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>net46; netstandard2.0</TargetFrameworks>
+    <Company>Microsoft</Company>
+    <Product>Microsoft.OData.OpenApi</Product>
+    <PackageId>Microsoft.OData.OpenApi</PackageId>
+    <Version>0.1.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
