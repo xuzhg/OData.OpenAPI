@@ -266,8 +266,8 @@ namespace OoasUtil
             sb.Append("  --url|-u ServiceUrl\t\tSet the OData Service Url.\n");
             sb.Append("  --file|-f CsdlFile\t\tSet the CSDL file name.\n");
             sb.Append("  --output|-o CsdlFile\t\tSet the output file name.\n");
-            sb.Append("  --json|-j CsdlFile\t\tSet the output format as JSON.\n");
-            sb.Append("  --yaml|-y CsdlFile\t\tSet the output format as YAML.\n");
+            sb.Append("  --json|-j\t\t\tSet the output format as JSON.\n");
+            sb.Append("  --yaml|-y\t\t\tSet the output format as YAML.\n");
 
             sb.Append("\nExamples:\n");
             sb.Append("    OoasUtil.exe -y -u http://services.odata.org/TrippinRESTierService -o trip.yaml\n");
