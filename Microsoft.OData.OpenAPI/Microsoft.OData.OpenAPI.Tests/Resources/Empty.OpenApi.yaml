@@ -46,6 +46,13 @@ components:
           type: string
         target:
           type: string
+  responses:
+    error:
+      description: error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/odata.error'
   parameters:
     top:
       name: $top

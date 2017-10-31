@@ -49,7 +49,7 @@ namespace Microsoft.OData.OpenAPI.Tests
             OpenApiReference oar = new OpenApiReference("#/components/schemas/Pet");
 
             // Act & Assert
-            Assert.Equal("$ref: #/components/schemas/Pet", oar.WriteToYaml());
+            Assert.Equal("$ref: '#/components/schemas/Pet'", oar.WriteToYaml());
         }
     }
 }

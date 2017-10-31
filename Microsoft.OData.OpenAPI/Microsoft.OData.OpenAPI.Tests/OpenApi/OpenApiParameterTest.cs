@@ -54,7 +54,7 @@ namespace Microsoft.OData.OpenAPI.Tests
             string expect = @"
 summary: A bar example
 description: A bar example description
-value: 
+value:
 ".Replace();
 
             OpenApiExample example = new OpenApiExample
@@ -91,7 +91,7 @@ value:
         public void CanWriteParameterObjectAsReferenceObjectYaml()
         {
             // Arrange
-            string expect = @"$ref: #/components/schemas/Address";
+            string expect = @"$ref: '#/components/schemas/Address'";
 
             OpenApiExample example = new OpenApiExample
             {

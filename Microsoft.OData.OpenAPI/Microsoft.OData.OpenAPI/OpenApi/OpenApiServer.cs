@@ -50,7 +50,7 @@ namespace Microsoft.OData.OpenAPI
             // { for JSON, empty for YAML
             writer.WriteStartObject();
 
-            // name
+            // Url
             writer.WriteRequiredProperty(OpenApiConstants.OpenApiDocUrl, Url.OriginalString);
 
             // description

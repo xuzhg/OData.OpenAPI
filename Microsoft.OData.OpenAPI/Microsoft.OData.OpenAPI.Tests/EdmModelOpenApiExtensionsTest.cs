@@ -8,11 +8,19 @@ using System;
 using System.IO;
 using Microsoft.OData.Edm;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Microsoft.OData.OpenAPI.Tests
 {
     public class EdmModelOpenApiExtensionsTest
     {
+        private readonly ITestOutputHelper output;
+
+        public EdmModelOpenApiExtensionsTest(ITestOutputHelper output)
+        {
+            this.output = output;
+        }
+
         [Fact]
         public void EmptyEdmModelToOpenApiJsonWorks()
         {
@@ -78,7 +86,7 @@ namespace Microsoft.OData.OpenAPI.Tests
 
             // Act
             string json = WriteEdmModelToOpenApi(model, OpenApiTarget.Json, settings);
-
+            output.WriteLine(json);
             // Assert
             Assert.Equal(Resources.GetString("TripService.OpenApi.json").Replace(), json);
         }

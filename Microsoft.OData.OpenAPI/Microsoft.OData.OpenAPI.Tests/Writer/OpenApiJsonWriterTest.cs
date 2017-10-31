@@ -52,7 +52,18 @@ namespace Microsoft.OData.OpenAPI.Tests
             output.WriteLine(actual);
 
             // Act & Assert
-            Assert.Equal("{ }", actual);
+            Assert.Equal(@"
+{
+  ""security"": [
+    {
+      ""petstore_auth"": [
+        ""write:pets"",
+        ""read:pets""
+      ]
+    }
+  ]
+}
+".Replace(), actual);
         }
 
         [Fact]

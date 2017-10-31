@@ -45,7 +45,7 @@ namespace Microsoft.OData.OpenAPI.Tests
         public void WriteObjectWithPropertiesWorks()
         {
             // Act & Assert
-            Assert.Equal("{\n  \"name\": \"value\"\n}", WriteObjectWithPropertiesAction.Write(OpenApiTarget.Yaml));
+            Assert.Equal("name: value", WriteObjectWithPropertiesAction.Write(OpenApiTarget.Yaml));
         }
 
         [Fact]
@@ -65,7 +65,10 @@ namespace Microsoft.OData.OpenAPI.Tests
 
             // Act & Assert
             //output.WriteLine(Write(writerAction));
-            Assert.Equal(" ", Write(writerAction));
+            Assert.Equal(@"
+name: API Support
+url: http://www.example.com/support
+".Replace(), Write(writerAction));
         }
 
         [Fact]
@@ -79,7 +82,7 @@ namespace Microsoft.OData.OpenAPI.Tests
             };
 
             // Act & Assert
-            Assert.Equal("[ ]", Write(writerAction));
+            Assert.Equal("", Write(writerAction));
         }
 
         [Fact]
@@ -131,7 +134,16 @@ namespace Microsoft.OData.OpenAPI.Tests
             output.WriteLine(yaml);
 
             // Act & Assert
-            Assert.Equal("{\n  \"name\": \"value\"\n}", yaml);
+            Assert.Equal(@"
+security:
+  - petstore_auth:
+      - write:pets
+      - read:pets
+    abc: xxxxyyyy
+    petstore_website:
+      - write:pets
+      - read:pets
+".Replace(), yaml);
         }
 
         [Fact]
@@ -166,7 +178,12 @@ namespace Microsoft.OData.OpenAPI.Tests
             output.WriteLine(yaml);
 
             // Act & Assert
-            Assert.Equal("{\n  \"name\": \"value\"\n}", yaml);
+            Assert.Equal(@"
+security:
+  - petstore_auth:
+      - write:pets
+      - read:pets
+".Replace(), yaml);
         }
 
         private static string Write(Action<OpenApiYamlWriter> action)

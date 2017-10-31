@@ -37,7 +37,8 @@ namespace Microsoft.OData.OpenAPI
                 _components = new OpenApiComponents
                 {
                     Schemas = VisitSchemas(),
-                    Parameters = VisitParameters()
+                    Parameters = VisitParameters(),
+                    Responses = VisitResponses()
                 };
             }
 
@@ -370,6 +371,34 @@ namespace Microsoft.OData.OpenAPI
                     }
                 }
             });
+        }
+        private IDictionary<string, OpenApiResponse> VisitResponses()
+        {
+            return new Dictionary<string, OpenApiResponse>
+            {
+                { "error", VisitError() }
+            };
+        }
+
+        private OpenApiResponse VisitError()
+        {
+            return new OpenApiResponse
+            {
+                Description = "error",
+                Content = new Dictionary<string, OpenApiMediaType>
+                {
+                    {
+                        "application/json",
+                        new OpenApiMediaType
+                        {
+                            Schema = new OpenApiSchema
+                            {
+                                Reference = new OpenApiReference("#/components/schemas/odata.error")
+                            }
+                        }
+                    }
+                }
+            };
         }
     }
 }

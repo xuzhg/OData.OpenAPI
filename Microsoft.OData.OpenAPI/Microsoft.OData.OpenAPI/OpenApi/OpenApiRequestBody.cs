@@ -21,7 +21,7 @@ namespace Microsoft.OData.OpenAPI
         /// <summary>
         /// REQUIRED. The content of the request body. 
         /// </summary>
-        public IDictionary<string, OpenApiMediaType> Content;
+        public IDictionary<string, OpenApiMediaType> Content { get; set; }
 
         /// <summary>
         /// Determines if the request body is required in the request. Defaults to false.
