@@ -1,0 +1,699 @@
+﻿openapi: 3.0.0
+info:
+  title: OData Service for namespace DefaultNs
+  description: This OData service is located at http://localhost
+  version: 1.0.1
+servers:
+  - url: http://localhost
+paths:
+  /People:
+    get:
+      tags:
+        - People
+      summary: Get entities from People
+      parameters:
+        - $ref: '#/components/parameters/top'
+        - $ref: '#/components/parameters/skip'
+        - $ref: '#/components/parameters/search'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/count'
+        - name: $orderby
+          in: query
+          description: Order items by property values
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              enum:
+                - UserName
+                - UserName desc
+                - HomeAddress
+                - HomeAddress desc
+                - WorkAddress
+                - WorkAddress desc
+                - Addresses
+                - Addresses desc
+              type: string
+        - name: $select
+          in: query
+          description: Select properties to be returned
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              enum:
+                - UserName
+                - HomeAddress
+                - WorkAddress
+                - Addresses
+              type: string
+        - name: $expand
+          in: query
+          description: Expand related entities
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              enum:
+                - *
+              type: string
+      responses:
+        200:
+          description: Retrieved entities
+          content:
+            application/json:
+              schema:
+                title: Collection of People
+                type: object
+                properties:
+                  value:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DefaultNs.Person'
+        default:
+          $ref: '#/components/responses/error'
+    post:
+      tags:
+        - People
+      summary: Add new entity to People
+      requestBody:
+        description: New entity
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DefaultNs.Person'
+        required: true
+      responses:
+        201:
+          description: Created entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultNs.Person'
+        default:
+          $ref: '#/components/responses/error'
+  /People('{UserName}'):
+    get:
+      tags:
+        - People
+      summary: Get entity from People by key
+      parameters:
+        - name: UserName
+          in: path
+          description: key: UserName
+          required: true
+          schema:
+            type: string
+        - name: $select
+          in: query
+          description: Select properties to be returned
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              enum:
+                - UserName
+                - HomeAddress
+                - WorkAddress
+                - Addresses
+              type: string
+        - name: $expand
+          in: query
+          description: Expand related entities
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              enum:
+                - *
+              type: string
+      responses:
+        200:
+          description: Retrieved entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultNs.Person'
+        default:
+          $ref: '#/components/responses/error'
+    patch:
+      tags:
+        - People
+      summary: Update entity in People
+      parameters:
+        - name: UserName
+          in: path
+          description: key: UserName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: New property values
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DefaultNs.Person'
+        required: true
+      responses:
+        204:
+          description: Success
+        default:
+          $ref: '#/components/responses/error'
+    delete:
+      tags:
+        - People
+      summary: Delete entity from People
+      parameters:
+        - name: UserName
+          in: path
+          description: key: UserName
+          required: true
+          schema:
+            type: string
+        - name: If-Match
+          in: header
+          description: ETag
+          schema:
+            type: string
+      responses:
+        204:
+          description: Success
+        default:
+          $ref: '#/components/responses/error'
+  /City:
+    get:
+      tags:
+        - City
+      summary: Get entities from City
+      parameters:
+        - $ref: '#/components/parameters/top'
+        - $ref: '#/components/parameters/skip'
+        - $ref: '#/components/parameters/search'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/count'
+        - name: $orderby
+          in: query
+          description: Order items by property values
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              enum:
+                - Name
+                - Name desc
+              type: string
+        - name: $select
+          in: query
+          description: Select properties to be returned
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              enum:
+                - Name
+              type: string
+        - name: $expand
+          in: query
+          description: Expand related entities
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              enum:
+                - *
+              type: string
+      responses:
+        200:
+          description: Retrieved entities
+          content:
+            application/json:
+              schema:
+                title: Collection of City
+                type: object
+                properties:
+                  value:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DefaultNs.City'
+        default:
+          $ref: '#/components/responses/error'
+    post:
+      tags:
+        - City
+      summary: Add new entity to City
+      requestBody:
+        description: New entity
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DefaultNs.City'
+        required: true
+      responses:
+        201:
+          description: Created entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultNs.City'
+        default:
+          $ref: '#/components/responses/error'
+  /City('{Name}'):
+    get:
+      tags:
+        - City
+      summary: Get entity from City by key
+      parameters:
+        - name: Name
+          in: path
+          description: key: Name
+          required: true
+          schema:
+            type: string
+        - name: $select
+          in: query
+          description: Select properties to be returned
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              enum:
+                - Name
+              type: string
+        - name: $expand
+          in: query
+          description: Expand related entities
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              enum:
+                - *
+              type: string
+      responses:
+        200:
+          description: Retrieved entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultNs.City'
+        default:
+          $ref: '#/components/responses/error'
+    patch:
+      tags:
+        - City
+      summary: Update entity in City
+      parameters:
+        - name: Name
+          in: path
+          description: key: Name
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: New property values
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DefaultNs.City'
+        required: true
+      responses:
+        204:
+          description: Success
+        default:
+          $ref: '#/components/responses/error'
+    delete:
+      tags:
+        - City
+      summary: Delete entity from City
+      parameters:
+        - name: Name
+          in: path
+          description: key: Name
+          required: true
+          schema:
+            type: string
+        - name: If-Match
+          in: header
+          description: ETag
+          schema:
+            type: string
+      responses:
+        204:
+          description: Success
+        default:
+          $ref: '#/components/responses/error'
+  /CountryOrRegion:
+    get:
+      tags:
+        - CountryOrRegion
+      summary: Get entities from CountryOrRegion
+      parameters:
+        - $ref: '#/components/parameters/top'
+        - $ref: '#/components/parameters/skip'
+        - $ref: '#/components/parameters/search'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/count'
+        - name: $orderby
+          in: query
+          description: Order items by property values
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              enum:
+                - Name
+                - Name desc
+              type: string
+        - name: $select
+          in: query
+          description: Select properties to be returned
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              enum:
+                - Name
+              type: string
+        - name: $expand
+          in: query
+          description: Expand related entities
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              enum:
+                - *
+              type: string
+      responses:
+        200:
+          description: Retrieved entities
+          content:
+            application/json:
+              schema:
+                title: Collection of CountryOrRegion
+                type: object
+                properties:
+                  value:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DefaultNs.CountryOrRegion'
+        default:
+          $ref: '#/components/responses/error'
+    post:
+      tags:
+        - CountryOrRegion
+      summary: Add new entity to CountryOrRegion
+      requestBody:
+        description: New entity
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DefaultNs.CountryOrRegion'
+        required: true
+      responses:
+        201:
+          description: Created entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultNs.CountryOrRegion'
+        default:
+          $ref: '#/components/responses/error'
+  /CountryOrRegion('{Name}'):
+    get:
+      tags:
+        - CountryOrRegion
+      summary: Get entity from CountryOrRegion by key
+      parameters:
+        - name: Name
+          in: path
+          description: key: Name
+          required: true
+          schema:
+            type: string
+        - name: $select
+          in: query
+          description: Select properties to be returned
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              enum:
+                - Name
+              type: string
+        - name: $expand
+          in: query
+          description: Expand related entities
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              enum:
+                - *
+              type: string
+      responses:
+        200:
+          description: Retrieved entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultNs.CountryOrRegion'
+        default:
+          $ref: '#/components/responses/error'
+    patch:
+      tags:
+        - CountryOrRegion
+      summary: Update entity in CountryOrRegion
+      parameters:
+        - name: Name
+          in: path
+          description: key: Name
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: New property values
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DefaultNs.CountryOrRegion'
+        required: true
+      responses:
+        204:
+          description: Success
+        default:
+          $ref: '#/components/responses/error'
+    delete:
+      tags:
+        - CountryOrRegion
+      summary: Delete entity from CountryOrRegion
+      parameters:
+        - name: Name
+          in: path
+          description: key: Name
+          required: true
+          schema:
+            type: string
+        - name: If-Match
+          in: header
+          description: ETag
+          schema:
+            type: string
+      responses:
+        204:
+          description: Success
+        default:
+          $ref: '#/components/responses/error'
+  /Me:
+    get:
+      tags:
+        - Me
+      summary: Get Me
+      parameters:
+        - name: $select
+          in: query
+          description: Select properties to be returned
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              enum:
+                - UserName
+                - HomeAddress
+                - WorkAddress
+                - Addresses
+              type: string
+        - name: $expand
+          in: query
+          description: Expand related entities
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              enum:
+                - *
+              type: string
+      responses:
+        200:
+          description: Retrieved entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultNs.Person'
+        default:
+          $ref: '#/components/responses/error'
+    patch:
+      tags:
+        - Me
+      summary: Update Me
+      requestBody:
+        description: New property values
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DefaultNs.Person'
+        required: true
+      responses:
+        204:
+          description: Success
+        default:
+          $ref: '#/components/responses/error'
+components:
+  schemas:
+    DefaultNs.Color:
+      title: Color
+      enum:
+        - Blue
+        - White
+      type: string
+      description: Enum type 'Color' description.
+    DefaultNs.Person:
+      title: Person
+      type: object
+      properties:
+        UserName:
+          type: string
+        HomeAddress:
+          $ref: '#/components/schemas/DefaultNs.Address'
+        WorkAddress:
+          $ref: '#/components/schemas/DefaultNs.Address'
+        Addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/DefaultNs.Address'
+    DefaultNs.City:
+      title: City
+      type: object
+      properties:
+        Name:
+          type: string
+    DefaultNs.CountryOrRegion:
+      title: CountryOrRegion
+      type: object
+      properties:
+        Name:
+          type: string
+    DefaultNs.Address:
+      title: Address
+      type: object
+      properties:
+        Id:
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+          format: int32
+        City:
+          $ref: '#/components/schemas/DefaultNs.City'
+    DefaultNs.WorkAddress:
+      allOf:
+        - $ref: '#/components/schemas/DefaultNs.Address'
+        - title: WorkAddress
+          type: object
+          properties:
+            CountryOrRegion:
+              $ref: '#/components/schemas/DefaultNs.CountryOrRegion'
+    odata.error:
+      required:
+        - error
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/odata.error.main'
+    odata.error.main:
+      required:
+        - code
+        - message
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        target:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/odata.error.detail'
+        innererror:
+          type: object
+          description: The structure of this object is service-specific
+    odata.error.detail:
+      required:
+        - code
+        - message
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        target:
+          type: string
+  responses:
+    error:
+      description: error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/odata.error'
+  parameters:
+    top:
+      name: $top
+      in: query
+      description: Show only the first n items
+      schema:
+        minimum: 0
+        type: integer
+      example: 50
+    skip:
+      name: $skip
+      in: query
+      description: Skip the first n items
+      schema:
+        minimum: 0
+        type: integer
+    count:
+      name: $count
+      in: query
+      description: Include count of items
+      schema:
+        type: boolean
+    filter:
+      name: $filter
+      in: query
+      description: Filter items by property values
+      schema:
+        type: string
+    search:
+      name: $search
+      in: query
+      description: Search items by search phrases
+      schema:
+        type: string
+tags:
+  - name: People
+    description: People's description.
+  - name: City
+  - name: CountryOrRegion
+  - name: Me
